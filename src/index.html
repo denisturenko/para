@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>-->
+    <title>ThreeJS Starter</title>
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+        }
+        html {
+            min-height: 100%;
+        }
+        body {
+            overflow: hidden;
+            margin: 0;
+            /*background: linear-gradient(0deg, #face8d 50%, aquamarine 100%);*/
+            background-color: #cccccc;
+        }
+        .block {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            background-color: white;
+            top: 0px;
+            font-size: 34px;
+        }
+        .alt {
+            left: 100px;
+        }
+        .speed {
+            display: none;
+            left: 200px;
+        }
+        .wind {
+            display: none;
+            left: 300px;
+        }
+        .control {
+            position: absolute;
+            width: 100px;
+            height: 100%;
+            background-color: white;
+            opacity: 0.1;
+            top: 0px;
+            font-size: 34px;
+        }
+        .leftControl {
+            left: 0
+        }
+        .rightControl {
+            right: 0
+        }
+        .level {
+            height: 0;
+            width: 100%;
+            background-color: blue;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="alt block" id="alt"></div>
+    <div class="speed block" id="speed"></div>
+    <div class="wind block" id="wind"></div>
+    <div class="leftControl control" id="leftControl">
+        <div class="leftLevel level" id="leftLevel"></div>
+    </div>
+    <div class="rightControl control" id="rightControl">
+        <div class="rightLevel level" id="rightLevel"></div>
+    </div>
+
+</body>
+</html>
