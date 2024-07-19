@@ -19,8 +19,6 @@ const { PI } = Math;
 const isMobileAndTable = deviceDetect.isMobile;
 
 
-
-const H = 600;
 const MAX_SPEED = 12;
 const MIN_SPEED = 3;
 let MAX_VERTICAL_ANGEL = degToRad(-30);
@@ -41,10 +39,10 @@ let alfaHeadY = MIN_VERTICAL_ANGEL;// MIDDLE_VERTICAL_ANGEL;
 let alfaHeadH = DEFAULT_HORIZONTAL_ANGEL;
 
 // const windAngel = alfa;//degToRad(_.random(0, 360));
-const windAngel = degToRad(-90);
+const windAngel = degToRad(windAngelDeg);
 // const windAngel = degToRad(_.random(0, 360));
 const wind = _.random(0, 10)
-const windSpeeds = [2, 6];
+// const windSpeeds = [2, 6];
 
 
 let leftControlValue = 0;
@@ -63,7 +61,7 @@ const textureGrass = loader.load('./img.png');
 // *****************************
 let fly = true;
 let isOrbital = false;
-let showTargetGrid = false;
+// let showTargetGrid = false;
 let isPause = false;
 
 
