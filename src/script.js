@@ -41,7 +41,7 @@ let alfaHeadY = MIN_VERTICAL_ANGEL;// MIDDLE_VERTICAL_ANGEL;
 let alfaHeadH = DEFAULT_HORIZONTAL_ANGEL;
 
 // const windAngel = alfa;//degToRad(_.random(0, 360));
-const windAngel = degToRad(-20);
+const windAngel = degToRad(-90);
 // const windAngel = degToRad(_.random(0, 360));
 const wind = _.random(0, 10)
 const windSpeeds = [2, 6];
@@ -50,8 +50,8 @@ const windSpeeds = [2, 6];
 let leftControlValue = 0;
 let rightControlValue = 0;
 
-const gui = new dat.GUI()
-gui.hide();
+// const gui = new dat.GUI()
+// gui.hide();
 const stats = new Stats()
 stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
 // document.body.appendChild(stats.dom)
@@ -69,8 +69,8 @@ let isPause = false;
 
 const layoutW = 3500;
 const layoutH = 3500;
-// const target = { x: -270, y: 0, z: -447}
-const target = { x: -240, y: 0, z: -260}
+const target = { x: -270, y: 0, z: -447}
+// const target = { x: -240, y: 0, z: -260}
 const target2 = { x: 110, y: 0, z: -340}
 const arrow0 = { x: -180, y: 0, z: -160}
 // const cameraO = { x: target2.x + 450, y: H, z: target2.z - 100}
@@ -282,9 +282,9 @@ camera.position.set(cameraO.x, cameraO.y, cameraO.z)
 camera.aspect = window.innerWidth / window.innerHeight;
 // camera.updateProjectionMatrix();
 
-gui.add(camera.position, 'x').min(-500).max(500).step(1)
-gui.add(camera.position, 'y').min(1).max(1100).step(0.5)
-gui.add(camera.position, 'z').min(-500).max(500).step(1)
+// gui.add(camera.position, 'x').min(-500).max(500).step(1)
+// gui.add(camera.position, 'y').min(1).max(1100).step(0.5)
+// gui.add(camera.position, 'z').min(-500).max(500).step(1)
 
 
 let renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
@@ -329,14 +329,14 @@ light.position.set(target.x, 10000, target.z);
 scene.add(light);
 
 const boxMaterial = new THREE.MeshLambertMaterial({color: "white"})
-scene.add(new THREE.Mesh(new THREE.BoxGeometry(2, 0.3, 2).translate(target.x, target.y, target.z),boxMaterial));
+// scene.add(new THREE.Mesh(new THREE.BoxGeometry(2, 0.3, 2).translate(target.x, target.y, target.z),boxMaterial));
 
 
 const arrowTargetStart = new Vector3(target.x, target.y, target.z);
 const arrowTarget = new ArrowHelper(
  createDirectionVector(arrowTargetStart, windAngel,  0 ).normalize(),
  arrowTargetStart,
- 300,
+ 200,
  0xcccccc,
  1
 )
@@ -349,13 +349,26 @@ const arrowTraversStart = new Vector3(target.x, target.y, target.z);
 const arrowTravers = new ArrowHelper(
  createDirectionVector(arrowTraversStart, windAngel + traversCoefficient * PI/2,  0 ).normalize(),
  arrowTraversStart,
- 300,
+ 200,
  0xcccccc,
  1
 )
 arrowTravers.line.visible = showTargetGrid;
 arrowTravers.cone.visible = showTargetGrid;
 scene.add(arrowTravers);
+
+const arrowTraversStart2 = new Vector3(target.x, target.y, target.z);
+const arrowTravers2 = new ArrowHelper(
+ createDirectionVector(arrowTraversStart2, windAngel - traversCoefficient * PI/2,  0 ).normalize(),
+ arrowTraversStart2,
+ 200,
+ 0xcccccc,
+ 1
+)
+arrowTravers2.line.visible = showTargetGrid;
+arrowTravers2.cone.visible = showTargetGrid;
+scene.add(arrowTravers2);
+
 
 
 const box2 =new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10).translate(target2.x, target2.y, target2.z),boxMaterial)
@@ -461,7 +474,7 @@ let ground2 = new THREE.Mesh(
  // new THREE.MeshBasicMaterial({color: new THREE.Color(0x442288).multiplyScalar(1.5)})
  material2
 );
-ground2.position.set(target.x, 0.1, target.z)
+ground2.position.set(target.x, 0.04, target.z)
 // ground2.visible = false;
 // scene.add(ground2)
 
@@ -480,7 +493,36 @@ function modifyParamWithinRange(from, to) {
     return lastResult
 }
 
+function blinking(el, cnt) {
+    let tmp = 0;
+    let timer = setInterval(function() {
+        if (tmp % 2 === 0) {
+            el.classList.add('altHighlighted')
+        } else {
+            el.classList.remove('altHighlighted')
+        }
+        tmp++;
+        if (tmp === cnt * 2) {
+            clearInterval(timer);
+        }
+    }, 500);
+}
 
+let count = 1;
+function onceCall(height, callback) {
+    if (height < 300 && count === 1) {
+        callback(count++);
+    }
+    if (height < 200 && count === 2) {
+        callback(count++);
+    }
+    if (height < 100 && count === 3) {
+        callback(count++);
+    }
+}
+
+
+const altEl = document.getElementById('alt')
 const speedEl = document.getElementById('speed');
 const windEl = document.getElementById('wind');
 
@@ -586,7 +628,11 @@ renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
     stats.update()
 
-    document.getElementById('alt').innerHTML = player.position.y.toFixed(0);
+    altEl.innerHTML = player.position.y.toFixed(0);
+    onceCall(Number(player.position.y), (count) => {
+        blinking(altEl, 4 - count)
+    })
+
     speedEl.innerHTML = speed.toFixed(2);
     windEl.innerHTML = windSpeed.toFixed(2);
 
@@ -677,6 +723,9 @@ document.addEventListener('keydown', function(event) {
 
             arrowTravers.line.visible = !arrowTravers.line.visible;
             arrowTravers.cone.visible = !arrowTravers.cone.visible;
+
+            arrowTravers2.line.visible = !arrowTravers2.line.visible;
+            arrowTravers2.cone.visible = !arrowTravers2.cone.visible;
             break;
     }
 });
@@ -776,3 +825,5 @@ if (!isMobileAndTable) {
     leftControlEl.style.display = 'none'
     rightControlEl.style.display = 'none'
 }
+
+document.body.requestFullscreen()
