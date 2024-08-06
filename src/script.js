@@ -19,7 +19,7 @@ const { PI } = Math;
 const isMobileAndTable = deviceDetect.isMobile;
 
 
-const MAX_SPEED = 12;
+const MAX_SPEED = 10;
 const MIN_SPEED = 3;
 let MAX_VERTICAL_ANGEL = degToRad(-30);
 const MIDDLE_VERTICAL_ANGEL = degToRad(-50);
@@ -76,7 +76,7 @@ const arrow0 = { x: -180, y: 0, z: -160}
 // const cameraO = { x: 0, y: H, z: 0}
 // const cameraO = { x: target.x-50, y: H, z: target.z}
 // const player0 = { x: target2.x, y: H, z: target2.z}
-const player0 = { x: -500, y: H, z: target2.z}
+// const player0 = { x: -500, y: H, z: -340}
 const cameraO = player0
 
 
@@ -524,6 +524,44 @@ const altEl = document.getElementById('alt')
 const speedEl = document.getElementById('speed');
 const windEl = document.getElementById('wind');
 
+/**
+ *
+ * @param speedLeft
+ * @param speedRight
+ * @param angle
+ * @param time
+ * @param inertiaFactor инерция от 0 до 100
+ * @returns {{x: number, angle: *, z: number}}
+ */
+function moveAxle(speedLeft, speedRight, angle, time, inertiaFactor = 0) {
+    // const angle = angleInit * NORMAL_ALFA_PER_SEC;
+    // Длина оси
+    const axleLength = 10; // метры
+
+    // Вычисляем скорость центра оси
+    const speedCenter = (speedLeft + speedRight) / 2;
+
+    // Вычисляем угловую скорость (рад/с)
+    const angularSpeed = (speedRight - speedLeft) / axleLength / (inertiaFactor || 1);
+
+    // Новая координата центра оси
+    const dx = speedCenter * Math.sin(angle) * time;
+    const dy = speedCenter * Math.cos(angle) * time;
+
+    // Новые координаты центра оси
+    const newX = dx;
+    const newY = dy;
+
+    // Новый угол оси
+    const newAngle = angle + (angularSpeed * time);
+
+    return {
+        x: newX,
+        z: newY,
+        angle: newAngle
+    };
+}
+
 renderer.setAnimationLoop(() => {
     const delta = clock.getDelta();
     if(isMobileAndTable) {
@@ -544,8 +582,16 @@ renderer.setAnimationLoop(() => {
 
 
         if (!isPause && player.position.y > 2) {
-            player.position.x -= speed * delta * Math.sin(alfa) + windSpeed * delta * Math.sin(windAngel) ;
-            player.position.z -= speed * delta * Math.cos(alfa) + windSpeed * delta * Math.cos(windAngel) ;
+
+            const foo = moveAxle(getSpeed(leftControlValue), getSpeed(rightControlValue), alfa, delta, inertiaFactor);
+            // console.log('***', defineSpeed2(leftControlValue), defineSpeed2(rightControlValue), alfa, delta)
+            alfa = foo.angle;
+
+            player.position.x -= foo.x + windSpeed * delta * Math.sin(windAngel) ;
+            player.position.z -= foo.z + windSpeed * delta * Math.cos(windAngel) ;
+
+            // player.position.x -= speed * delta * Math.sin(alfa) + windSpeed * delta * Math.sin(windAngel) ;
+            // player.position.z -= speed * delta * Math.cos(alfa) + windSpeed * delta * Math.cos(windAngel) ;
             player.position.y -= speedY * delta;
         }
 
@@ -754,9 +800,14 @@ const defineAlfa = (delta) => {
 
 const defineSpeed = () => {
     // let val = Number(leftControlValue) < Number(rightControlValue)? leftControlValue :rightControlValue
-    let val = Number(leftControlValue) + Number(rightControlValue) / 2
+    let val = Number(leftControlValue) + Number(rightControlValue) / 2 /// todo error
     const percent = 100 - val;
     speed = (percent / 100) * (MAX_SPEED - MIN_SPEED) + MIN_SPEED;
+}
+
+const getSpeed = (val) => {
+    const percent = 100 - val;
+    return (percent / 100) * (MAX_SPEED - MIN_SPEED) + MIN_SPEED;
 }
 
 const leftControlEl = document.getElementById('leftControl');

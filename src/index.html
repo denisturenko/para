@@ -106,6 +106,7 @@
       }
       .alt {
         left: 100px;
+        opacity: 0.3;
       }
       .altHighlighted {
         background-color: green;
@@ -198,10 +199,16 @@
     </div>
 
     <script>
-      const H = 800;
-      const windAngelDeg = -170;
-      const windSpeeds = [2, 6];
-      let showTargetGrid = !false;
+      const H = 600;
+      const windAngelDeg = -70;
+      const windSpeeds = [4, 7];
+      // const windSpeeds = [0, 0];
+      let showTargetGrid = false;
+      // const player0 = { x: -300, y: H, z: -540}
+      const player0 = { x: -600, y: H, z: -340}
+      const inertiaFactor =  50;
+
+
     </script>
   </body>
 </html>
