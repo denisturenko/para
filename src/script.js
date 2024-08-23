@@ -19,8 +19,7 @@ const { PI } = Math;
 const isMobileAndTable = deviceDetect.isMobile;
 
 
-const MAX_SPEED = 10;
-const MIN_SPEED = 3;
+
 let MAX_VERTICAL_ANGEL = degToRad(-30);
 const MIDDLE_VERTICAL_ANGEL = degToRad(-50);
 const MIN_VERTICAL_ANGEL = degToRad(-70);
@@ -158,7 +157,7 @@ const realS = 400;
 const fakeS = Math.sqrt(Math.pow(target.x - target2.x, 2) + Math.pow(target.z - target2.z, 2))
 const multi = realS/fakeS;
 
-console.log(`***${realS}m=${fakeS}`)
+// console.log(`***${realS}m=${fakeS}`)
 
 const clock = new THREE.Clock();
 
@@ -241,7 +240,7 @@ scene.add(arrow3);
 
 
 const newPos = createVector(dir0, 100, alfa0Horiz,  alfa0Vert )
-console.log('***',newPos)
+// console.log('***',newPos)
 // const newPos = arrow1.cone.position;//matrixWorld.elements[0] || {}
 const box =new THREE.Mesh(
  new THREE.BoxGeometry(10, 10, 10).translate(newPos.x, newPos.y, newPos.z),
@@ -875,4 +874,28 @@ if (!isMobileAndTable) {
     rightControlEl.style.display = 'none'
 }
 
-document.body.requestFullscreen()
+// document.body.requestFullscreen()
+
+
+const infoEl = document.getElementById('info');
+
+const handleOrientationEvent = (event) => {
+    const absolute = event.absolute;
+    const alpha = event.alpha;
+    const beta = event.beta;
+    let gamma = event.gamma; // vertical
+
+    // infoEl.innerHTML = 'x' + absolute + ' ' + alpha  + ' ' + beta  + ' ' + gamma
+    // infoEl.innerHTML = 'x' + ' ' + (-1 * gamma) + ' ' + radToDeg(alfaHeadY)
+
+    // if (gamma > -60) gamma = -60 // look down
+    // if (gamma < -89) gamma = -89 // look forward
+
+    // alfaHeadY = degToRad(gamma - 60)
+    // if (alfaHeadY > MAX_VERTICAL_ANGEL) alfaHeadY = MAX_VERTICAL_ANGEL
+}
+
+// window.DeviceOrientationEvent = handleOrientationEvent;
+
+window.addEventListener("MozOrientation", handleOrientationEvent);
+window.addEventListener("deviceorientation", handleOrientationEvent);
