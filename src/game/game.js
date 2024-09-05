@@ -6,13 +6,7 @@ import { Controls } from "./components/controls";
 import { Light } from "./components/light";
 
 export class Game {
-  init(
-    innerWidth,
-    innerHeight,
-    perspectiveCamera,
-    positionCamera,
-    positionLight
-  ) {
+  init(innerWidth, innerHeight, perspectiveCamera, positionLight, player) {
     this.scene = new Scene();
     this.scene.init();
 
@@ -21,7 +15,9 @@ export class Game {
       innerWidth,
       innerHeight,
       perspectiveCamera,
-      positionCamera
+      player.get().position,
+      player.get().azimuth,
+      player.get().theta
     );
 
     this.renderer = new Renderer();
@@ -31,12 +27,13 @@ export class Game {
       this.scene.getInstance(),
       this.camera.getInstance()
     );
+    // this.renderer.setIsStereo(true);
 
-    this.controls = new Controls();
-    this.controls.init(
-      this.camera.getInstance(),
-      this.renderer.getDomElement()
-    );
+    // this.controls = new Controls();
+    // this.controls.init(
+    //   this.camera.getInstance(),
+    //   this.renderer.getDomElement()
+    // );
 
     this.light = new Light();
     this.light.init(positionLight);
@@ -49,7 +46,11 @@ export class Game {
     this.scene.add(this.ground.getInstance());
 
     this.renderer.animate((ts) => {
-      this.controls.update();
+      // document.getElementById("info").innerHTML = player.get().theta;
+
+      this.camera.set(player.get());
+
+      this.camera.update();
     });
   }
 

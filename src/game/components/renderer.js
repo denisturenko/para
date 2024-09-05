@@ -9,6 +9,11 @@ export class Renderer {
 
     this.scene = scene;
     this.camera = camera;
+    this.stereo = new THREE.StereoCamera();
+  }
+
+  setIsStereo(flg) {
+    this.isStereo = flg;
   }
 
   getInstance() {
@@ -24,7 +29,38 @@ export class Renderer {
       const clock = new THREE.Clock();
       const delta = clock.getDelta();
       cb(delta);
-      this.renderer.render(this.scene, this.camera);
+
+      this.camera.updateWorldMatrix();
+      this.stereo.update(this.camera);
+
+      const size = new THREE.Vector2();
+      this.renderer.getSize(size);
+
+      if (this.isStereo) {
+        this.renderer.setScissorTest(true);
+
+        this.renderer.setScissor(0, 0, size.width / 2, size.height);
+        this.renderer.setViewport(0, 0, size.width / 2, size.height);
+        this.renderer.render(this.scene, this.stereo.cameraL);
+
+        this.renderer.setScissor(
+          size.width / 2,
+          0,
+          size.width / 2,
+          size.height
+        );
+        this.renderer.setViewport(
+          size.width / 2,
+          0,
+          size.width / 2,
+          size.height
+        );
+        this.renderer.render(this.scene, this.stereo.cameraR);
+
+        this.renderer.setScissorTest(false);
+      } else {
+        this.renderer.render(this.scene, this.camera);
+      }
     });
   }
 

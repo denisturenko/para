@@ -7,6 +7,7 @@ import * as Stats from "stats.js";
 import * as _ from "lodash";
 import * as deviceDetect from "react-device-detect";
 import { Game } from "./game/game";
+import { Player } from "./game/components/player";
 
 const {
   Vector3,
@@ -29,20 +30,23 @@ const { degToRad, radToDeg } = MathUtils;
 const { PI } = Math;
 
 const game = new Game();
-const start = () =>
+const start = () => {
+  const player = new Player();
+  player.init({ x: -300, y: H, z: -140 }, degToRad(0), degToRad(-90 + 45));
   game.init(
     window.innerWidth,
     window.innerHeight,
-    60,
-    { x: -300, y: H, z: -140 },
-    { x: 0, y: 10000, z: 0 }
+    45,
+    { x: 0, y: 10000, z: 0 },
+    player
   );
+};
 start();
 
-setTimeout(() => {
+/*setTimeout(() => {
   game.restart();
   start();
-}, 2000);
+}, 2000);*/
 
 /*
 
