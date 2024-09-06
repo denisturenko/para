@@ -6,7 +6,14 @@ import { Controls } from "./components/controls";
 import { Light } from "./components/light";
 
 export class Game {
-  init(innerWidth, innerHeight, perspectiveCamera, positionLight, player) {
+  init(
+    innerWidth,
+    innerHeight,
+    perspectiveCamera,
+    thetaCamera,
+    positionLight,
+    player
+  ) {
     this.scene = new Scene();
     this.scene.init();
 
@@ -17,7 +24,7 @@ export class Game {
       perspectiveCamera,
       player.get().position,
       player.get().azimuth,
-      player.get().theta
+      thetaCamera
     );
 
     this.renderer = new Renderer();

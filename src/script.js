@@ -32,11 +32,12 @@ const { PI } = Math;
 const game = new Game();
 const start = () => {
   const player = new Player();
-  player.init({ x: -300, y: H, z: -140 }, degToRad(0), degToRad(-90 + 45));
+  player.init({ x: -300, y: H, z: -140 }, degToRad(0));
   game.init(
     window.innerWidth,
     window.innerHeight,
     45,
+    degToRad(-90 + 45),
     { x: 0, y: 10000, z: 0 },
     player
   );
