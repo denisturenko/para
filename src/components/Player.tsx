@@ -10,6 +10,7 @@ import {
   modifyParamWithinRange,
   moveAxle,
 } from "../utils/calculcation";
+import { useDeviceOrientation } from "../hooks/useDeviceOrientation";
 
 interface PlayerProps {
   position: THREE.Vector3;
@@ -34,19 +35,22 @@ export const Player = (props: PlayerProps) => {
     windAngel,
   } = props;
 
-  const alfaHeadH = 0;
-  const alfaHeadY = degToRad(-90);
+  const azimuthHead = degToRad(0);
+  const thetaHead = degToRad(80);
+
+  const orientation = useDeviceOrientation();
+
+  document.getElementById("info").innerHTML = String(orientation.theta);
+
   const azimuth = useRef(props.azimuth || 0);
 
   const playerRef = useRef<THREE.Mesh>(null!);
+  const arrowHelperRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state, delta) => {
     if (!playerRef.current) return;
 
     const windSpeed = modifyParamWithinRange(windSpeeds[0], windSpeeds[1]);
-
-    // console.log("***", left, right);
-    const { x, y, z } = playerRef.current.position;
 
     const nextAxle = moveAxle(
       getSpeed(leftControlValue, maxSpeed, minSpeed),
@@ -56,41 +60,32 @@ export const Player = (props: PlayerProps) => {
       inertiaFactor
     );
 
-    const nextX = x - (nextAxle.x + windSpeed * delta * Math.sin(windAngel));
-    const nextZ = z - (nextAxle.z + windSpeed * delta * Math.cos(windAngel));
+    const nextX =
+      playerRef.current.position.x -
+      (nextAxle.x + windSpeed * delta * Math.sin(windAngel));
+    const nextZ =
+      playerRef.current.position.z -
+      (nextAxle.z + windSpeed * delta * Math.cos(windAngel));
 
-    playerRef.current.position.set(nextX, y, nextZ);
+    playerRef.current.position.set(nextX, playerRef.current.position.y, nextZ);
+    playerRef.current.rotation.set(0, degToRad(180) + nextAxle.angle, 0);
+
+    const pos = new THREE.Vector3();
+    playerRef.current.getWorldDirection(pos);
+
+    playerRef.current.attach(state.camera as THREE.Camera);
+    state.camera.position.set(0, 1, 0.4);
+    state.camera.rotation.set(thetaHead, Math.PI, -1 * azimuthHead);
 
     azimuth.current = nextAxle.angle;
-
-    console.log("***", radToDeg(azimuth.current));
-
-    // playerRef.current.translateOnAxis(new THREE.Vector3(0, -1, 0), 0.05);
-    // playerRef.current.position.setY(y - 1);
-
-    // moving camera
-
-    state.camera.position.set(x, y, z);
-
-    const dir0 = new Vector3(
-      playerRef.current.position.x,
-      playerRef.current.position.y,
-      playerRef.current.position.z
-    );
-    const dir1 = createVector(
-      dir0,
-      100,
-      azimuth.current + alfaHeadH,
-      alfaHeadY
-    );
-
-    state.camera.lookAt(dir1);
   });
 
   return (
     <>
       <mesh ref={playerRef} position={props.position}>
-        <capsuleGeometry args={[0.5, 0.5]} />
+        <boxGeometry args={[0.5, 2, 0.5]} />
+        <meshBasicMaterial attach="material" color="red" />
+        <arrowHelper ref={arrowHelperRef} />
       </mesh>
     </>
   );

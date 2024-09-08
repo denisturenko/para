@@ -1,41 +1,47 @@
 import { useEffect, useState } from "react";
+import * as THREE from "three";
+const { Vector3, MathUtils, ArrowHelper, Ray } = THREE;
+const { degToRad, radToDeg } = MathUtils;
 
-export const usePlayerControls = () => {
-  const keys = {
-    ArrowLeft: "left",
-    ArrowRight: "right",
-    Space: "jump",
-  };
-
-  const moveFieldByKey = (key) => keys[key];
-
-  const [movement, setMovement] = useState({
-    left: false,
-    right: false,
-    jump: false,
+export const useDeviceOrientation = () => {
+  const [state, setState] = useState({
+    theta: 0,
+    azimuth: 0,
   });
 
-  const setMovementStatus = (code, status) => {
-    setMovement((m) => ({ ...m, [code]: status }));
-  };
-
   useEffect(() => {
-    const handleKeyDown = (ev) => {
-      setMovementStatus(moveFieldByKey(ev.code), true);
+    const deviceOrientationHandler = (event: DeviceOrientationEvent) => {
+      // const absolute = event.absolute;
+      let alpha = event.alpha;
+      // const beta = event.beta;
+      let gamma = event.gamma; // vertical
+      if (gamma > 0 && gamma < 45) gamma = 0;
+      if (gamma > 0 && gamma > 45) gamma = -90;
+
+      // 90 - 0, 360 - 270
+      if (alpha > 90 && alpha < 180) alpha = 90;
+      if (alpha <= 90) alpha = -1 * alpha;
+
+      if (alpha < 270 && alpha > 180) alpha = 270;
+      if (alpha >= 270) alpha = 360 - alpha;
+
+      setState((prev) => ({
+        theta: degToRad(-1 * gamma - 90),
+        azimuth: degToRad(-1 * alpha),
+      }));
     };
 
-    const handleKeyUp = (ev) => {
-      setMovementStatus(moveFieldByKey(ev.code), false);
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("deviceorientation", deviceOrientationHandler);
+    document.addEventListener("MozOrientation", deviceOrientationHandler);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
+      document.removeEventListener(
+        "deviceorientation",
+        deviceOrientationHandler
+      );
+      document.removeEventListener("MozOrientation", deviceOrientationHandler);
     };
   }, []);
 
-  return movement;
+  return state;
 };

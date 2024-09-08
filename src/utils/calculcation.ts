@@ -15,7 +15,7 @@ export const moveAxle = (
 ) => {
   // const angle = angleInit * NORMAL_ALFA_PER_SEC;
   // Длина оси
-  const axleLength = 10; // метры
+  const axleLength = 6; // метры
 
   // Вычисляем скорость центра оси
   const speedCenter = (speedLeft + speedRight) / 2;

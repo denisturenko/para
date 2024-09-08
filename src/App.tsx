@@ -3,6 +3,7 @@ import { TouchBar } from "./ui/touch-bar/TouchBar";
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
+import { ContainerStyled, InfoStyled } from "./App.styled";
 const { Vector3, MathUtils, ArrowHelper, Ray } = THREE;
 const { degToRad, radToDeg } = MathUtils;
 
@@ -12,16 +13,17 @@ export const App = () => {
 
   return (
     <>
-      <div id="container">
+      <ContainerStyled>
         <Canvas camera={{ fov: 45, position: [0, 600, 0], far: 3500 }}>
           <Game
             leftControlValue={leftControlValue}
             rightControlValue={rightControlValue}
-            windAngel={degToRad(180)}
+            windAngel={Math.PI - degToRad(180)}
             windSpeeds={[5, 8]}
           />
         </Canvas>
-      </div>
+      </ContainerStyled>
+      <InfoStyled id="info" />
       <TouchBar isLeft onChange={setLeftControlValue} />
       <TouchBar isRight onChange={setRightControlValue} />
     </>

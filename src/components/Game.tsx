@@ -16,14 +16,14 @@ interface GameProps {
 export const Game = (props: GameProps) => {
   return (
     <>
-      <Stats />
+      {/*<Stats />*/}
       {/*<fog attach="fog" args={[0xcccccc, 10, 2000]} />*/}
       {/*<PointerLockControls />*/}
       <Sky sunPosition={[0, 1000, 0]} />
       <ambientLight intensity={20} />
       <Ground />
       <Player
-        position={[0, 590, -10]}
+        position={[0, 600, -10]}
         maxSpeed={13}
         minSpeed={3}
         inertiaFactor={0}

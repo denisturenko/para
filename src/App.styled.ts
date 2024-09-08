@@ -1,30 +1,18 @@
-import { Game } from "./components/Game";
-import { TouchBar } from "./ui/touch-bar/TouchBar";
-import React, { useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
-const { Vector3, MathUtils, ArrowHelper, Ray } = THREE;
-const { degToRad, radToDeg } = MathUtils;
+import styled, { css } from "styled-components";
 
-export const App = () => {
-  const [leftControlValue, setLeftControlValue] = useState(0);
-  const [rightControlValue, setRightControlValue] = useState(0);
+export const ContainerStyled = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
-  return (
-    <>
-      <div id="container">
-        <div id="info"></div>
-        <Canvas camera={{ fov: 45, position: [0, 600, 0], far: 3500 }}>
-          <Game
-            leftControlValue={leftControlValue}
-            rightControlValue={rightControlValue}
-            windAngel={Math.PI - degToRad(180)}
-            windSpeeds={[5, 8]}
-          />
-        </Canvas>
-      </div>
-      <TouchBar isLeft onChange={setLeftControlValue} />
-      <TouchBar isRight onChange={setRightControlValue} />
-    </>
-  );
-};
+export const InfoStyled = styled.div`
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  background-color: white;
+  top: 0;
+  left: 200px;
+  font-size: 34px;
+  opacity: 0.3;
+`;
