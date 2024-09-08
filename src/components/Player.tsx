@@ -40,7 +40,11 @@ export const Player = (props: PlayerProps) => {
 
   const orientation = useDeviceOrientation();
 
-  document.getElementById("info").innerHTML = String(orientation.theta);
+  document.getElementById("info").innerHTML =
+    String(orientation.theta) + String(orientation.azimuth);
+  // document.getElementById("info").innerHTML = String(
+  //   !window.DeviceOrientationEvent
+  // );
 
   const azimuth = useRef(props.azimuth || 0);
 
