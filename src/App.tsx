@@ -59,30 +59,30 @@ export const App = () => {
 
   const onChangeCameraThetaHandler = useCallback(
     (cameraTheta: number) => setState((prev) => ({ ...prev, cameraTheta })),
-    []
+    [],
   );
 
   const onLeftControlChangeHandler = useCallback(
     (leftControlValue: number) =>
       setState((prev) => ({ ...prev, leftControlValue })),
-    []
+    [],
   );
 
   const onRightControlChangeHandler = useCallback(
     (rightControlValue: number) =>
       setState((prev) => ({ ...prev, rightControlValue })),
-    []
+    [],
   );
 
   const onGroundHandler = useCallback(
     () => setState((prev) => ({ ...prev, withOrbitControls: true })),
-    []
+    [],
   );
 
   const onRestart = useCallback(
     (isPaused: boolean) =>
       setState((prev) => ({ ...prev, isPaused: !prev.isPaused })),
-    []
+    [],
   );
 
   const onChangePausedHandler = useCallback(
@@ -92,7 +92,7 @@ export const App = () => {
         isPaused: !prev.isPaused,
         playerPosition: new THREE.Vector3(-400, 600, -200),
       })),
-    []
+    [],
   );
 
   /*useEffect(() => {

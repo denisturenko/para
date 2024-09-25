@@ -53,7 +53,7 @@ export const GameControls = (props: GameControlsProps) => {
       if (nextLeftControlValue < 0) nextLeftControlValue = 0;
       onLeftControlChange(nextLeftControlValue);
     },
-    [leftControlValue, onLeftControlChange]
+    [leftControlValue, onLeftControlChange],
   );
 
   const adjustLeftFn = useThrottledCallback(adjustLeft, 50);
@@ -65,7 +65,7 @@ export const GameControls = (props: GameControlsProps) => {
       if (nextRightControlValue < 0) nextRightControlValue = 0;
       onRightControlChange(nextRightControlValue);
     },
-    [rightControlValue, onRightControlChange]
+    [rightControlValue, onRightControlChange],
   );
 
   const adjustRightFn = useThrottledCallback(adjustRight, 50);
@@ -110,7 +110,7 @@ export const GameControls = (props: GameControlsProps) => {
     if (controls.leftDown) {
       adjustLeftFn();
     }
-  }, [controls, leftControlValue]);
+  }, [adjustLeftFn, controls, leftControlValue]);
 
   useEffect(() => {
     if (controls.rightUp) {
@@ -119,13 +119,13 @@ export const GameControls = (props: GameControlsProps) => {
     if (controls.rightDown) {
       adjustRightFn();
     }
-  }, [controls, rightControlValue]);
+  }, [adjustRightFn, controls, rightControlValue]);
 
   useEffect(() => {
     if (controls.space) {
       onTouchStartHandlerFn();
     }
-  }, [controls.space]);
+  }, [controls.space, onTouchStartHandlerFn]);
 
   /* useEffect(() => {
     if (controls.leftUp) {
@@ -150,7 +150,7 @@ export const GameControls = (props: GameControlsProps) => {
       onSettings();
       event.stopPropagation();
     },
-    [onSettings]
+    [onSettings],
   );
 
   return (

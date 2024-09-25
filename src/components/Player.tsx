@@ -73,7 +73,7 @@ export const Player = (props: PlayerProps) => {
       getSpeed(rightControlValue, maxSpeed, minSpeed),
       azimuth.current,
       delta,
-      inertiaFactor
+      inertiaFactor,
     );
 
     const nextX =
@@ -94,8 +94,8 @@ export const Player = (props: PlayerProps) => {
         new THREE.Vector3(
           playerRef.current.position.x,
           0,
-          playerRef.current.position.z
-        )
+          playerRef.current.position.z,
+        ),
       );
       return;
     }

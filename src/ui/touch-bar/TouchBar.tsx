@@ -22,17 +22,20 @@ export const TouchBar: FC<TouchBarProps> = (props) => {
   const wrapperRef = useRef<HTMLElement>(null!);
   const levelRef = useRef<HTMLElement>(null!);
 
-  const onTouchMoveHandler = useCallback((event: TouchEvent) => {
-    const controlValue = calculateTouching(
-      wrapperRef.current,
-      levelRef.current,
-      event
-    );
-    onChange(Number(controlValue));
+  const onTouchMoveHandler = useCallback(
+    (event: TouchEvent) => {
+      const controlValue = calculateTouching(
+        wrapperRef.current,
+        levelRef.current,
+        event,
+      );
+      onChange(Number(controlValue));
 
-    event.stopPropagation();
-    // event.preventDefault();
-  }, []);
+      event.stopPropagation();
+      // event.preventDefault();
+    },
+    [onChange],
+  );
 
   const onTouchStartHandler = useCallback((event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();

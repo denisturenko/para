@@ -4,6 +4,12 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
+// const js = require("@eslint/js");
+// const globals = require("globals");
+// const reactHooks = require("eslint-plugin-react-hooks");
+// const reactRefresh = require("eslint-plugin-react-refresh");
+// const tseslint = require("typescript-eslint");
+
 export default tseslint.config(
   { ignores: ["dist"] },
   {
@@ -19,11 +25,12 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      "react-hooks/exhaustive-deps": "error",
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
       ],
       "@typescript-eslint/no-unused-vars": "warn",
     },
-  }
+  },
 );

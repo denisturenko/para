@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const usePlayerControls = () => {
-  const keys = {
-    KeyW: "leftUp",
-    KeyS: "leftDown",
-    KeyO: "rightUp",
-    KeyK: "rightDown",
-    Space: "space",
-  };
+  const keys = useMemo(
+    () => ({
+      KeyW: "leftUp",
+      KeyS: "leftDown",
+      KeyO: "rightUp",
+      KeyK: "rightDown",
+      Space: "space",
+    }),
+    [],
+  );
 
-  const moveFieldByKey = (key) => keys[key];
+  const moveFieldByKey = useCallback((key) => keys[key], [keys]);
 
   const [movement, setMovement] = useState({
     leftUp: false,
@@ -39,7 +42,7 @@ export const usePlayerControls = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [moveFieldByKey]);
 
   return movement;
 };

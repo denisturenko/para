@@ -11,7 +11,7 @@ export const moveAxle = (
   speedRight: number,
   angle: number,
   time: number,
-  inertiaFactor = 0
+  inertiaFactor = 0,
 ) => {
   // const angle = angleInit * NORMAL_ALFA_PER_SEC;
   // Длина оси
@@ -62,7 +62,7 @@ export const modifyParamWithinRange = (from: number, to: number) => {
 export const createDirectionVector = (
   dir0: THREE.Vector3,
   alfaHorizontal: number,
-  alfaVertical: number
+  alfaVertical: number,
 ) => {
   const newX =
     dir0.x - 1 * Math.cos(-1 * alfaVertical) * Math.sin(alfaHorizontal);
@@ -82,7 +82,7 @@ export const createVector = (
   dir0: THREE.Vector3,
   length: number,
   alfaHorizontal: number,
-  alfaVertical: number
+  alfaVertical: number,
 ) => {
   const newPos = new THREE.Vector3();
   const dir1 = createDirectionVector(dir0, alfaHorizontal, alfaVertical);
