@@ -6,13 +6,20 @@ export const ContainerStyled = styled.div`
   height: 100%;
 `;
 
-export const InfoStyled = styled.div`
+const BlockStyled = styled.div`
   position: absolute;
   width: 80px;
   height: 40px;
   background-color: white;
   top: 0;
-  left: 200px;
   font-size: 34px;
   opacity: 0.3;
+`;
+
+export const AltitudeStyled = styled(BlockStyled)`
+  left: 100px;
+`;
+
+export const InfoStyled = styled(BlockStyled)`
+  left: 200px;
 `;

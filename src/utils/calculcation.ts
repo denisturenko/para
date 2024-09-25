@@ -51,7 +51,11 @@ export const modifyParamWithinRange = (from: number, to: number) => {
     return lastResult;
   }
   lastCallTimestamp = now;
-  lastResult = from + Math.floor(Math.random() * (to - 1));
+  if (!from && !to) {
+    lastResult = 0;
+  } else {
+    lastResult = from + Math.floor(Math.random() * (to - 1));
+  }
   return lastResult;
 };
 
