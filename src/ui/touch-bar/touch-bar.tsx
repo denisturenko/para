@@ -1,22 +1,16 @@
-import { WrapperStyled, LevelStyled } from "./TouchBar.styled";
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent,
-} from "react";
-import { calculateTouching } from "./touch-bar.utils";
+import type { FC } from 'react';
+import { useCallback, useRef } from 'react';
+import { WrapperStyled, LevelStyled } from './touch-bar.styled';
+import { calculateTouching } from './touch-bar.utils';
 
 interface TouchBarProps {
   isLeft?: boolean;
   isRight?: boolean;
-  onChange: (value: number) => void;
+  onChange(value: number): void;
   value: number;
 }
 
-export const TouchBar: FC<TouchBarProps> = (props) => {
+export const TouchBar: FC<TouchBarProps> = props => {
   const { onChange, value } = props;
 
   const wrapperRef = useRef<HTMLElement>(null!);
@@ -24,20 +18,17 @@ export const TouchBar: FC<TouchBarProps> = (props) => {
 
   const onTouchMoveHandler = useCallback(
     (event: TouchEvent) => {
-      const controlValue = calculateTouching(
-        wrapperRef.current,
-        levelRef.current,
-        event,
-      );
+      const controlValue = calculateTouching(wrapperRef.current, levelRef.current, event);
+
       onChange(Number(controlValue));
 
       event.stopPropagation();
       // event.preventDefault();
     },
-    [onChange],
+    [onChange]
   );
 
-  const onTouchStartHandler = useCallback((event: MouseEvent<HTMLElement>) => {
+  const onTouchStartHandler = useCallback((event: MouseEvent) => {
     event.stopPropagation();
   }, []);
 
@@ -49,12 +40,7 @@ export const TouchBar: FC<TouchBarProps> = (props) => {
       onTouchMove={onTouchMoveHandler}
       onTouchStart={onTouchStartHandler}
     >
-      <LevelStyled
-        ref={levelRef}
-        $isLeft={props.isLeft}
-        $isRight={props.isRight}
-        style={{ height: value + "%" }}
-      >
+      <LevelStyled ref={levelRef} $isLeft={props.isLeft} $isRight={props.isRight} style={{ height: String(value) + '%' }}>
         {value}
       </LevelStyled>
     </WrapperStyled>

@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
-import * as THERE from "three";
-import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import type React from 'react';
+import { useRef, useEffect } from 'react';
+import { useFrame } from '@react-three/fiber';
+import * as THERE from 'three';
+import type * as THREE from 'three';
 
 export const StereoCamera: React.FC = () => {
   const stereoCamera = useRef(new THERE.StereoCamera());
@@ -14,6 +15,7 @@ export const StereoCamera: React.FC = () => {
     stereoCamera.current.update(camera as THREE.PerspectiveCamera);
 
     if (gl.autoClear) gl.clear();
+
     gl.autoClear = false;
 
     gl.setScissorTest(true);

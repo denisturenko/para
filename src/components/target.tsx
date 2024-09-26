@@ -1,16 +1,12 @@
-import * as THREE from "three";
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
+
+import { useFrame, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
+import { useDeviceOrientation } from '../hooks/useDeviceOrientation';
+import { createVector, getSpeed, modifyParamWithinRange, moveAxle } from '../utils/calculcation';
+
 const { Vector3, MathUtils, ArrowHelper, Ray } = THREE;
 const { degToRad, radToDeg } = MathUtils;
-
-import { useFrame, useThree } from "@react-three/fiber";
-import {
-  createVector,
-  getSpeed,
-  modifyParamWithinRange,
-  moveAxle,
-} from "../utils/calculcation";
-import { useDeviceOrientation } from "../hooks/useDeviceOrientation";
 
 interface TargetProps {
   position: THREE.Vector3;

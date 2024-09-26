@@ -1,16 +1,14 @@
-import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import { useFrame, useThree } from '@react-three/fiber';
+import groupBy from 'lodash/groupBy';
+import * as THREE from 'three';
+import { useDeviceOrientation } from '../hooks/use-device-orientation';
+import type { WindSettings } from '../types';
+import { createVector, getSpeed, modifyParamWithinRange, moveAxle } from '../utils/calculcation';
+
 const { Vector3, MathUtils, ArrowHelper, Ray } = THREE;
 const { degToRad, radToDeg } = MathUtils;
-
-import { useFrame, useThree } from "@react-three/fiber";
-import {
-  createVector,
-  getSpeed,
-  modifyParamWithinRange,
-  moveAxle,
-} from "../utils/calculcation";
-import { useDeviceOrientation } from "../hooks/useDeviceOrientation";
 
 interface PlayerProps {
   isPaused: boolean;
@@ -25,9 +23,8 @@ interface PlayerProps {
   maxSpeed: number;
   minSpeed: number;
   inertiaFactor: number;
-  windSpeeds: number[];
-  windAngel: number;
-  onChangePosition: (position: THREE.Vector3) => void;
+  winds: WindSettings[];
+  onChangePosition(position: THREE.Vector3): void;
 }
 
 export const Player = (props: PlayerProps) => {
@@ -40,8 +37,7 @@ export const Player = (props: PlayerProps) => {
     maxSpeed,
     minSpeed,
     inertiaFactor,
-    windSpeeds,
-    windAngel,
+    winds,
     onChangePosition,
     playerBodyHeight,
     position,
@@ -53,6 +49,7 @@ export const Player = (props: PlayerProps) => {
   const azimuth = useRef(props.azimuth || 0);
 
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
+
   useEffect(() => {
     if (!isPaused) {
       playerRef.current.position.set(position.x, position.y, position.z);
@@ -64,24 +61,23 @@ export const Player = (props: PlayerProps) => {
 
   useFrame((state, delta) => {
     if (!playerRef.current) return;
+
     if (isPaused) return;
 
-    const windSpeed = modifyParamWithinRange(windSpeeds[0], windSpeeds[1]);
+    const currentWind = winds[0];
+
+    const windSpeed = modifyParamWithinRange(currentWind.speed, currentWind.speed + (currentWind.hasGusts ? 3 : 1));
 
     const nextAxle = moveAxle(
       getSpeed(leftControlValue, maxSpeed, minSpeed),
       getSpeed(rightControlValue, maxSpeed, minSpeed),
       azimuth.current,
       delta,
-      inertiaFactor,
+      inertiaFactor
     );
 
-    const nextX =
-      playerRef.current.position.x -
-      (nextAxle.x + windSpeed * delta * Math.sin(windAngel));
-    const nextZ =
-      playerRef.current.position.z -
-      (nextAxle.z + windSpeed * delta * Math.cos(windAngel));
+    const nextX = playerRef.current.position.x - (nextAxle.x + windSpeed * delta * Math.sin(currentWind.angel));
+    const nextZ = playerRef.current.position.z - (nextAxle.z + windSpeed * delta * Math.cos(currentWind.angel));
     const nextY = playerRef.current.position.y - verticalSpeed * delta;
     // nextY = 100;
 
@@ -90,13 +86,8 @@ export const Player = (props: PlayerProps) => {
       state.camera.position.set(0, 30, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
 
-      onChangePosition(
-        new THREE.Vector3(
-          playerRef.current.position.x,
-          0,
-          playerRef.current.position.z,
-        ),
-      );
+      onChangePosition(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));
+
       return;
     }
 
@@ -106,6 +97,7 @@ export const Player = (props: PlayerProps) => {
     onChangePosition(new THREE.Vector3(nextX, nextY, nextZ));
 
     const pos = new THREE.Vector3();
+
     playerRef.current.getWorldDirection(pos);
 
     if (!ignoreHeadCamera) {
@@ -115,34 +107,28 @@ export const Player = (props: PlayerProps) => {
     }
 
     // console.log("***", radToDeg(orientation.theta));
-    /*state.camera.rotation.set(
+    /* state.camera.rotation.set(
       orientation.theta,
       orientation.beta,
       // Math.PI + (Math.PI / 180) * 40,
       -1 * orientation.azimuth
-    );*/
+    ); */
 
     // todo ugly ugly
-    const altitudeEl = document.getElementById("altitude");
+    const altitudeEl = document.getElementById('altitude');
+
     if (altitudeEl) altitudeEl.innerHTML = String(nextY.toFixed(0));
 
     azimuth.current = nextAxle.angle;
   });
 
   return (
-    <>
-      <mesh ref={playerRef} position={playerRef.current.position}>
-        <mesh position={[0, playerBodyHeight / 2, 0]}>
-          <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
-          <meshBasicMaterial attach="material" color="#595856" />
-          {showArrowHelper && (
-            <arrowHelper
-              ref={arrowHelperRef}
-              args={[undefined, undefined, 0.4]}
-            />
-          )}
-        </mesh>
+    <mesh ref={playerRef} position={playerRef.current.position}>
+      <mesh position={[0, playerBodyHeight / 2, 0]}>
+        <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
+        <meshBasicMaterial attach="material" color="#595856" />
+        {showArrowHelper && <arrowHelper ref={arrowHelperRef} args={[undefined, undefined, 0.4]} />}
       </mesh>
-    </>
+    </mesh>
   );
 };

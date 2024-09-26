@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 interface LeftRightProps {
   $isLeft?: boolean;
@@ -19,14 +19,14 @@ export const WrapperStyled = styled.div<LeftRightProps>`
       ? css`
           left: 0;
         `
-      : ""};
+      : ''};
 
   ${({ $isRight }) =>
     $isRight
       ? css`
           right: 0;
         `
-      : ""};
+      : ''};
 `;
 
 export const LevelStyled = styled.div<LeftRightProps>`
@@ -40,12 +40,12 @@ export const LevelStyled = styled.div<LeftRightProps>`
       ? css`
           left: 0;
         `
-      : ""};
+      : ''};
 
   ${({ $isRight }) =>
     $isRight
       ? css`
           right: 0;
         `
-      : ""};
+      : ''};
 `;

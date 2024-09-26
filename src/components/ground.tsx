@@ -1,12 +1,14 @@
-import * as THREE from "three";
-import { useTexture } from "@react-three/drei";
-import floorTexture from "../assets/bg2.jpg";
-import { Texture } from "three";
+import { useTexture } from '@react-three/drei';
+import * as THREE from 'three';
+import { Texture } from 'three';
+import floorTexture from '../assets/bg2.jpg';
 
 export const Ground = () => {
   const texture = useTexture(floorTexture);
+
   if (texture instanceof Texture) {
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = texture.wrapS;
   }
 
   return (
