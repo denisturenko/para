@@ -1,14 +1,21 @@
 import { Canvas } from '@react-three/fiber';
 import React, { useCallback, useState } from 'react';
 import * as THREE from 'three';
-import { Game as GameR3f } from 'entities/r3f/game/game.r3f';
-import type { GameSettings } from 'shared/lib/types/game-settings.type';
+import { Game as GameR3f } from 'entities/r3f/game';
+import type { GameSettings } from 'shared/lib/types';
 import { GameControls } from 'shared/ui/game-controls';
-import { SettingsPanel } from 'shared/ui/settings-panel/setting-panel';
+import { SettingsPanel } from 'shared/ui/settings-panel';
 import { AltitudeStyled, ContainerStyled, InfoStyled } from './game.styled';
 
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
+
+interface FooProps {
+  name: string;
+  age: number;
+}
+
+const Foo = (props: FooProps) => <div>111</div>;
 
 export const Game = () => {
   const [state, setState] = useState<GameSettings>({
@@ -26,7 +33,7 @@ export const Game = () => {
     ],
 
     // Player setting
-    playerPosition: new THREE.Vector3(-400, 600, -200),
+    playerPosition: new THREE.Vector3(-300, 600, -300),
     playerAzimuth: Math.PI / 2,
     playerBodyHeight: 2,
 
@@ -66,6 +73,7 @@ export const Game = () => {
 
   return (
     <>
+      <Foo />
       <ContainerStyled>
         <Canvas>
           <GameR3f angelCorrection={Math.PI} {...state} />

@@ -1,11 +1,12 @@
 import { Sky, PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import type { GameSettings } from 'shared/lib/types/game-settings.type';
+// import { Game as Game3 } from 'pages/game';
+import type { GameSettings } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
 import { Player } from 'shared/r3f/player';
-import { Target } from 'shared/r3f/target/target.r3f';
+import { Target } from 'shared/r3f/target';
 
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
@@ -22,6 +23,9 @@ interface GameProps extends GameSettings {
 
 export const Game = (props: GameProps) => {
   const windAngel = props.winds[0].angel || 0;
+
+  console.log('***', windAngel);
+
   const {
     withOrbitControls,
     angelCorrection = 0,
