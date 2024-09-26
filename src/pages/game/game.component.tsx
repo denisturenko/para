@@ -1,9 +1,10 @@
 import { Canvas } from '@react-three/fiber';
 import React, { useCallback, useState } from 'react';
 import * as THREE from 'three';
-import { Game as GameR3f } from 'entities/r3f';
-import type { GameSettings } from 'shared/lib/types';
+import { Game as GameR3f } from 'entities/r3f/game/game.r3f';
+import type { GameSettings } from 'shared/lib/types/game-settings.type';
 import { GameControls } from 'shared/ui/game-controls';
+import { SettingsPanel } from 'shared/ui/settings-panel/setting-panel';
 import { AltitudeStyled, ContainerStyled, InfoStyled } from './game.styled';
 
 const { MathUtils } = THREE;

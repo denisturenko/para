@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import * as THREE from 'three';
 import { useThrottledCallback } from 'use-debounce';
-import { AltitudeStyled } from 'pages/game';
 import { usePlayerControls } from 'shared/lib/hooks';
 import { TouchBar } from 'shared/ui/touch-bar';
 import { ContainerStyled, SettingButtonStyled } from './game-controls.styled';
@@ -145,7 +144,6 @@ export const GameControls = (props: GameControlsProps) => {
 
   return (
     <ContainerStyled onTouchStart={onTouchStartHandler}>
-      <AltitudeStyled>1111</AltitudeStyled>
       <TouchBar isLeft value={leftControlValue} onChange={onLeftControlChange} />
       <SettingButtonStyled onTouchStart={onSettingsTouchHandler}>
         <AiOutlineMenu />
