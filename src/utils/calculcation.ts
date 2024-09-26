@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export const getSpeed = (val: number, maxSpeed, minSpeed) => {
+export const getSpeed = (val: number, maxSpeed: number, minSpeed: number) => {
   const percent = 100 - val;
   return (percent / 100) * (maxSpeed - minSpeed) + minSpeed;
 };

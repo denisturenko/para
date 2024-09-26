@@ -26,7 +26,7 @@ module.exports = {
     "react",
     "react-hooks",
   ],
-  ignorePatterns: [".eslintrc.js", "*.d.ts"],
+  ignorePatterns: [".eslintrc.js", "*.d.ts", "dist", "node_modules"],
   settings: {
     polyfills: [
       "fetch",
@@ -44,5 +44,6 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
   },
 };
