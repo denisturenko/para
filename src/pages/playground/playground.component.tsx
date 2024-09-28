@@ -6,11 +6,12 @@ import { AltitudeStyled, ContainerStyled, InfoStyled } from './playground.styled
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
 import { usePlayground } from 'pages/playground/use-playground';
+import { Player } from 'shared/r3f/player';
 
 export const Playground = () => {
   const {
     meta: { isNotStarted, withOrbitControls },
-    ui: { game, settings, gameControls },
+    ui: { game, player, settings, gameControls },
   } = usePlayground();
 
   return (
@@ -18,7 +19,9 @@ export const Playground = () => {
       <ContainerStyled>
         {!isNotStarted && (
           <Canvas>
-            <Game {...game} />
+            <Game {...game}>
+              <Player {...player} />
+            </Game>
           </Canvas>
         )}
       </ContainerStyled>

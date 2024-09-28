@@ -4,27 +4,23 @@ import type { CanopySettings } from './canopy-settings.type';
 import type { HelperSettings } from 'shared/lib/types/helper-settings.type';
 
 export interface GameSettings {
+  angelCorrection?: number;
+  arrowAngel?: number;
+  arrowPosition: THREE.Vector3;
+
+  canopy: CanopySettings;
+  helpers: HelperSettings;
   isNotStarted: boolean;
+
   isPaused: boolean;
   isRestart: boolean;
 
-  withOrbitControls: boolean;
-
-  winds: WindSettings[];
-  canopy: CanopySettings;
-  helpers: HelperSettings;
-
-  playerPosition: THREE.Vector3;
   playerAzimuth: number;
   playerBodyHeight: number;
-
-  cameraTheta?: number;
-  leftControlValue: number;
-  rightControlValue: number;
+  playerPosition: THREE.Vector3;
 
   targetPosition: THREE.Vector3;
-  arrowPosition: THREE.Vector3;
-  arrowAngel?: number;
+  winds: WindSettings[];
 
-  angelCorrection?: number;
+  withOrbitControls: boolean;
 }

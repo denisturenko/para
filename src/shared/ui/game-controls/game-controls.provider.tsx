@@ -3,15 +3,15 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import { MIN_VERTICAL_ANGEL } from './game-controls.constants';
 
 interface State {
+  cameraTheta: number;
   leftControlValue: number;
   rightControlValue: number;
-  cameraTheta: number;
 }
 
 export interface GameControlsContextValues extends State {
+  onChangeCameraTheta(value: number): void;
   onLeftControlChange(value: number): void;
   onRightControlChange(value: number): void;
-  onChangeCameraTheta(value: number): void;
 }
 
 const GameControlsContext = createContext<GameControlsContextValues>({} as GameControlsContextValues);

@@ -1,6 +1,6 @@
 export interface CanopySettings {
-  verticalSpeed: number;
+  inertiaFactor: number;
   maxSpeed: number;
   minSpeed: number;
-  inertiaFactor: number; // 1 - 5
+  verticalSpeed: number; // 1 - 5
 }

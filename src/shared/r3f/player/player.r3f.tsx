@@ -3,21 +3,21 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { WindSettings, CanopySettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
-import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 
-interface PlayerProps {
+export interface PlayerProps {
+  angelCorrection?: number;
+  azimuth?: number;
+  cameraTheta: number;
+  canopy: CanopySettings;
+  ignoreHeadCamera?: boolean;
   isPaused: boolean;
   isRestart: boolean;
-  angelCorrection?: number;
-  position: THREE.Vector3;
-  playerBodyHeight: number;
-  azimuth?: number;
-  ignoreHeadCamera?: number;
   leftControlValue: number;
+  onChangePosition?(position: THREE.Vector3): void;
+  playerBodyHeight: number;
+  position: THREE.Vector3;
   rightControlValue: number;
   winds: WindSettings[];
-  canopy: CanopySettings;
-  onChangePosition(position: THREE.Vector3): void;
 }
 
 export const Player = (props: PlayerProps) => {
@@ -31,9 +31,10 @@ export const Player = (props: PlayerProps) => {
     isPaused,
     isRestart,
     angelCorrection = 0,
+    leftControlValue,
+    rightControlValue,
+    cameraTheta,
   } = props;
-
-  const { leftControlValue, rightControlValue, cameraTheta } = useGameControlsContext();
 
   const [showArrowHelper] = useState(false);
 
@@ -79,7 +80,7 @@ export const Player = (props: PlayerProps) => {
       state.camera.position.set(0, 30, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
 
-      onChangePosition(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));
+      onChangePosition?.(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));
 
       return;
     }
@@ -87,7 +88,7 @@ export const Player = (props: PlayerProps) => {
     playerRef.current.position.set(nextX, nextY, nextZ);
     playerRef.current.rotation.set(0, Math.PI + nextAxle.angle, 0);
 
-    onChangePosition(new THREE.Vector3(nextX, nextY, nextZ));
+    onChangePosition?.(new THREE.Vector3(nextX, nextY, nextZ));
 
     const pos = new THREE.Vector3();
 

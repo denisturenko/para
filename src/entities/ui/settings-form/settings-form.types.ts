@@ -2,9 +2,9 @@ import type { WindSettings, HelperSettings, CanopySettings } from 'shared/lib/ty
 import type {} from 'shared/lib/types/helper-settings.type';
 
 export interface SettingsFormValues {
-  winds: WindSettings[];
   canopy: CanopySettings;
   helper: HelperSettings;
+  winds: WindSettings[];
 }
 
 export interface SettingsFormProps {

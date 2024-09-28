@@ -6,13 +6,13 @@ import { Button, Space } from 'antd';
 import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
 
 export interface SettingsProps {
-  values: SettingsFormValues;
   isNotStarted: boolean;
   isOpen?: boolean;
-  onStart?(): void;
   onRestart?(): void;
   onResume?(): void;
   onSaveSettings?(initialValues: SettingsFormValues): void;
+  onStart?(): void;
+  values: SettingsFormValues;
 }
 
 export const Settings = memo((props: SettingsProps) => {

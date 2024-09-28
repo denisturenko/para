@@ -5,14 +5,14 @@ const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
 
 interface UseDeviceOrientationParams {
-  thetaInitial?: number;
   azimuthInitial?: number;
+  thetaInitial?: number;
 }
 
 interface UseDeviceOrientationResult {
-  theta: number;
   azimuth: number;
   beta: number;
+  theta: number;
 }
 
 export const useDeviceOrientation = ({ thetaInitial, azimuthInitial }: UseDeviceOrientationParams = {}): UseDeviceOrientationResult => {

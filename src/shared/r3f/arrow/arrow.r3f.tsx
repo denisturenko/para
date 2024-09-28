@@ -1,8 +1,8 @@
 import type * as THREE from 'three';
 
 interface ArrowProps {
-  position: THREE.Vector3;
   arrowAngel?: number;
+  position: THREE.Vector3;
 }
 
 export const Arrow = (props: ArrowProps) => {

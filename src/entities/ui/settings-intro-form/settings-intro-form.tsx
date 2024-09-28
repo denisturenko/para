@@ -2,10 +2,10 @@ import { Button, Flex } from 'antd';
 
 interface SettingsIntroFormProps {
   isNotStarted: boolean;
-  onStart?(): void;
   onRestart?(): void;
   onResume?(): void;
   onSettings?(): void;
+  onStart?(): void;
 }
 
 export const SettingsIntroForm = (props: SettingsIntroFormProps) => {

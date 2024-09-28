@@ -2,9 +2,9 @@ import type * as THREE from 'three';
 import type { HelperSettings } from 'shared/lib/types';
 
 interface TargetProps {
+  arrowAngel?: number;
   helpers: HelperSettings;
   position: THREE.Vector3;
-  arrowAngel?: number;
 }
 
 export const Target = (props: TargetProps) => {

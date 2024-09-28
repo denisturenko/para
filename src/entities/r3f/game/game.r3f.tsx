@@ -1,43 +1,26 @@
 import { Sky, PerspectiveCamera, OrbitControls } from '@react-three/drei';
-import { memo, useEffect, useRef, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { memo, useRef } from 'react';
 import * as THREE from 'three';
 import type { GameSettings } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
-import { getWindByHeight, Player } from 'shared/r3f/player';
+import { getWindByHeight } from 'shared/r3f/player';
 import { Target } from 'shared/r3f/target';
+import { useListenChangedProps } from 'shared/lib/hooks';
 
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
 
-export interface GameProps extends GameSettings {
-  onGround?(): void;
-}
+export type GameProps = GameSettings;
 
-export const Game = memo((props: GameProps) => {
+export const Game = memo((props: PropsWithChildren<GameProps>) => {
   const windAngel = getWindByHeight(props.winds, 0)?.angel || 0;
 
-  const {
-    withOrbitControls,
-    angelCorrection = 0,
-    arrowAngel = angelCorrection - windAngel,
-    arrowPosition,
-    onGround,
-    playerPosition,
-    playerAzimuth,
-    helpers,
-  } = props;
+  useListenChangedProps(props);
+
+  const { withOrbitControls, angelCorrection = 0, arrowAngel = angelCorrection - windAngel, arrowPosition, helpers, children } = props;
   const firstPersonCamera = useRef();
-
-  const [currentPlayerPosition, setCurrentPlayerPosition] = useState<THREE.Vector3 | undefined>();
-
-  useEffect(() => {
-    if (currentPlayerPosition?.y <= 0) {
-      onGround?.();
-    }
-  }, [currentPlayerPosition?.y, onGround]);
-
-  // console.log("***", currentPlayerPosition);
 
   return (
     <>
@@ -51,7 +34,7 @@ export const Game = memo((props: GameProps) => {
           // target={props.arrowPosition}
           maxPolarAngle={degToRad(90)}
           minPolarAngle={degToRad(0)}
-          target={currentPlayerPosition}
+          // target={currentPlayerPosition} пока убрал
           // minDistance={10}
           // maxDistance={20}
         />
@@ -68,13 +51,7 @@ export const Game = memo((props: GameProps) => {
       <Ground />
       <Target arrowAngel={arrowAngel} helpers={helpers} position={props.targetPosition} />
       <Arrow arrowAngel={arrowAngel} position={arrowPosition} />
-      <Player
-        azimuth={playerAzimuth}
-        position={playerPosition}
-        onChangePosition={setCurrentPlayerPosition}
-        {...props}
-        ignoreHeadCamera={withOrbitControls}
-      />
+      {children}
     </>
   );
 });
