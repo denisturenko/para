@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
-import type { GameSettings, PlayerControls } from 'shared/lib/types';
-import { MIN_VERTICAL_ANGEL } from 'shared/ui/game-controls';
+import type { GameSettings } from 'shared/lib/types';
 
 export const initialState: GameSettings = {
   angelCorrection: Math.PI,
@@ -24,10 +23,4 @@ export const initialState: GameSettings = {
 
   targetPosition: new THREE.Vector3(-274, 0.1, -448),
   arrowPosition: new THREE.Vector3(-190, 0.1, -170),
-};
-
-export const initialPlayerControls: PlayerControls = {
-  leftControlValue: 0,
-  rightControlValue: 0,
-  cameraTheta: MIN_VERTICAL_ANGEL,
 };

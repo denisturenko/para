@@ -1,14 +1,9 @@
 import type { FC } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { MIN_VERTICAL_ANGEL } from './game-controls.constants';
+import { initialPlayerControls } from './game-controls.constants';
+import type { PlayerControls } from 'shared/lib/types';
 
-interface State {
-  cameraTheta: number;
-  leftControlValue: number;
-  rightControlValue: number;
-}
-
-export interface GameControlsContextValues extends State {
+export interface GameControlsContextValues extends PlayerControls {
   onChangeCameraTheta(value: number): void;
   onLeftControlChange(value: number): void;
   onRightControlChange(value: number): void;
@@ -19,11 +14,7 @@ const GameControlsContext = createContext<GameControlsContextValues>({} as GameC
 export const useGameControlsContext = () => useContext<GameControlsContextValues>(GameControlsContext);
 
 export const GameControlsProvider: FC = ({ children }) => {
-  const [state, setState] = useState<State>({
-    leftControlValue: 0,
-    rightControlValue: 0,
-    cameraTheta: MIN_VERTICAL_ANGEL,
-  });
+  const [state, setState] = useState<PlayerControls>(initialPlayerControls);
 
   const onLeftControlChangeHandler = useCallback((leftControlValue: number) => setState(prev => ({ ...prev, leftControlValue })), []);
 

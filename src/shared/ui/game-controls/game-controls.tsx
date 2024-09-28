@@ -8,18 +8,14 @@ import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.pr
 import { MAX_VERTICAL_ANGEL, MIDDLE_VERTICAL_ANGEL, MIN_VERTICAL_ANGEL } from './game-controls.constants';
 
 export interface GameControlsProps {
-  cameraTheta: number;
-  leftControlValue: number;
-  onChangeCameraTheta(value: number): void;
-  onLeftControlChange(value: number): void;
-  onRightControlChange(value: number): void;
   onSettings(): void;
-  rightControlValue: number;
 }
 
 export const GameControls = memo((props: GameControlsProps) => {
-  const { onSettings, leftControlValue, onLeftControlChange, rightControlValue, onRightControlChange, cameraTheta, onChangeCameraTheta } =
-    props;
+  const { onSettings } = props;
+
+  const { leftControlValue, onLeftControlChange, rightControlValue, onRightControlChange, cameraTheta, onChangeCameraTheta } =
+    useGameControlsContext();
 
   const controls = usePlayerControls();
 

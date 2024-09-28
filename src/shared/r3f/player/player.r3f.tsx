@@ -3,20 +3,18 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { WindSettings, CanopySettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 
 export interface PlayerProps {
   angelCorrection?: number;
   azimuth?: number;
-  cameraTheta: number;
   canopy: CanopySettings;
   ignoreHeadCamera?: boolean;
   isPaused: boolean;
   isRestart: boolean;
-  leftControlValue: number;
   onChangePosition?(position: THREE.Vector3): void;
   playerBodyHeight: number;
   position: THREE.Vector3;
-  rightControlValue: number;
   winds: WindSettings[];
 }
 
@@ -31,10 +29,9 @@ export const Player = (props: PlayerProps) => {
     isPaused,
     isRestart,
     angelCorrection = 0,
-    leftControlValue,
-    rightControlValue,
-    cameraTheta,
   } = props;
+
+  const { leftControlValue, rightControlValue, cameraTheta } = useGameControlsContext();
 
   const [showArrowHelper] = useState(false);
 
