@@ -1,9 +1,10 @@
 import { Drawer } from 'shared/ui/drawer/drawer';
 import { SettingsIntroForm } from 'entities/ui/settings-intro-form';
 import { SettingsForm } from 'entities/ui/settings-form';
-import React, { useCallback, useState, memo } from 'react';
+import React, { useCallback, useState, memo, useEffect } from 'react';
 import { Button, Space } from 'antd';
 import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
+import { useListenChangedProps } from 'shared/lib/hooks';
 
 export interface SettingsProps {
   isNotStarted: boolean;
@@ -19,6 +20,9 @@ export const Settings = memo((props: SettingsProps) => {
   const { isOpen, onResume, onRestart, onSaveSettings, onStart, isNotStarted } = props;
 
   const [values, setValues] = useState(props.values);
+
+  useListenChangedProps(values, 'setting');
+
   const [isOpenSettings, setIsOpenSettings] = useState(false);
 
   const onCloseHandler = useCallback(() => {

@@ -14,6 +14,7 @@ createRoot(document.getElementById('root')).render(
         token: {
           colorPrimary: '#173D71',
           colorPrimaryBorder: '#173D71',
+          handleActiveColor: 'red',
         },
 
         // 1. Use dark algorithm

@@ -1,10 +1,10 @@
 import useChangedProps from 'use-changed-props';
 import { isEmpty, omit } from 'lodash';
 
-export const useListenChangedProps = (props: unknown) => {
+export const useListenChangedProps = (props: unknown, name: string = 'default') => {
   const listenProps = omit(props, ['children']);
 
   const res = useChangedProps(listenProps, { log: false });
 
-  console.log('***', isEmpty(res) ? 'No changed props' : res);
+  console.log(`*** [${name}]`, isEmpty(res) ? 'No changed props' : res);
 };

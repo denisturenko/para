@@ -1,4 +1,3 @@
-import React from 'react';
 import * as THREE from 'three';
 import type { PlayerControls } from 'shared/lib/types';
 
@@ -10,7 +9,7 @@ export const MIDDLE_VERTICAL_ANGEL = degToRad(48);
 export const MIN_VERTICAL_ANGEL = degToRad(67);
 
 export const initialPlayerControls: PlayerControls = {
-  leftControlValue: 0,
-  rightControlValue: 0,
+  leftControlValue: 50,
+  rightControlValue: 50,
   cameraTheta: MIN_VERTICAL_ANGEL,
 };

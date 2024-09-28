@@ -28,6 +28,18 @@ export const SettingsForm = (props: SettingsFormProps) => {
       wrapperCol={{ span: 18 }}
       onFieldsChange={onFieldsChangeHandler}
     >
+      <Card size="small" title={'Основные'}>
+        <Row>
+          <Col sm={{ span: 12, order: 1 }} xs={{ span: 24, order: 1 }}>
+            <Form.Item label="Высота начала пилотирования" labelCol="24" layout="vertical" name={['playerPositionHeight']}>
+              <Slider marks={{ 0: 0, 300: 300, 600: 600, 900: 900 }} max={900} min={0} />
+            </Form.Item>
+          </Col>
+        </Row>
+      </Card>
+
+      <br />
+
       <Form.List name="winds">
         {(fields, { add, remove }, { errors }) => (
           <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
@@ -100,7 +112,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
             </Form.Item>
           </Col>
           <Col sm={{ span: 6, order: 3 }} xs={{ span: 24, order: 3 }}>
-            <Form.Item label="Макс. горизонтальная" labelCol="24" layout="vertical" name={['canopy', 'minSpeed']}>
+            <Form.Item label="Мин. горизонтальная" labelCol="24" layout="vertical" name={['canopy', 'minSpeed']}>
               <InputNumber max={800} min={0} style={{ marginBottom: '16px', marginRight: '16px' }} />
             </Form.Item>
           </Col>
@@ -117,12 +129,12 @@ export const SettingsForm = (props: SettingsFormProps) => {
       <Card size="small" title={'Помощь'}>
         <Row>
           <Col sm={{ span: 4, order: 1 }} xs={{ span: 9, order: 1 }}>
-            <Form.Item label="Круги на поле" labelCol="24" layout="vertical" name={['helpers', 'isVisibleCircles']}>
+            <Form.Item label="Круги на поле" labelCol="24" layout="vertical" name={['helper', 'isVisibleCircles']}>
               <Switch />
             </Form.Item>
           </Col>
           <Col sm={{ span: 6, order: 2 }} xs={{ span: 15, order: 2 }}>
-            <Form.Item label="Створ и траверзы" labelCol="24" layout="vertical" name={['helpers', 'isVisibleCross']}>
+            <Form.Item label="Створ и траверзы" labelCol="24" layout="vertical" name={['helper', 'isVisibleCross']}>
               <Switch />
             </Form.Item>
           </Col>

@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import type { WindSettings, CanopySettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
+import type { ArrowHelper } from 'three';
 
 export interface PlayerProps {
   angelCorrection?: number;
@@ -42,11 +43,11 @@ export const Player = (props: PlayerProps) => {
   useEffect(() => {
     if (isRestart) {
       playerRef.current.position.set(props.position.x, props.position.y, props.position.z);
-      azimuth.current = props.azimuth;
+      azimuth.current = props.azimuth || 0;
     }
   }, [props.position, isRestart, props.azimuth]);
 
-  const arrowHelperRef = useRef<THREE.Mesh>(null!);
+  const arrowHelperRef = useRef<ArrowHelper>(null!);
 
   useFrame((state, delta) => {
     if (!playerRef.current) return;

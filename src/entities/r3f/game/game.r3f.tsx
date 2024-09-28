@@ -17,7 +17,7 @@ export type GameProps = GameSettings;
 export const Game = memo((props: PropsWithChildren<GameProps>) => {
   const windAngel = getWindByHeight(props.winds, 0)?.angel || 0;
 
-  useListenChangedProps(props);
+  useListenChangedProps(props, 'game-r3f');
 
   const { withOrbitControls, angelCorrection = 0, arrowAngel = angelCorrection - windAngel, arrowPosition, helpers, children } = props;
   const firstPersonCamera = useRef();

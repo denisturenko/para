@@ -5,6 +5,7 @@ import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
 import { initialState } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
+import { attachPlayerPosition } from 'pages/playground/playground.utils';
 
 interface UsePlaygroundResult {
   meta: {
@@ -20,7 +21,7 @@ interface UsePlaygroundResult {
 }
 
 export const usePlayground = (): UsePlaygroundResult => {
-  const [state, setState] = useState<GameSettings>(initialState);
+  const [state, setState] = useState<GameSettings>(attachPlayerPosition(initialState));
 
   /** Game settings stuff. */
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
@@ -31,7 +32,7 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
 
-  const onSaveSettingsHandle = useCallback(values => setState(prev => ({ ...prev, ...values })), []);
+  const onSaveSettingsHandle = useCallback(values => setState(prev => attachPlayerPosition({ ...prev, ...values })), []);
 
   return {
     meta: {
@@ -63,6 +64,7 @@ export const usePlayground = (): UsePlaygroundResult => {
           canopy: state.canopy,
           winds: state.winds,
           helper: state.helpers,
+          playerPositionHeight: state.playerPositionHeight,
         },
         onRestart: onRestartHandler,
         onResume: onResumeHandler,

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
 import type { GameSettings } from 'shared/lib/types';
 
-export const initialState: GameSettings = {
+export const initialState: Omit<GameSettings, 'playerPosition'> = {
   angelCorrection: Math.PI,
 
   isNotStarted: true,
@@ -17,9 +17,10 @@ export const initialState: GameSettings = {
   helpers: { isVisibleCircles: true, isVisibleCross: true },
 
   // Player setting
-  playerPosition: new THREE.Vector3(-300, 600, -300), // !
+  // playerPosition: new THREE.Vector3(-300, 600, -300), // !
   playerAzimuth: Math.PI / 2, // !
   playerBodyHeight: 2,
+  playerPositionHeight: 600,
 
   targetPosition: new THREE.Vector3(-274, 0.1, -448),
   arrowPosition: new THREE.Vector3(-190, 0.1, -170),

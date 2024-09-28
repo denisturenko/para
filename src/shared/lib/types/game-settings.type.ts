@@ -18,6 +18,7 @@ export interface GameSettings {
   playerAzimuth: number;
   playerBodyHeight: number;
   playerPosition: THREE.Vector3;
+  playerPositionHeight: number;
 
   targetPosition: THREE.Vector3;
   winds: WindSettings[];

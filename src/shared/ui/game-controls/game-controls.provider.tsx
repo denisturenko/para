@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { PropsWithChildren } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { initialPlayerControls } from './game-controls.constants';
 import type { PlayerControls } from 'shared/lib/types';
@@ -13,7 +13,9 @@ const GameControlsContext = createContext<GameControlsContextValues>({} as GameC
 
 export const useGameControlsContext = () => useContext<GameControlsContextValues>(GameControlsContext);
 
-export const GameControlsProvider: FC = ({ children }) => {
+interface GameControlsProviderProps {}
+
+export const GameControlsProvider: GameControlsProviderProps = ({ children }: PropsWithChildren<GameControlsProviderProps>) => {
   const [state, setState] = useState<PlayerControls>(initialPlayerControls);
 
   const onLeftControlChangeHandler = useCallback((leftControlValue: number) => setState(prev => ({ ...prev, leftControlValue })), []);

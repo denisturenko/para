@@ -41,6 +41,7 @@ export const moveAxle = (speedLeft: number, speedRight: number, angle: number, t
 let lastCallTimestamp = 0;
 let lastResult = 0;
 
+// todo mode to utils
 export const modifyParamWithinRange = (from: number, to: number) => {
   const now = Date.now();
 
@@ -55,6 +56,7 @@ export const modifyParamWithinRange = (from: number, to: number) => {
   return lastResult;
 };
 
+// todo mode to utils
 export const createDirectionVector = (dir0: THREE.Vector3, alfaHorizontal: number, alfaVertical: number) => {
   const newX = dir0.x - 1 * Math.cos(-1 * alfaVertical) * Math.sin(alfaHorizontal);
   const newZ = dir0.z - 1 * Math.cos(-1 * alfaVertical) * Math.cos(alfaHorizontal);
@@ -69,6 +71,7 @@ export const createDirectionVector = (dir0: THREE.Vector3, alfaHorizontal: numbe
   return dir.normalize();
 };
 
+// todo mode to utils
 export const createVector = (dir0: THREE.Vector3, length: number, alfaHorizontal: number, alfaVertical: number) => {
   const newPos = new THREE.Vector3();
   const dir1 = createDirectionVector(dir0, alfaHorizontal, alfaVertical);
