@@ -1,39 +1,31 @@
 import { Sky, PerspectiveCamera, OrbitControls } from '@react-three/drei';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-// import { Game as Game3 } from 'pages/game';
 import type { GameSettings } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
-import { Player } from 'shared/r3f/player';
+import { getWindByHeight, Player } from 'shared/r3f/player';
 import { Target } from 'shared/r3f/target';
 
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
 
-interface GameProps extends GameSettings {
-  cameraTheta: number;
-  angelCorrection?: number;
-  arrowAngel?: number;
-  targetPosition: THREE.Vector3;
-  arrowPosition: THREE.Vector3;
+export interface GameProps extends GameSettings {
   onGround?(): void;
-  foo: number;
 }
 
-export const Game = (props: GameProps) => {
-  const windAngel = props.winds[0].angel || 0;
-
-  console.log('***', windAngel);
+export const Game = memo((props: GameProps) => {
+  const windAngel = getWindByHeight(props.winds, 0)?.angel || 0;
 
   const {
     withOrbitControls,
     angelCorrection = 0,
-    arrowAngel = Math.PI - windAngel,
+    arrowAngel = angelCorrection - windAngel,
     arrowPosition,
     onGround,
     playerPosition,
     playerAzimuth,
+    helpers,
   } = props;
   const firstPersonCamera = useRef();
 
@@ -74,7 +66,7 @@ export const Game = (props: GameProps) => {
       <Sky sunPosition={[3000, 3000, 3000]} />
       <ambientLight intensity={20} />
       <Ground />
-      <Target arrowAngel={arrowAngel} position={props.targetPosition} />
+      <Target arrowAngel={arrowAngel} helpers={helpers} position={props.targetPosition} />
       <Arrow arrowAngel={arrowAngel} position={arrowPosition} />
       <Player
         azimuth={playerAzimuth}
@@ -82,8 +74,8 @@ export const Game = (props: GameProps) => {
         onChangePosition={setCurrentPlayerPosition}
         {...props}
         ignoreHeadCamera={withOrbitControls}
-        windAngel={angelCorrection - windAngel}
       />
     </>
   );
-};
+});
+Game.displayName = 'Game';

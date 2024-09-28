@@ -1,42 +1,39 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import type { WindSettings } from 'shared/lib/types';
-import { getSpeed, modifyParamWithinRange, moveAxle } from './player.utils';
+import type { WindSettings, CanopySettings } from 'shared/lib/types';
+import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 
 interface PlayerProps {
   isPaused: boolean;
+  isRestart: boolean;
+  angelCorrection?: number;
   position: THREE.Vector3;
   playerBodyHeight: number;
   azimuth?: number;
   ignoreHeadCamera?: number;
-  cameraTheta: number;
   leftControlValue: number;
   rightControlValue: number;
-  verticalSpeed: number;
-  maxSpeed: number;
-  minSpeed: number;
-  inertiaFactor: number;
   winds: WindSettings[];
+  canopy: CanopySettings;
   onChangePosition(position: THREE.Vector3): void;
 }
 
 export const Player = (props: PlayerProps) => {
   const {
     ignoreHeadCamera,
-    cameraTheta,
-    leftControlValue,
-    rightControlValue,
-    verticalSpeed,
-    maxSpeed,
-    minSpeed,
-    inertiaFactor,
     winds,
+    canopy: { inertiaFactor, verticalSpeed, maxSpeed, minSpeed },
     onChangePosition,
     playerBodyHeight,
     position,
     isPaused,
+    isRestart,
+    angelCorrection = 0,
   } = props;
+
+  const { leftControlValue, rightControlValue, cameraTheta } = useGameControlsContext();
 
   const [showArrowHelper] = useState(false);
 
@@ -45,11 +42,11 @@ export const Player = (props: PlayerProps) => {
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
 
   useEffect(() => {
-    if (!isPaused) {
-      playerRef.current.position.set(position.x, position.y, position.z);
+    if (isRestart) {
+      playerRef.current.position.set(props.position.x, props.position.y, props.position.z);
       azimuth.current = props.azimuth;
     }
-  }, [position, isPaused, props.azimuth]);
+  }, [props.position, isRestart, props.azimuth]);
 
   const arrowHelperRef = useRef<THREE.Mesh>(null!);
 
@@ -58,7 +55,7 @@ export const Player = (props: PlayerProps) => {
 
     if (isPaused) return;
 
-    const currentWind: WindSettings = winds[0] || { speed: 1, angel: 0, minHeight: 0 };
+    const currentWind: WindSettings = getWindByHeight(winds, playerRef.current.position.y) || { speed: 1, angel: 0, minHeight: 0 };
 
     const windSpeed = modifyParamWithinRange(currentWind.speed, currentWind.speed + (currentWind.hasGusts ? 3 : 1));
 
@@ -70,8 +67,10 @@ export const Player = (props: PlayerProps) => {
       inertiaFactor
     );
 
-    const nextX = playerRef.current.position.x - (nextAxle.x + windSpeed * delta * Math.sin(currentWind.angel));
-    const nextZ = playerRef.current.position.z - (nextAxle.z + windSpeed * delta * Math.cos(currentWind.angel));
+    const currentWindAngel = angelCorrection - currentWind.angel;
+
+    const nextX = playerRef.current.position.x - (nextAxle.x + windSpeed * delta * Math.sin(currentWindAngel));
+    const nextZ = playerRef.current.position.z - (nextAxle.z + windSpeed * delta * Math.cos(currentWindAngel));
     const nextY = playerRef.current.position.y - verticalSpeed * delta;
     // nextY = 100;
 

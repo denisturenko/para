@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import type { WindSettings } from 'shared/lib/types';
+import { sortBy } from 'lodash';
 
 export const getSpeed = (val: number, maxSpeed: number, minSpeed: number) => {
   const percent = 100 - val;
@@ -74,4 +76,16 @@ export const createVector = (dir0: THREE.Vector3, length: number, alfaHorizontal
   newPos.addVectors(dir0, dir1.multiplyScalar(length));
 
   return newPos;
+};
+
+export const getWindByHeight = (winds: WindSettings[], height: number): WindSettings | undefined => {
+  let res;
+
+  sortBy<WindSettings>(winds, w => w.minHeight).forEach(w => {
+    if (w.minHeight <= height) {
+      res = w;
+    }
+  });
+
+  return res;
 };

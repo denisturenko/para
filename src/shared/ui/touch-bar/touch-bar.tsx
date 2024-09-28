@@ -32,11 +32,16 @@ export const TouchBar: FC<TouchBarProps> = props => {
     event.stopPropagation();
   }, []);
 
+  const onClickHandler = useCallback((event: MouseEvent) => {
+    event.stopPropagation();
+  }, []);
+
   return (
     <WrapperStyled
       ref={wrapperRef}
       $isLeft={props.isLeft}
       $isRight={props.isRight}
+      onClick={onClickHandler}
       onTouchMove={onTouchMoveHandler}
       onTouchStart={onTouchStartHandler}
     >

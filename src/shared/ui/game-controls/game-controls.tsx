@@ -1,31 +1,21 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, memo } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import * as THREE from 'three';
 import { useThrottledCallback } from 'use-debounce';
 import { usePlayerControls } from 'shared/lib/hooks';
 import { TouchBar } from 'shared/ui/touch-bar';
 import { ContainerStyled, SettingButtonStyled } from './game-controls.styled';
+import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
+import { MAX_VERTICAL_ANGEL, MIDDLE_VERTICAL_ANGEL, MIN_VERTICAL_ANGEL } from './game-controls.constants';
 
-const { MathUtils } = THREE;
-const { degToRad } = MathUtils;
-
-const MAX_VERTICAL_ANGEL = degToRad(30);
-const MIDDLE_VERTICAL_ANGEL = degToRad(48);
-const MIN_VERTICAL_ANGEL = degToRad(67);
-
-interface GameControlsProps {
-  cameraTheta?: number;
-  onChangeCameraTheta(value: number): void;
-  leftControlValue: number;
-  rightControlValue: number;
-  onLeftControlChange(value: number): void;
-  onRightControlChange(value: number): void;
+export interface GameControlsProps {
   onSettings(): void;
 }
 
-export const GameControls = (props: GameControlsProps) => {
-  const { onLeftControlChange, onRightControlChange, onChangeCameraTheta, cameraTheta, leftControlValue, rightControlValue, onSettings } =
-    props;
+export const GameControls = memo((props: GameControlsProps) => {
+  const { onSettings } = props;
+
+  const { leftControlValue, onLeftControlChange, rightControlValue, onRightControlChange, cameraTheta, onChangeCameraTheta } =
+    useGameControlsContext();
 
   const controls = usePlayerControls();
 
@@ -58,29 +48,6 @@ export const GameControls = (props: GameControlsProps) => {
   );
 
   const adjustRightFn = useThrottledCallback(adjustRight, 50);
-
-  /* useEffect(() => {
-    if (controls.left) {
-      adjustLeft();
-    }
-    if (controls.right) {
-      adjustRight();
-    }
-    if (controls.down) {
-      adjustLeft();
-      adjustRight();
-    }
-    if (controls.up) {
-      adjustLeft(-1);
-      adjustRight(-1);
-    }
-  }, [controls]); */
-
-  useEffect(() => {
-    if (cameraTheta === undefined) {
-      onChangeCameraTheta(MIN_VERTICAL_ANGEL);
-    }
-  }, [cameraTheta, onChangeCameraTheta]);
 
   const onTouchStartHandler = useCallback(() => {
     if (cameraTheta === MIN_VERTICAL_ANGEL) onChangeCameraTheta(MIDDLE_VERTICAL_ANGEL);
@@ -116,25 +83,7 @@ export const GameControls = (props: GameControlsProps) => {
     }
   }, [controls.space, onTouchStartHandlerFn]);
 
-  /* useEffect(() => {
-    if (controls.leftUp) {
-      adjustLeft(-1);
-    }
-    if (controls.leftDown) {
-      adjustLeft();
-    }
-    if (controls.rightUp) {
-      adjustRightFn(-1);
-    }
-    if (controls.rightDown) {
-      adjustRightFn();
-    }
-    if (controls.space) {
-      onTouchStartHandlerFn();
-    }
-  }, [onTouchStartHandlerFn, adjustLeftFn, adjustRightFn, controls]); */
-
-  const onSettingsTouchHandler = useCallback(
+  const onSettingsClickHandler = useCallback(
     (event: MouseEvent) => {
       onSettings();
       event.stopPropagation();
@@ -143,12 +92,13 @@ export const GameControls = (props: GameControlsProps) => {
   );
 
   return (
-    <ContainerStyled onTouchStart={onTouchStartHandler}>
+    <ContainerStyled onClick={onTouchStartHandler}>
       <TouchBar isLeft value={leftControlValue} onChange={onLeftControlChange} />
-      <SettingButtonStyled onTouchStart={onSettingsTouchHandler}>
+      <SettingButtonStyled onClick={onSettingsClickHandler}>
         <AiOutlineMenu />
       </SettingButtonStyled>
       <TouchBar isRight value={rightControlValue} onChange={onRightControlChange} />
     </ContainerStyled>
   );
-};
+});
+GameControls.displayName = 'GameControls';

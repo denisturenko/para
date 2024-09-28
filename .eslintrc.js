@@ -4,6 +4,7 @@ module.exports = {
   root: true,
   env: {
     browser: true,
+    jest: true,
   },
   settings: {
     'import/resolver': {
@@ -18,6 +19,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    tsconfigRootDir: __dirname,
     project: `${__dirname}/tsconfig.json`,
     ecmaFeatures: {
       jsx: true,
@@ -28,11 +30,10 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:compat/recommended',
     'prettier',
-    'plugin:react/recommended',
     'plugin:react-hooks/recommended',
   ],
   plugins: ['@typescript-eslint', 'prettier', 'import', 'compat', 'unicorn', 'sonarjs', 'react', 'react-hooks', 'project-structure'],
-  ignorePatterns: ['.eslintrc.js', '*.d.ts', 'dist', 'node_modules'],
+  ignorePatterns: ['.eslintrc.js', '*.d.ts', 'dist', 'node_modules', 'jest.setup.js', 'jest.config.js'],
   rules: {
     '@typescript-eslint/no-explicit-any': 'error',
     'prettier/prettier': 'error',
@@ -495,7 +496,7 @@ module.exports = {
     'react/jsx-no-script-url': 'error',
     'react/jsx-no-useless-fragment': 'error',
     'react/jsx-props-no-multi-spaces': 'error',
-    'react/jsx-sort-default-props': 'error',
+    'react/sort-default-props': 'error',
     'react/jsx-sort-props': ['error', { reservedFirst: true, shorthandFirst: true, callbacksLast: true }],
     'react/jsx-no-target-blank': 'error',
     'react/no-access-state-in-setstate': 'error',
@@ -508,7 +509,7 @@ module.exports = {
     'react/no-multi-comp': ['error', { ignoreStateless: true }],
     'react/no-redundant-should-component-update': 'error',
     'react/no-this-in-sfc': 'error',
-    'react/no-unknown-property': 'error',
+    // 'react/no-unknown-property': 'error',
     'react/no-unused-state': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/require-render-return': 'error',
@@ -523,17 +524,17 @@ module.exports = {
     'react/jsx-key': 'error',
     'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
     'react/jsx-no-constructed-context-values': 'warn',
-    "react/prop-types": "off",
+    'react/prop-types': 'off',
     // 'no-restricted-imports': [
     //   'error',
     //   {
     //     patterns: [
     //       {
-    //         group: ['shared/*/*/**', 'entities/*/**', 'features/*/**', 'widgets/*/**', 'pages/*/**', 'app/**'],
+    //         group: ['shared/!*!/!*!/!**', 'entities/!*!/!**', 'features/!*!/!**', 'widgets/!*!/!**', 'pages/!*!/!**', 'app/!**'],
     //         message: 'Direct access to the internal parts of the module is prohibited',
     //       },
     //       {
-    //         group: ['../**/shared', '../**/entities', '../**/features', '../**/widgets', '../**/pages', '../**/app'],
+    //         group: ['../!**!/shared', '../!**!/entities', '../!**!/features', '../!**!/widgets', '../!**!/pages', '../!**!/app'],
     //         message: 'Prefer absolute imports instead of relatives',
     //       },
     //     ],
@@ -547,28 +548,28 @@ module.exports = {
         modules: [
           {
             name: 'Pages',
-            pattern: 'pages/**',
-            allowImportsFrom: ['{family}/**', '{shared}/**', '{entities}/**', '{features}/**', '{widgets}/**'],
+            pattern: 'pages/!**',
+            allowImportsFrom: ['{family}/!**', '{shared}/!**', '{entities}/!**', '{features}/!**', '{widgets}/!**'],
           },
           {
             name: 'Widgets',
-            pattern: 'widgets/**',
-            allowImportsFrom: ['{shared}/**', '{entities}/**', '{features}/**', '{widgets}/**'],
+            pattern: 'widgets/!**',
+            allowImportsFrom: ['{shared}/!**', '{entities}/!**', '{features}/!**', '{widgets}/!**'],
           },
           {
             name: 'Features',
-            pattern: 'features/**',
-            allowImportsFrom: ['{shared}/**', '{entities}/**', '{features}/**'],
+            pattern: 'features/!**',
+            allowImportsFrom: ['{shared}/!**', '{entities}/!**', '{features}/!**'],
           },
           {
             name: 'Entities',
-            pattern: 'entities/**',
-            allowImportsFrom: ['{shared}/**', '{entities}/**'],
+            pattern: 'entities/!**',
+            allowImportsFrom: ['{shared}/!**', '{entities}/!**'],
           },
           {
             name: 'Shared',
-            pattern: 'shared/**',
-            allowImportsFrom: ['{shared}/**'],
+            pattern: 'shared/!**',
+            allowImportsFrom: ['{shared}/!**'],
           },
         ],
         reusableImportPatterns: {
