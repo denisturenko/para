@@ -1,155 +1,199 @@
-import { Space, Button, Flex, Form, Col, Row, InputNumber, Card, Switch } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { Slider } from 'shared/ui/slider/slider';
 import type { SettingsFormProps, SettingsFormValues } from './settings-form.types';
 import { getInitialValues, normalized } from './settings-form.utils';
+import { useForm } from '@mantine/form';
+import { Button, Divider, ActionIcon, Grid } from '@mantine/core';
+import { ActionIconWrapperStyled, HeightInputStyled, LayoutStyled, WindContainerStyled } from './settings-form.styled';
+import { Input } from 'shared/ui/input';
+import { Card } from 'shared/ui/card';
+import { Switch } from 'shared/ui/switch';
+import { CloseOutlined } from '@ant-design/icons';
 
 // todo validation
 export const SettingsForm = (props: SettingsFormProps) => {
   const { onChange } = props;
 
-  const [form] = Form.useForm();
+  const form = useForm<SettingsFormValues>({
+    initialValues: getInitialValues(props),
+  });
 
-  const onFieldsChangeHandler = useCallback(() => {
-    const normalizedValues = normalized(form.getFieldsValue());
+  const { winds } = form.values;
+
+  useEffect(() => {
+    const normalizedValues = normalized(form.values);
 
     onChange?.(normalizedValues);
-  }, [form, onChange]);
+  }, [form.values, onChange]);
 
   return (
-    <Form<SettingsFormValues>
-      disabled={false}
-      form={form}
-      initialValues={getInitialValues(props)}
-      labelCol={{ span: 6 }}
-      layout="horizontal"
-      wrapperCol={{ span: 18 }}
-      onFieldsChange={onFieldsChangeHandler}
-    >
-      <Card size="small" title={'Основные'}>
-        <Row>
-          <Col sm={{ span: 12, order: 1 }} xs={{ span: 24, order: 1 }}>
-            <Form.Item label="Высота начала пилотирования" labelCol="24" layout="vertical" name={['playerPositionHeight']}>
-              <Slider marks={{ 0: 0, 300: 300, 600: 600, 900: 900 }} max={900} min={0} />
-            </Form.Item>
-          </Col>
-        </Row>
+    <LayoutStyled>
+      <Card title="Основные">
+        <Grid>
+          <Grid.Col span={{ base: 12, xs: 6 }}>
+            <Slider
+              label="Высота начала пилотирования"
+              marks={[
+                { value: 0, label: '0' },
+                { value: 300, label: '300' },
+                { value: 600, label: '600' },
+                { value: 900, label: '900' },
+              ]}
+              max={900}
+              min={0}
+              {...form.getInputProps('playerPositionHeight')}
+            />
+          </Grid.Col>
+        </Grid>
       </Card>
 
-      <br />
-
-      <Form.List name="winds">
-        {(fields, { add, remove }, { errors }) => (
-          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
-            {fields.map((field, index) => (
-              <Card
-                key={field.key}
-                extra={
-                  index !== 0 && (
-                    <CloseOutlined
-                      onClick={() => {
-                        remove(field.name);
-                      }}
-                    />
-                  )
-                }
-                size="small"
-                title={`Ветер ${field.name + 1}`}
-              >
-                <Row>
-                  <Col sm={{ span: 4, order: 1 }} xs={{ span: 12, order: 1 }}>
-                    <Form.Item label="До высоты" labelCol="24" layout="vertical" name={[field.name, 'minHeight']}>
-                      <InputNumber disabled={!index} max={800} min={0} style={{ marginBottom: '16px', marginRight: '16px' }} />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={{ span: 9, order: 2 }} xs={{ span: 24, order: 3 }}>
-                    <Form.Item label="Направление" labelCol="24" layout="vertical" name={[field.name, 'angel']}>
-                      <Slider marks={{ 0: 0, 90: 90, 180: 180, 270: 270, 360: 360 }} max={360} min={0} />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={{ span: 9, order: 3 }} xs={{ span: 24, order: 4 }}>
-                    <Form.Item label="Скорость" labelCol="24" layout="vertical" name={[field.name, 'speed']}>
-                      <Slider marks={{ 0: 0, 5: 5, 10: 10, 15: 15, 20: 20 }} max={20} min={0} />
-                    </Form.Item>
-                  </Col>
-                  <Col sm={{ span: 2, order: 4 }} xs={{ span: 12, order: 2 }}>
-                    <Form.Item label="Порывы" labelCol="24" layout="vertical" name={[field.name, 'hasGusts']}>
-                      <Switch />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-            ))}
-            <Button
-              type="dashed"
-              onClick={() => {
-                const values = form.getFieldsValue();
-                const nextWindValue = { ...values.winds[values.winds.length - 1] };
-
-                nextWindValue.minHeight += 100;
-                add(nextWindValue);
-              }}
-            >
-              + Добавить ветер
-            </Button>
+      <Card title="Ветер">
+        {winds.map((wind, idx) => (
+          <div key={wind.minHeight}>
+            <WindContainerStyled>
+              <Grid>
+                <Grid.Col span={{ base: 4, xs: 2 }}>
+                  <HeightInputStyled disabled={!idx} label="До высоты" size="xs" {...form.getInputProps(`winds.${idx}.minHeight`)} />
+                </Grid.Col>
+                <Grid.Col span={{ base: 6, xs: 9 }}>
+                  <Switch
+                    label="Порывы"
+                    labelPosition="left"
+                    size="md"
+                    {...form.getInputProps(`winds.${idx}.hasGusts`, {
+                      type: 'checkbox',
+                    })}
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 2, xs: 1 }}>
+                  {idx !== 0 && (
+                    <ActionIconWrapperStyled>
+                      <ActionIcon variant="default" onClick={() => form.removeListItem('winds', idx)}>
+                        <CloseOutlined />
+                      </ActionIcon>
+                    </ActionIconWrapperStyled>
+                  )}
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 6 }}>
+                  <Slider
+                    label="Направление"
+                    marks={[
+                      { value: 0, label: '0' },
+                      { value: 90, label: '90' },
+                      { value: 180, label: '180' },
+                      { value: 270, label: '270' },
+                      { value: 360, label: '360' },
+                    ]}
+                    max={360}
+                    min={0}
+                    {...form.getInputProps(`winds.${idx}.angel`)}
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 6 }}>
+                  <Slider
+                    label="Скорость"
+                    marks={[
+                      { value: 0, label: '0' },
+                      { value: 5, label: '5' },
+                      { value: 10, label: '10' },
+                      { value: 15, label: '15' },
+                      { value: 20, label: '20' },
+                    ]}
+                    max={20}
+                    min={0}
+                    {...form.getInputProps(`winds.${idx}.speed`)}
+                  />
+                </Grid.Col>
+              </Grid>
+            </WindContainerStyled>
+            <Divider />
           </div>
-        )}
-      </Form.List>
+        ))}
 
-      <br />
-      <Card size="small" title={'Характеристики купола'}>
-        <Row>
-          <Col sm={{ span: 4, order: 1 }} xs={{ span: 9, order: 1 }}>
-            <Form.Item label="Верт. скорость" labelCol="24" layout="vertical" name={['canopy', 'verticalSpeed']}>
-              <InputNumber max={800} min={0} style={{ marginBottom: '16px', marginRight: '16px' }} />
-            </Form.Item>
-          </Col>
-          <Col sm={{ span: 6, order: 2 }} xs={{ span: 15, order: 2 }}>
-            <Form.Item label="Макс. горизонтальная" labelCol="24" layout="vertical" name={['canopy', 'maxSpeed']}>
-              <InputNumber max={800} min={0} style={{ marginBottom: '16px', marginRight: '16px' }} />
-            </Form.Item>
-          </Col>
-          <Col sm={{ span: 6, order: 3 }} xs={{ span: 24, order: 3 }}>
-            <Form.Item label="Мин. горизонтальная" labelCol="24" layout="vertical" name={['canopy', 'minSpeed']}>
-              <InputNumber max={800} min={0} style={{ marginBottom: '16px', marginRight: '16px' }} />
-            </Form.Item>
-          </Col>
-          <Col sm={{ span: 8, order: 4 }} xs={{ span: 15, order: 4 }}>
-            <Form.Item label="Инертность" labelCol="24" layout="vertical" name={['canopy', 'inertiaFactor']}>
-              <Slider marks={{ 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }} max={5} min={1} />
-            </Form.Item>
-          </Col>
-        </Row>
+        <Button
+          fullWidth={false}
+          size="sm"
+          variant="outline"
+          onClick={() => {
+            const nextWindValue = { ...winds[winds.length - 1] };
+
+            nextWindValue.minHeight += 100;
+            form.insertListItem('winds', nextWindValue);
+          }}
+        >
+          + Добавить ветер
+        </Button>
       </Card>
 
-      <br />
-
-      <Card size="small" title={'Помощь'}>
-        <Row>
-          <Col sm="6" xs="6">
-            <Form.Item label="Круги на поле" labelCol="24" layout="vertical" name={['helpers', 'isVisibleCircles']}>
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col sm="6" xs="6">
-            <Form.Item label="Створ и траверзы" labelCol="24" layout="vertical" name={['helpers', 'isVisibleCross']}>
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col sm="6" xs="6">
-            <Form.Item label="Тень внизу" labelCol="24" layout="vertical" name={['helpers', 'isVisibleShadow']}>
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col sm="6" xs="6">
-            <Form.Item label="Пройденый путь" labelCol="24" layout="vertical" name={['helpers', 'isVisibleTrack']}>
-              <Switch />
-            </Form.Item>
-          </Col>
-        </Row>
+      <Card title="Характеристики купола">
+        <Grid>
+          <Grid.Col span={{ base: 6, xs: 4 }}>
+            <Input label="Макс. горизонтальная" {...form.getInputProps('canopy.maxSpeed')} />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, xs: 4 }}>
+            <Input label="Мин. горизонтальная" {...form.getInputProps('canopy.minSpeed')} />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, xs: 4 }}>
+            <Input label="Верт. скорость" {...form.getInputProps('canopy.verticalSpeed')} />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, xs: 6 }}>
+            <Slider
+              label="Инертность"
+              marks={[
+                { value: 1, label: '1' },
+                { value: 2, label: '2' },
+                { value: 3, label: '3' },
+                { value: 4, label: '4' },
+                { value: 5, label: '5' },
+              ]}
+              max={5}
+              min={1}
+              {...form.getInputProps('canopy.inertiaFactor')}
+            />
+          </Grid.Col>
+        </Grid>
       </Card>
-    </Form>
+
+      <Card title="Вспомогательное">
+        <Grid>
+          <Grid.Col span={{ base: 6, xs: 3 }}>
+            <Switch
+              label="Круги на поле"
+              labelPosition="left"
+              {...form.getInputProps('helpers.isVisibleCircles', {
+                type: 'checkbox',
+              })}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, xs: 3 }}>
+            <Switch
+              label="Створ и траверзы"
+              labelPosition="left"
+              {...form.getInputProps('helpers.isVisibleCross', {
+                type: 'checkbox',
+              })}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, xs: 3 }}>
+            <Switch
+              label="Тень внизу"
+              labelPosition="left"
+              {...form.getInputProps('helpers.isVisibleShadow', {
+                type: 'checkbox',
+              })}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, xs: 3 }}>
+            <Switch
+              label="Пройденый путь"
+              labelPosition="left"
+              {...form.getInputProps('helpers.isVisibleTrack', {
+                type: 'checkbox',
+              })}
+            />
+          </Grid.Col>
+        </Grid>
+      </Card>
+    </LayoutStyled>
   );
 };

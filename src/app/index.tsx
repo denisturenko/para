@@ -4,6 +4,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Playground } from 'pages/playground';
 import './index.css';
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
 
 import { ConfigProvider, theme } from 'antd';
 
@@ -24,7 +26,9 @@ createRoot(document.getElementById('root')).render(
         // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
       }}
     >
-      <Playground />
+      <MantineProvider defaultColorScheme="dark">
+        <Playground />
+      </MantineProvider>
     </ConfigProvider>
   </React.StrictMode>
 );

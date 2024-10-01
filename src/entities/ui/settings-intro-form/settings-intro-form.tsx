@@ -1,4 +1,4 @@
-import { Button, Flex } from 'antd';
+import { Button, Stack } from '@mantine/core';
 
 interface SettingsIntroFormProps {
   isNotStarted: boolean;
@@ -12,24 +12,24 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
   const { onRestart, onResume, onStart, onSettings, isNotStarted } = props;
 
   return (
-    <Flex vertical align="center" gap="middle">
+    <Stack>
       {!isNotStarted && (
-        <Button block variant="outlined" onClick={onRestart}>
+        <Button size="xs" variant="default" onClick={onRestart}>
           Начать заново
         </Button>
       )}
-      <Button block variant="outlined" onClick={onSettings}>
+      <Button size="xs" variant="default" onClick={onSettings}>
         Настройки
       </Button>
       {isNotStarted ? (
-        <Button block type="primary" onClick={onStart}>
+        <Button size="xs" variant="filled" onClick={onStart}>
           Начать
         </Button>
       ) : (
-        <Button block type="primary" onClick={onResume}>
+        <Button size="xs" variant="filled" onClick={onResume}>
           Продолжить
         </Button>
       )}
-    </Flex>
+    </Stack>
   );
 };

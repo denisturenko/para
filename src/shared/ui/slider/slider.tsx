@@ -1,18 +1,22 @@
-import { Space, Button, Flex, Form, Slider as SliderBase, Col, Row, InputNumber } from 'antd';
 import { useCallback } from 'react';
-import type { SliderBaseProps } from 'antd/es/slider';
+import type { SliderProps } from '@mantine/core';
+import { Grid, Slider as SliderBase, Input as InputBase } from '@mantine/core';
+import { Input } from 'shared/ui/input';
+import { ContainerStyled, InputWrapperStyled, SliderWrapperStyled } from 'shared/ui/slider/slider.styled';
 
-interface SettingsFormProps {
-  onChange?(): void;
-}
+export const Slider = (props: SliderProps) => {
+  const { label, ...other } = props;
 
-export const Slider = (props: SliderBaseProps) => (
-  <Row>
-    <Col sm={{ span: 22 }} xs={{ span: 20 }}>
-      <SliderBase tooltip={{ open: false }} {...props} />
-    </Col>
-    <Col sm={{ span: 2 }} xs={{ span: 4 }}>
-      <InputNumber {...props} style={{ margin: '0 8px', width: '50px' }} />
-    </Col>
-  </Row>
-);
+  return (
+    <ContainerStyled>
+      <SliderWrapperStyled>
+        <InputBase.Wrapper label={label}>
+          <SliderBase tooltip={{ open: false }} {...other} />
+        </InputBase.Wrapper>
+      </SliderWrapperStyled>
+      <InputWrapperStyled>
+        <Input {...other} size="xs" />
+      </InputWrapperStyled>
+    </ContainerStyled>
+  );
+};

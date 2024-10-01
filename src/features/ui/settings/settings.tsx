@@ -1,10 +1,9 @@
-import { Drawer } from 'shared/ui/drawer/drawer';
 import { SettingsIntroForm } from 'entities/ui/settings-intro-form';
-import { SettingsForm } from 'entities/ui/settings-form';
-import React, { useCallback, useState, memo, useEffect } from 'react';
-import { Button, Space } from 'antd';
-import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
+import React, { useCallback, useState, memo } from 'react';
+import type { SettingsFormValues } from 'entities/ui/settings-form2/settings-form.types';
 import { useListenChangedProps } from 'shared/lib/hooks';
+import { SettingsForm } from 'entities/ui/settings-form';
+import { Drawer } from 'shared/ui/drawer';
 
 export interface SettingsProps {
   isNotStarted: boolean;
@@ -43,7 +42,7 @@ export const Settings = memo((props: SettingsProps) => {
   }, [closeSettingsHandler, onSaveSettings, values]);
 
   return (
-    <Drawer closeIcon={!isNotStarted} open={isOpen} size="default" title="PaRa" onClose={onCloseHandler}>
+    <Drawer opened={isOpen} position="right" size="md" title="PaRa" withCloseButton={!isNotStarted} onClose={onCloseHandler}>
       <SettingsIntroForm
         isNotStarted={isNotStarted}
         onRestart={onRestart}
@@ -53,17 +52,12 @@ export const Settings = memo((props: SettingsProps) => {
       />
 
       <Drawer
-        extra={
-          <Space>
-            <Button onClick={onCloseSettingsHandler}>Отмена</Button>
-            <Button type="primary" onClick={onSaveSettingsHandler}>
-              Сохранить
-            </Button>
-          </Space>
-        }
-        open={isOpenSettings}
-        size="large"
+        opened={isOpenSettings}
+        position="right"
+        size="xl"
+        title="Настройки"
         onClose={onCloseSettingsHandler}
+        onSubmit={onSaveSettingsHandler}
       >
         <SettingsForm initialValues={values} onChange={setValues} />
       </Drawer>

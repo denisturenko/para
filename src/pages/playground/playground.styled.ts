@@ -14,6 +14,11 @@ const BlockStyled = styled.div`
   top: 0;
   font-size: 34px;
   opacity: 0.3;
+  color: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const AltitudeStyled = styled(BlockStyled)`

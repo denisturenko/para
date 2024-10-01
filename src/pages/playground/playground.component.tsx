@@ -14,8 +14,6 @@ export const Playground = () => {
     ui: { game, player, settings, gameControls },
   } = usePlayground();
 
-  console.log('***player', player);
-
   return (
     <GameControlsProvider>
       <ContainerStyled>
@@ -31,7 +29,7 @@ export const Playground = () => {
       {!withOrbitControls && (
         <>
           <AltitudeStyled id="altitude" />
-          <InfoStyled id="info" />
+          {/* <InfoStyled id="info" /> */}
           <GameControls {...gameControls} />
         </>
       )}

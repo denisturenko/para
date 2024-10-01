@@ -1,15 +1,35 @@
-import type { DrawerProps } from 'antd';
-import { Drawer as DrawerBase } from 'antd';
-import type { DrawerStyles } from 'antd/lib/drawer/DrawerPanel';
+import type { DrawerProps as DrawerPropsBase } from '@mantine/core';
+import { Drawer as DrawerBase, Button, Group } from '@mantine/core';
 
-const drawerStyles: DrawerStyles = {
-  mask: {
-    backdropFilter: 'blur(10px)',
-  },
+interface DrawerProps extends DrawerPropsBase {
+  onSubmit?(): void;
+}
+
+export const Drawer = (props: DrawerProps) => {
+  const { title, children, onSubmit, withCloseButton, ...other } = props;
+
+  return (
+    <DrawerBase.Root {...other}>
+      <DrawerBase.Overlay />
+      <DrawerBase.Content>
+        <DrawerBase.Header>
+          <DrawerBase.Title>{title}</DrawerBase.Title>
+
+          {onSubmit ? (
+            <Group gap="lg">
+              <Button size="xs" variant="default" onClick={props.onClose}>
+                Отмена
+              </Button>
+              <Button size="xs" variant="filled" onClick={onSubmit}>
+                Сохранить
+              </Button>
+            </Group>
+          ) : (
+            withCloseButton && <DrawerBase.CloseButton />
+          )}
+        </DrawerBase.Header>
+        <DrawerBase.Body>{children}</DrawerBase.Body>
+      </DrawerBase.Content>
+    </DrawerBase.Root>
+  );
 };
-
-export const Drawer = (props: DrawerProps) => (
-  <DrawerBase styles={drawerStyles} {...props}>
-    {props.children}
-  </DrawerBase>
-);
