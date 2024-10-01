@@ -1,15 +1,17 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import type { WindSettings, CanopySettings } from 'shared/lib/types';
+import type { WindSettings, CanopySettings, HelperSettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import type { ArrowHelper } from 'three';
+import { useThrottledCallback } from 'use-debounce';
 
 export interface PlayerProps {
   angelCorrection?: number;
   azimuth?: number;
   canopy: CanopySettings;
+  helpers: HelperSettings;
   ignoreHeadCamera?: boolean;
   isPaused: boolean;
   isRestart: boolean;
@@ -30,7 +32,11 @@ export const Player = (props: PlayerProps) => {
     isPaused,
     isRestart,
     angelCorrection = 0,
+    helpers: { isVisibleShadow, isVisibleTrack },
   } = props;
+
+  const [track, setTrack] = useState<THREE.Vector3[]>([]);
+  const [showTrack, setShowTrack] = useState(isVisibleTrack);
 
   const { leftControlValue, rightControlValue, cameraTheta } = useGameControlsContext();
 
@@ -39,15 +45,30 @@ export const Player = (props: PlayerProps) => {
   const azimuth = useRef(props.azimuth || 0);
 
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
+  const playerShadowRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
+  const playerShadowGeometryRef = useRef<THREE.Mesh>();
 
   useEffect(() => {
     if (isRestart) {
       playerRef.current.position.set(props.position.x, props.position.y, props.position.z);
       azimuth.current = props.azimuth || 0;
+      setTrack([]);
     }
   }, [props.position, isRestart, props.azimuth]);
 
   const arrowHelperRef = useRef<ArrowHelper>(null!);
+
+  const setTrackThrottled = useThrottledCallback(() => {
+    setTrack(prev => {
+      const copy = [...prev];
+
+      const { x, z } = playerShadowRef.current.position;
+
+      copy.push(new THREE.Vector3(x, 0.1, z));
+
+      return copy;
+    });
+  }, 1000);
 
   useFrame((state, delta) => {
     if (!playerRef.current) return;
@@ -75,7 +96,7 @@ export const Player = (props: PlayerProps) => {
 
     // todo
     if (nextY < 0) {
-      state.camera.position.set(0, 30, 0);
+      state.camera.position.set(0, 500, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
 
       onChangePosition?.(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));
@@ -85,6 +106,9 @@ export const Player = (props: PlayerProps) => {
 
     playerRef.current.position.set(nextX, nextY, nextZ);
     playerRef.current.rotation.set(0, Math.PI + nextAxle.angle, 0);
+
+    playerShadowRef.current.position.set(nextX, nextY - 100, nextZ);
+    setTrackThrottled();
 
     onChangePosition?.(new THREE.Vector3(nextX, nextY, nextZ));
 
@@ -115,12 +139,29 @@ export const Player = (props: PlayerProps) => {
   });
 
   return (
-    <mesh ref={playerRef} position={playerRef.current.position}>
-      <mesh position={[0, playerBodyHeight / 2, 0]}>
-        <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
-        <meshBasicMaterial attach="material" color="#595856" />
-        {showArrowHelper && <arrowHelper ref={arrowHelperRef} args={[undefined, undefined, 0.4]} />}
+    <>
+      <mesh ref={playerRef} position={playerRef.current.position}>
+        <mesh position={[0, playerBodyHeight / 2, 0]}>
+          <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
+          <meshBasicMaterial attach="material" color="#595856" />
+          {showArrowHelper && <arrowHelper ref={arrowHelperRef} args={[undefined, undefined, 0.4]} />}
+        </mesh>
       </mesh>
-    </mesh>
+
+      {isVisibleShadow && (
+        <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2}>
+          <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
+          <meshBasicMaterial attach="material" color="white" />
+        </mesh>
+      )}
+
+      {isVisibleTrack &&
+        track.map((trackPosition, idx) => (
+          <mesh key={idx} position={trackPosition} rotation-x={-Math.PI / 2}>
+            <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
+            <meshBasicMaterial attach="material" color="white" />
+          </mesh>
+        ))}
+    </>
   );
 };

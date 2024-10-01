@@ -14,6 +14,8 @@ export const Playground = () => {
     ui: { game, player, settings, gameControls },
   } = usePlayground();
 
+  console.log('***player', player);
+
   return (
     <GameControlsProvider>
       <ContainerStyled>

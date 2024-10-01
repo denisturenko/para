@@ -128,13 +128,23 @@ export const SettingsForm = (props: SettingsFormProps) => {
 
       <Card size="small" title={'Помощь'}>
         <Row>
-          <Col sm={{ span: 4, order: 1 }} xs={{ span: 9, order: 1 }}>
-            <Form.Item label="Круги на поле" labelCol="24" layout="vertical" name={['helper', 'isVisibleCircles']}>
+          <Col sm="6" xs="6">
+            <Form.Item label="Круги на поле" labelCol="24" layout="vertical" name={['helpers', 'isVisibleCircles']}>
               <Switch />
             </Form.Item>
           </Col>
-          <Col sm={{ span: 6, order: 2 }} xs={{ span: 15, order: 2 }}>
-            <Form.Item label="Створ и траверзы" labelCol="24" layout="vertical" name={['helper', 'isVisibleCross']}>
+          <Col sm="6" xs="6">
+            <Form.Item label="Створ и траверзы" labelCol="24" layout="vertical" name={['helpers', 'isVisibleCross']}>
+              <Switch />
+            </Form.Item>
+          </Col>
+          <Col sm="6" xs="6">
+            <Form.Item label="Тень внизу" labelCol="24" layout="vertical" name={['helpers', 'isVisibleShadow']}>
+              <Switch />
+            </Form.Item>
+          </Col>
+          <Col sm="6" xs="6">
+            <Form.Item label="Пройденый путь" labelCol="24" layout="vertical" name={['helpers', 'isVisibleTrack']}>
               <Switch />
             </Form.Item>
           </Col>

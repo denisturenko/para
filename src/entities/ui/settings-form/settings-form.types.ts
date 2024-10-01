@@ -3,7 +3,7 @@ import type {} from 'shared/lib/types/helper-settings.type';
 
 export interface SettingsFormValues {
   canopy: CanopySettings;
-  helper: HelperSettings;
+  helpers: HelperSettings;
   playerPositionHeight: number;
   winds: WindSettings[];
 }
