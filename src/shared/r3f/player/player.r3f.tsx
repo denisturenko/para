@@ -53,8 +53,9 @@ export const Player = (props: PlayerProps) => {
       playerRef.current.position.set(props.position.x, props.position.y, props.position.z);
       azimuth.current = props.azimuth || 0;
       setTrack([]);
+      setShowTrack(isVisibleTrack);
     }
-  }, [props.position, isRestart, props.azimuth]);
+  }, [props.position, isRestart, props.azimuth, isVisibleTrack]);
 
   const arrowHelperRef = useRef<ArrowHelper>(null!);
 
@@ -96,9 +97,9 @@ export const Player = (props: PlayerProps) => {
 
     // todo
     if (nextY < 0) {
-      state.camera.position.set(0, 500, 0);
+      state.camera.position.set(0, 400, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
-
+      setShowTrack(true);
       onChangePosition?.(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));
 
       return;
@@ -148,14 +149,12 @@ export const Player = (props: PlayerProps) => {
         </mesh>
       </mesh>
 
-      {isVisibleShadow && (
-        <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2}>
-          <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
-          <meshBasicMaterial attach="material" color="white" />
-        </mesh>
-      )}
+      <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2} visible={isVisibleShadow}>
+        <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
+        <meshBasicMaterial attach="material" color="white" />
+      </mesh>
 
-      {isVisibleTrack &&
+      {showTrack &&
         track.map((trackPosition, idx) => (
           <mesh key={idx} position={trackPosition} rotation-x={-Math.PI / 2}>
             <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
