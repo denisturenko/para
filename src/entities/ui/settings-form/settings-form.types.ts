@@ -1,7 +1,7 @@
-import type { WindSettings, HelperSettings, CanopySettings } from 'shared/lib/types';
-import type {} from 'shared/lib/types/helper-settings.type';
+import type { WindSettings, HelperSettings, CanopySettings, BeepSettings } from 'shared/lib/types';
 
 export interface SettingsFormValues {
+  beep?: BeepSettings;
   canopy: CanopySettings;
   helpers: HelperSettings;
   playerPositionHeight: number;

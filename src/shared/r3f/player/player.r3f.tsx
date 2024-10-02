@@ -1,15 +1,17 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
+import type { ArrowHelper } from 'three';
 import * as THREE from 'three';
-import type { WindSettings, CanopySettings, HelperSettings } from 'shared/lib/types';
+import type { BeepSettings, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
-import type { ArrowHelper } from 'three';
 import { useThrottledCallback } from 'use-debounce';
+import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
 
 export interface PlayerProps {
   angelCorrection?: number;
   azimuth?: number;
+  beep?: BeepSettings;
   canopy: CanopySettings;
   helpers: HelperSettings;
   ignoreHeadCamera?: boolean;
@@ -35,6 +37,13 @@ export const Player = (props: PlayerProps) => {
     helpers: { isVisibleShadow, isVisibleTrack },
   } = props;
 
+  const { beep } = useBeep();
+
+  const [beepThree, beepThreeReset] = useOneTimeCall(() => beep(BEEP.THREE));
+  const [beepTwo, beepTwoReset] = useOneTimeCall(() => beep(BEEP.TWO));
+  const [beepOne, beepOneReset] = useOneTimeCall(() => beep(BEEP.ONE));
+  const [beepLong, beepLongReset] = useOneTimeCall(() => beep(BEEP.LONG));
+
   const [track, setTrack] = useState<THREE.Vector3[]>([]);
   const [showTrack, setShowTrack] = useState(isVisibleTrack);
 
@@ -54,8 +63,14 @@ export const Player = (props: PlayerProps) => {
       azimuth.current = props.azimuth || 0;
       setTrack([]);
       setShowTrack(isVisibleTrack);
+
+      console.log('***', 111);
+      beepThreeReset();
+      beepTwoReset();
+      beepOneReset();
+      beepLongReset();
     }
-  }, [props.position, isRestart, props.azimuth, isVisibleTrack]);
+  }, [props.position, isRestart, props.azimuth, isVisibleTrack, beepThreeReset, beepTwoReset, beepOneReset, beepLongReset]);
 
   const arrowHelperRef = useRef<ArrowHelper>(null!);
 
@@ -95,9 +110,29 @@ export const Player = (props: PlayerProps) => {
     const nextY = playerRef.current.position.y - verticalSpeed * delta;
     // nextY = 100;
 
+    const { heightFor3, heightFor2, heightFor1, heightForLong } = props.beep;
+
+    if (heightFor3?.enable && nextY < heightFor3.value) {
+      beepThree();
+    }
+
+    if (heightFor2?.enable && nextY < heightFor2.value) {
+      beepTwo();
+    }
+
+    if (heightFor1?.enable && nextY < heightFor1.value) {
+      beepOne();
+    }
+
+    if (heightForLong?.enable && nextY < heightForLong.value) {
+      beepLong();
+    }
+
     // todo
     if (nextY < 0) {
-      state.camera.position.set(0, 400, 0);
+      const cameraY = getSpeed(leftControlValue, 200, 800);
+
+      state.camera.position.set(0, cameraY, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
       setShowTrack(true);
       onChangePosition?.(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));

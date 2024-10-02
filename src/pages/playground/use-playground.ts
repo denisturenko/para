@@ -57,6 +57,7 @@ export const usePlayground = (): UsePlaygroundResult => {
         position: state.playerPosition,
         winds: state.winds,
         helpers: state.helpers,
+        beep: state.beep,
       },
       settings: {
         isNotStarted: state.isNotStarted,
@@ -66,6 +67,7 @@ export const usePlayground = (): UsePlaygroundResult => {
           winds: state.winds,
           helpers: state.helpers,
           playerPositionHeight: state.playerPositionHeight,
+          beep: state.beep,
         },
         onRestart: onRestartHandler,
         onResume: onResumeHandler,

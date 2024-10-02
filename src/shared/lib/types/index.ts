@@ -3,3 +3,4 @@ export * from './game-settings.type';
 export * from './canopy-settings.type';
 export * from './helper-settings.type';
 export * from './player-controls.type';
+export * from './beep-settings';

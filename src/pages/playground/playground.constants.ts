@@ -16,6 +16,13 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
 
   helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true },
 
+  beep: {
+    heightFor3: { enable: true, value: 350 },
+    heightFor2: { enable: true, value: 200 },
+    heightFor1: { enable: true, value: 150 },
+    heightForLong: { enable: true, value: 110 },
+  },
+
   // Player setting
   // playerPosition: new THREE.Vector3(-300, 600, -300), // !
   // playerAzimuth: Math.PI / 2, // !

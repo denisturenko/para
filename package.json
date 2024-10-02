@@ -25,6 +25,7 @@
     "three": "^0.168.0",
     "use-changed-props": "^0.1.0",
     "use-debounce": "^10.0.3",
+    "use-sound": "^4.0.3",
     "use-throttle": "^0.0.3",
     "zustand": "^4.5.5"
   },

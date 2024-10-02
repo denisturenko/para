@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Input } from 'shared/ui/input';
+import { Switch } from 'shared/ui/switch';
 
 export const LayoutStyled = styled.div`
   display: flex;
@@ -9,6 +10,10 @@ export const LayoutStyled = styled.div`
 
 export const HeightInputStyled = styled(Input)`
   width: 80px;
+`;
+
+export const SwitchStyled = styled(Switch)`
+  width: 100px;
 `;
 
 export const ActionIconWrapperStyled = styled.div`

@@ -3,16 +3,20 @@ import { Slider } from 'shared/ui/slider/slider';
 import type { SettingsFormProps, SettingsFormValues } from './settings-form.types';
 import { getInitialValues, normalized } from './settings-form.utils';
 import { useForm } from '@mantine/form';
-import { Button, Divider, ActionIcon, Grid } from '@mantine/core';
-import { ActionIconWrapperStyled, HeightInputStyled, LayoutStyled, WindContainerStyled } from './settings-form.styled';
+import { Button, Divider, ActionIcon, Grid, Group } from '@mantine/core';
+import { ActionIconWrapperStyled, HeightInputStyled, LayoutStyled, SwitchStyled, WindContainerStyled } from './settings-form.styled';
 import { Input } from 'shared/ui/input';
 import { Card } from 'shared/ui/card';
 import { Switch } from 'shared/ui/switch';
-import { CloseOutlined } from '@ant-design/icons';
+import { AiOutlineSound } from 'react-icons/ai';
+import { BEEP, useBeep } from 'shared/lib/hooks';
+import { IoCloseSharp } from 'react-icons/io5';
 
 // todo validation
 export const SettingsForm = (props: SettingsFormProps) => {
   const { onChange } = props;
+
+  const { beep } = useBeep();
 
   const form = useForm<SettingsFormValues>({
     initialValues: getInitialValues(props),
@@ -69,7 +73,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
                   {idx !== 0 && (
                     <ActionIconWrapperStyled>
                       <ActionIcon variant="default" onClick={() => form.removeListItem('winds', idx)}>
-                        <CloseOutlined />
+                        <IoCloseSharp />
                       </ActionIcon>
                     </ActionIconWrapperStyled>
                   )}
@@ -193,6 +197,37 @@ export const SettingsForm = (props: SettingsFormProps) => {
             />
           </Grid.Col>
         </Grid>
+      </Card>
+
+      <Card title="Звуки">
+        {[
+          { type: BEEP.THREE, label: 'Три beep', key: 'heightFor3' },
+          { type: BEEP.TWO, label: 'Два beep', key: 'heightFor2' },
+          { type: BEEP.ONE, label: 'Один beep', key: 'heightFor1' },
+          { type: BEEP.LONG, label: 'Длинный beep', key: 'heightForLong' },
+        ].map(({ type, label, key }) => (
+          <Grid key={key}>
+            <Grid.Col span={1}>
+              <ActionIconWrapperStyled>
+                <ActionIcon variant="default" onClick={() => beep(type)}>
+                  <AiOutlineSound />
+                </ActionIcon>
+              </ActionIconWrapperStyled>
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <Switch
+                label={label}
+                labelPosition="left"
+                {...form.getInputProps(`beep.${key}.enable`, {
+                  type: 'checkbox',
+                })}
+              />
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <Input label="Высота" size="xs" {...form.getInputProps(`beep.${key}.value`)} />
+            </Grid.Col>
+          </Grid>
+        ))}
       </Card>
     </LayoutStyled>
   );
