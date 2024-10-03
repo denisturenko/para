@@ -190,8 +190,8 @@ export const Player = (props: PlayerProps) => {
       </mesh>
 
       {showTrack &&
-        track.map((trackPosition, idx) => (
-          <mesh key={idx} position={trackPosition} rotation-x={-Math.PI / 2}>
+        track.map(trackPosition => (
+          <mesh key={`${trackPosition.x}-${trackPosition.y}-${trackPosition.z}`} position={trackPosition} rotation-x={-Math.PI / 2}>
             <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
             <meshBasicMaterial attach="material" color="white" />
           </mesh>

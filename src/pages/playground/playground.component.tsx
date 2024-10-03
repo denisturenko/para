@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber';
 import React from 'react';
 import { Game } from 'entities/r3f/game';
 import { GameControls } from 'shared/ui/game-controls';
-import { AltitudeStyled, ContainerStyled, InfoStyled } from './playground.styled';
+import { AltitudeStyled, ContainerStyled } from './playground.styled';
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
 import { usePlayground } from 'pages/playground/use-playground';

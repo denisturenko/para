@@ -1,6 +1,5 @@
 import { SettingsIntroForm } from 'entities/ui/settings-intro-form';
 import React, { useCallback, useState, memo } from 'react';
-import { useListenChangedProps } from 'shared/lib/hooks';
 import { SettingsForm } from 'entities/ui/settings-form';
 import { Drawer } from 'shared/ui/drawer';
 import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
