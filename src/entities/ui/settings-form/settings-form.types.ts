@@ -1,10 +1,12 @@
-import type { WindSettings, HelperSettings, CanopySettings, BeepSettings } from 'shared/lib/types';
+import type { WindSettings, HelperSettings, CanopySettings, BeepSettingsType, TargetSettings } from 'shared/lib/types';
 
 export interface SettingsFormValues {
-  beep?: BeepSettings;
+  beep?: BeepSettingsType;
   canopy: CanopySettings;
+  currentTargetId: string;
   helpers: HelperSettings;
   playerPositionHeight: number;
+  targets: TargetSettings[];
   winds: WindSettings[];
 }
 

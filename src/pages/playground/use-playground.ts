@@ -5,7 +5,7 @@ import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
 import { initialState } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
-import { adjustPlayerPositionAndAzimuth } from 'pages/playground/playground.utils';
+import { adjustInitialState } from 'pages/playground/playground.utils';
 
 interface UsePlaygroundResult {
   meta: {
@@ -21,7 +21,7 @@ interface UsePlaygroundResult {
 }
 
 export const usePlayground = (): UsePlaygroundResult => {
-  const [state, setState] = useState<GameSettings>(adjustPlayerPositionAndAzimuth(initialState));
+  const [state, setState] = useState<GameSettings>(adjustInitialState(initialState));
 
   /** Game settings stuff. */
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
@@ -32,7 +32,7 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
 
-  const onSaveSettingsHandle = useCallback(values => setState(prev => adjustPlayerPositionAndAzimuth({ ...prev, ...values })), []);
+  const onSaveSettingsHandle = useCallback(values => setState(prev => adjustInitialState({ ...prev, ...values })), []);
 
   return {
     meta: {
@@ -68,6 +68,8 @@ export const usePlayground = (): UsePlaygroundResult => {
           helpers: state.helpers,
           playerPositionHeight: state.playerPositionHeight,
           beep: state.beep,
+          targets: state.targets,
+          currentTargetId: state.currentTargetId,
         },
         onRestart: onRestartHandler,
         onResume: onResumeHandler,

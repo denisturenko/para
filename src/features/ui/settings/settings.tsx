@@ -20,7 +20,7 @@ export const Settings = memo((props: SettingsProps) => {
 
   const [values, setValues] = useState(props.values);
 
-  useListenChangedProps(values, 'setting');
+  // useListenChangedProps(values, 'setting');
 
   const [isOpenSettings, setIsOpenSettings] = useState(false);
 

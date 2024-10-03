@@ -6,6 +6,7 @@ export const getInitialValues = (props: SettingsFormProps): SettingsFormValues =
   const res: SettingsFormValues = {
     ...initialValues,
     winds: initialValues.winds.map(wind => ({ ...wind, angel: Number(radToDeg(wind.angel).toFixed()) })),
+    // currentTargetId: initialValues.targets[0].id,
   };
 
   return res;

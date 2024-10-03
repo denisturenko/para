@@ -25,9 +25,9 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
   return (
     <>
       {/* <Stats /> */}
-      {/* <fog attach="fog" args={[0xcccccc, 10, 2000]} /> */}
+      {/* <fog args={[0xcc_cc_cc, 10, 2000]} attach="fog" /> */}
       {/* <PointerLockControls /> */}
-      <PerspectiveCamera ref={firstPersonCamera} makeDefault far={3500} fov={60} />
+      <PerspectiveCamera ref={firstPersonCamera} makeDefault far={7500} fov={60} />
       {withOrbitControls && (
         <OrbitControls
           camera={firstPersonCamera.current}

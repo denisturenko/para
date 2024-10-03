@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
 import type { GameSettings } from 'shared/lib/types';
 
-export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'> = {
+export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 
   isNotStarted: true,
@@ -29,6 +29,26 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   playerBodyHeight: 2,
   playerPositionHeight: 800,
 
-  targetPosition: new THREE.Vector3(-274, 0.1, -448),
+  currentTargetId: '1',
+  targets: [
+    {
+      id: '1',
+      name: 'Банер',
+      azimuth: degToRad(343),
+      length: 290,
+    },
+    {
+      id: '2',
+      name: 'Фишка',
+      azimuth: degToRad(320),
+      length: 200,
+    },
+    {
+      id: '3',
+      name: 'Спорт',
+      azimuth: degToRad(290),
+      length: 100,
+    },
+  ],
   arrowPosition: new THREE.Vector3(-190, 0.1, -170),
 };

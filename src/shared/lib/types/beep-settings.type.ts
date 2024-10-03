@@ -3,7 +3,7 @@ interface BeepItem {
   value?: number;
 }
 
-export interface BeepSettings {
+export interface BeepSettingsType {
   heightFor1?: BeepItem;
   heightFor2?: BeepItem;
   heightFor3?: BeepItem;

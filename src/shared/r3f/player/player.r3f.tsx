@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import type { ArrowHelper } from 'three';
 import * as THREE from 'three';
-import type { BeepSettings, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
+import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
@@ -11,7 +11,7 @@ import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
 export interface PlayerProps {
   angelCorrection?: number;
   azimuth?: number;
-  beep?: BeepSettings;
+  beep?: BeepSettingsType;
   canopy: CanopySettings;
   helpers: HelperSettings;
   ignoreHeadCamera?: boolean;

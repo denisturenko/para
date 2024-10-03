@@ -3,8 +3,8 @@ import { Slider } from 'shared/ui/slider/slider';
 import type { SettingsFormProps, SettingsFormValues } from './settings-form.types';
 import { getInitialValues, normalized } from './settings-form.utils';
 import { useForm } from '@mantine/form';
-import { Button, Divider, ActionIcon, Grid, Group } from '@mantine/core';
-import { ActionIconWrapperStyled, HeightInputStyled, LayoutStyled, SwitchStyled, WindContainerStyled } from './settings-form.styled';
+import { Button, Divider, ActionIcon, Grid, Group, Radio } from '@mantine/core';
+import { ActionIconWrapperStyled, HeightInputStyled, LayoutStyled, WindContainerStyled } from './settings-form.styled';
 import { Input } from 'shared/ui/input';
 import { Card } from 'shared/ui/card';
 import { Switch } from 'shared/ui/switch';
@@ -22,7 +22,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
     initialValues: getInitialValues(props),
   });
 
-  const { winds } = form.values;
+  const { winds, targets } = form.values;
 
   useEffect(() => {
     const normalizedValues = normalized(form.values);
@@ -33,22 +33,31 @@ export const SettingsForm = (props: SettingsFormProps) => {
   return (
     <LayoutStyled>
       <Card title="Основные">
-        <Grid>
-          <Grid.Col span={{ base: 12, xs: 6 }}>
-            <Slider
-              label="Высота начала пилотирования"
-              marks={[
-                { value: 0, label: '0' },
-                { value: 300, label: '300' },
-                { value: 600, label: '600' },
-                { value: 900, label: '900' },
-              ]}
-              max={900}
-              min={0}
-              {...form.getInputProps('playerPositionHeight')}
-            />
-          </Grid.Col>
-        </Grid>
+        <LayoutStyled>
+          <Grid>
+            <Grid.Col span={{ base: 12, xs: 6 }}>
+              <Slider
+                label="Высота начала пилотирования"
+                marks={[
+                  { value: 0, label: '0' },
+                  { value: 300, label: '300' },
+                  { value: 600, label: '600' },
+                  { value: 900, label: '900' },
+                ]}
+                max={900}
+                min={0}
+                {...form.getInputProps('playerPositionHeight')}
+              />
+            </Grid.Col>
+          </Grid>
+          <Radio.Group label="Зона приземления" {...form.getInputProps('currentTargetId')}>
+            <Group mt="xs">
+              {targets.map(target => (
+                <Radio key={target.id} label={target.name} value={target.id} />
+              ))}
+            </Group>
+          </Radio.Group>
+        </LayoutStyled>
       </Card>
 
       <Card title="Ветер">
