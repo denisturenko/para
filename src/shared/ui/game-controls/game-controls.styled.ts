@@ -22,5 +22,6 @@ export const ButtonWrapperStyled = styled.div`
 `;
 
 export const SettingButtonStyled = styled(ButtonWrapperStyled)`
-  right: 200px;
+  right: 100px;
+  color: black;
 `;

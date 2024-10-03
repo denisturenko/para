@@ -28,7 +28,7 @@ export const Drawer = (props: DrawerProps) => {
             withCloseButton && <DrawerBase.CloseButton />
           )}
         </DrawerBase.Header>
-        <DrawerBase.Body>{children}</DrawerBase.Body>
+        <DrawerBase.Body style={{ paddingTop: '8px' }}>{children}</DrawerBase.Body>
       </DrawerBase.Content>
     </DrawerBase.Root>
   );

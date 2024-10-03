@@ -1,4 +1,5 @@
-import { Button, Stack } from '@mantine/core';
+import { Button } from '@mantine/core';
+import { ContainerStyled } from './settings-intro-form.styled';
 
 interface SettingsIntroFormProps {
   isNotStarted: boolean;
@@ -12,15 +13,7 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
   const { onRestart, onResume, onStart, onSettings, isNotStarted } = props;
 
   return (
-    <Stack>
-      {!isNotStarted && (
-        <Button size="xs" variant="default" onClick={onRestart}>
-          Начать заново
-        </Button>
-      )}
-      <Button size="xs" variant="default" onClick={onSettings}>
-        Настройки
-      </Button>
+    <ContainerStyled>
       {isNotStarted ? (
         <Button size="xs" variant="filled" onClick={onStart}>
           Начать
@@ -30,6 +23,14 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
           Продолжить
         </Button>
       )}
-    </Stack>
+      {!isNotStarted && (
+        <Button size="xs" variant="default" onClick={onRestart}>
+          Начать заново
+        </Button>
+      )}
+      <Button size="xs" variant="default" onClick={onSettings}>
+        Настройки
+      </Button>
+    </ContainerStyled>
   );
 };

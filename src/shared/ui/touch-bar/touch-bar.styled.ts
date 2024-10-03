@@ -34,11 +34,13 @@ export const LevelStyled = styled.div<LeftRightProps>`
   width: 100%;
   background-color: blue;
   color: white;
+  padding: 0 10px;
 
   ${({ $isLeft }) =>
     $isLeft
       ? css`
           left: 0;
+          text-align: right;
         `
       : ''};
 
