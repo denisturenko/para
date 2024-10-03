@@ -207,14 +207,14 @@ export const SettingsForm = (props: SettingsFormProps) => {
           { type: BEEP.LONG, label: 'Длинный beep', key: 'heightForLong' },
         ].map(({ type, label, key }) => (
           <Grid key={key}>
-            <Grid.Col span={1}>
+            <Grid.Col span={{ base: 2, xs: 1 }}>
               <ActionIconWrapperStyled>
                 <ActionIcon variant="default" onClick={() => beep(type)}>
                   <AiOutlineSound />
                 </ActionIcon>
               </ActionIconWrapperStyled>
             </Grid.Col>
-            <Grid.Col span={2}>
+            <Grid.Col span={{ base: 4, xs: 2 }}>
               <Switch
                 label={label}
                 labelPosition="left"
@@ -223,7 +223,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
                 })}
               />
             </Grid.Col>
-            <Grid.Col span={2}>
+            <Grid.Col span={{ base: 4, xs: 2 }}>
               <Input label="Высота" size="xs" {...form.getInputProps(`beep.${key}.value`)} />
             </Grid.Col>
           </Grid>

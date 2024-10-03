@@ -20,7 +20,7 @@ export const ActionIconWrapperStyled = styled.div`
   display: flex;
   height: 100%;
   align-items: center;
-  justify-content: right;
+  justify-content: left;
 `;
 export const WindContainerStyled = styled.div`
   margin-bottom: 16px;
