@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, memo } from 'react';
+import React, { useCallback, useEffect, memo, useRef } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { useThrottledCallback } from 'use-debounce';
 import { usePlayerControls } from 'shared/lib/hooks';
@@ -19,8 +19,16 @@ export const GameControls = memo((props: GameControlsProps) => {
 
   const controls = usePlayerControls();
 
+  const leftTimer = useRef<NodeJS.Timeout | undefined>();
+  const rightTimer = useRef<NodeJS.Timeout | undefined>();
+
   const adjustLeft = useCallback(
     (multiply = 1) => {
+      clearTimeout(leftTimer.current);
+      // leftTimer.current = setTimeout(() => {
+      //   onLeftControlChange(0);
+      // }, 1000);
+
       let nextLeftControlValue = leftControlValue + multiply;
 
       if (nextLeftControlValue > 100) nextLeftControlValue = 100;
@@ -36,6 +44,11 @@ export const GameControls = memo((props: GameControlsProps) => {
 
   const adjustRight = useCallback(
     (multiply = 1) => {
+      clearTimeout(rightTimer.current);
+      // rightTimer.current = setTimeout(() => {
+      //   onRightControlChange(0);
+      // }, 1000);
+
       let nextRightControlValue = rightControlValue + multiply;
 
       if (nextRightControlValue > 100) nextRightControlValue = 100;

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { WindSettings } from 'shared/lib/types';
-import { sortBy } from 'lodash';
+import { sortBy, groupBy } from 'lodash';
+import { data } from 'shared/lib/configs/real-jump';
 
 export const getSpeed = (val: number, maxSpeed: number, minSpeed: number) => {
   const percent = 100 - val;
@@ -92,3 +93,74 @@ export const getWindByHeight = (winds: WindSettings[], height: number): WindSett
 
   return res;
 };
+
+const getCoordinateShift = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+  // Радиус Земли в метрах
+  const R = 6_378_137;
+
+  // Конвертация широты и долготы из градусов в радианы
+  const lat1Rad = (lat1 * Math.PI) / 180;
+  const lat2Rad = (lat2 * Math.PI) / 180;
+  const lon1Rad = (lon1 * Math.PI) / 180;
+  const lon2Rad = (lon2 * Math.PI) / 180;
+
+  // Вычисление разницы
+  const dLat = lat2Rad - lat1Rad;
+  const dLon = lon2Rad - lon1Rad;
+
+  // Используем формулу для расчета сдвига в метрах
+  const shiftX = R * dLat; // сдвиг по оси Y (север-юг)
+  const shiftY = R * Math.cos((lat1Rad + lat2Rad) / 2) * dLon; // сдвиг по оси X (восток-запад)
+
+  return {
+    shiftX,
+    shiftY,
+  };
+};
+
+export const calculateTrackFromCoords = () => {
+  const point0 = new THREE.Vector3(-190, 0.1, -170);
+  const center = [59.472_741_4, 30.003_436_6];
+
+  const mapped = data
+    .filter(item => item.gpsLocationValid)
+    .map(item => ({
+      ts: item.gpsTime * 1000 + item.gpsTimeCentiSec * 10,
+      lat: item.gpsLatitude / 1_000_000,
+      lon: item.gpsLongitude / 1_000_000,
+      alt: item.altitudeMeters,
+    }));
+  const sorted = sortBy(mapped, item => item.alt); /* .reverse() */
+
+ /* const grouped = {};
+
+  sorted.forEach(item => {
+    grouped[item.alt] = item;
+  });*/
+
+  /* const uniqRes = [];
+
+  Object.keys(grouped).forEach(key => {
+    uniqRes.push(grouped[key]);
+  });
+*/
+  const res = sortBy(sorted, item => item.alt).reverse();
+
+  console.log('***', res);
+
+  const track = res.map((item, idx) => {
+    if (idx === 1050) console.log('***',item)
+    if (idx === 1390) console.log('***',item)
+    // if (idx === 1580) console.log('***',item)
+
+    const { shiftX, shiftY } = getCoordinateShift(center[0], center[1], item.lat, item.lon);
+
+    return new THREE.Vector3(shiftX - 1000, item.alt - 100, shiftY - 500);
+  });
+
+  console.log('***', track);
+
+  return track;
+};
+
+// calculateTrackFromCoords();

@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import type { GameSettings } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
-import { getWindByHeight } from 'shared/r3f/player';
+import { createVector, getWindByHeight } from 'shared/r3f/player';
 import { Target } from 'shared/r3f/target';
 import { useListenChangedProps } from 'shared/lib/hooks';
 
@@ -27,13 +27,13 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
       {/* <Stats /> */}
       {/* <fog args={[0xcc_cc_cc, 10, 2000]} attach="fog" /> */}
       {/* <PointerLockControls /> */}
-      <PerspectiveCamera ref={firstPersonCamera} makeDefault far={7500} fov={60} />
+      <PerspectiveCamera ref={firstPersonCamera} far={117_500} fov={60} makeDefault={!withOrbitControls} />
       {withOrbitControls && (
         <OrbitControls
           camera={firstPersonCamera.current}
-          // target={props.arrowPosition}
           maxPolarAngle={degToRad(90)}
           minPolarAngle={degToRad(0)}
+          target={createVector(props.targetPosition, 200, Math.PI / 2, 0)}
           // target={currentPlayerPosition} пока убрал
           // minDistance={10}
           // maxDistance={20}
@@ -46,7 +46,7 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
       {/*  screenOrientation={90} */}
       {/*  deviceOrientation={{ alpha: Math.PI / 2 }} */}
       {/* /> */}
-      <Sky sunPosition={[3000, 3000, 3000]} />
+      {!withOrbitControls && <Sky sunPosition={[3000, 3000, 3000]} />}
       <ambientLight intensity={20} />
       <Ground />
       <Target arrowAngel={arrowAngel} helpers={helpers} position={props.targetPosition} />

@@ -1,9 +1,9 @@
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ArrowHelper } from 'three';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
-import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { calculateTrackFromCoords, getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
@@ -43,6 +43,8 @@ export const Player = (props: PlayerProps) => {
   const [beepTwo, beepTwoReset] = useOneTimeCall(() => beep(BEEP.TWO));
   const [beepOne, beepOneReset] = useOneTimeCall(() => beep(BEEP.ONE));
   const [beepLong, beepLongReset] = useOneTimeCall(() => beep(BEEP.LONG));
+
+  const tmpTrack = useMemo(() => calculateTrackFromCoords(), []);
 
   const [track, setTrack] = useState<THREE.Vector3[]>([]);
   const [showTrack, setShowTrack] = useState(isVisibleTrack);
@@ -174,6 +176,8 @@ export const Player = (props: PlayerProps) => {
     azimuth.current = nextAxle.angle;
   });
 
+  // console.log('***', tmpTrack);
+
   return (
     <>
       <mesh ref={playerRef} position={playerRef.current.position}>
@@ -190,10 +194,15 @@ export const Player = (props: PlayerProps) => {
       </mesh>
 
       {showTrack &&
-        track.map(trackPosition => (
-          <mesh key={`${trackPosition.x}-${trackPosition.y}-${trackPosition.z}`} position={trackPosition} rotation-x={-Math.PI / 2}>
-            <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
-            <meshBasicMaterial attach="material" color="white" />
+        tmpTrack.map((trackPosition, idx) => (
+          /* idx % 5 === 0 && */ <mesh
+            key={`${trackPosition.x}-${trackPosition.y}-${trackPosition.z}`}
+            // position={new THREE.Vector3(trackPosition.x, 0, trackPosition.z)}
+            position={trackPosition}
+            rotation-x={-Math.PI / 2}
+          >
+            <circleGeometry ref={playerShadowGeometryRef} args={[idx === 1050? 10 : 1, 32]} />
+            <meshBasicMaterial attach="material" color="orange" />
           </mesh>
         ))}
     </>
