@@ -44,8 +44,6 @@ export const Player = (props: PlayerProps) => {
   const [beepOne, beepOneReset] = useOneTimeCall(() => beep(BEEP.ONE));
   const [beepLong, beepLongReset] = useOneTimeCall(() => beep(BEEP.LONG));
 
-  const tmpTrack = useMemo(() => calculateTrackFromCoords(), []);
-
   const [track, setTrack] = useState<THREE.Vector3[]>([]);
   const [showTrack, setShowTrack] = useState(isVisibleTrack);
 
@@ -194,8 +192,8 @@ export const Player = (props: PlayerProps) => {
       </mesh>
 
       {showTrack &&
-        tmpTrack.map((trackPosition, idx) => (
-          /* idx % 5 === 0 && */ <mesh
+        track.map((trackPosition, idx) => (
+          <mesh
             key={`${trackPosition.x}-${trackPosition.y}-${trackPosition.z}`}
             // position={new THREE.Vector3(trackPosition.x, 0, trackPosition.z)}
             position={trackPosition}

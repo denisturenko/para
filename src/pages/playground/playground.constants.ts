@@ -28,7 +28,7 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   // playerPosition: new THREE.Vector3(-300, 600, -300), // !
   // playerAzimuth: Math.PI / 2, // !
   playerBodyHeight: 2,
-  playerPositionHeight: 2500,
+  playerPositionHeight: 800,
 
   currentTargetId: '1',
   targets: [

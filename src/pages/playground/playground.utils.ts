@@ -19,6 +19,5 @@ export const adjustInitialState = (
     playerPosition,
     playerAzimuth,
     targetPosition,
-    withOrbitControls: true,
   };
 };

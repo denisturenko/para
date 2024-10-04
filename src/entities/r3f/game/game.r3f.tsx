@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import type { GameSettings } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
-import { createVector, getWindByHeight } from 'shared/r3f/player';
+import { getWindByHeight } from 'shared/r3f/player';
 import { Target } from 'shared/r3f/target';
 import { useListenChangedProps } from 'shared/lib/hooks';
 
@@ -33,7 +33,7 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
           camera={firstPersonCamera.current}
           maxPolarAngle={degToRad(90)}
           minPolarAngle={degToRad(0)}
-          target={createVector(props.targetPosition, 200, Math.PI / 2, 0)}
+          // target={createVector(props.targetPosition, 200, Math.PI / 2, 0)}
           // target={currentPlayerPosition} пока убрал
           // minDistance={10}
           // maxDistance={20}

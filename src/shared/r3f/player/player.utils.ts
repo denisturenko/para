@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import type { WindSettings } from 'shared/lib/types';
-import { sortBy, groupBy } from 'lodash';
-import { data } from 'shared/lib/configs/real-jump';
+import { sortBy } from 'lodash';
 
 export const getSpeed = (val: number, maxSpeed: number, minSpeed: number) => {
   const percent = 100 - val;
@@ -119,10 +118,9 @@ const getCoordinateShift = (lat1: number, lon1: number, lat2: number, lon2: numb
 };
 
 export const calculateTrackFromCoords = () => {
-  const point0 = new THREE.Vector3(-190, 0.1, -170);
   const center = [59.472_741_4, 30.003_436_6];
 
-  const mapped = data
+  const mapped = []
     .filter(item => item.gpsLocationValid)
     .map(item => ({
       ts: item.gpsTime * 1000 + item.gpsTimeCentiSec * 10,
@@ -162,5 +160,3 @@ export const calculateTrackFromCoords = () => {
 
   return track;
 };
-
-// calculateTrackFromCoords();
