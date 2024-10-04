@@ -10,9 +10,15 @@ export enum BEEP {
   THREE = 'THREE',
 }
 
-export const useBeep = () => {
-  const [playBeep] = useSound(beepSound, { volume: 0.5 });
-  const [playBeepLong] = useSound(beepLongSound, { volume: 0.3 });
+interface UseBeepParams {
+  volume?: number; // 0-100
+}
+
+export const useBeep = (param: UseBeepParams) => {
+  const { volume = 50 } = param;
+
+  const [playBeep] = useSound(beepSound, { volume: (volume * 0.5) / 100 });
+  const [playBeepLong] = useSound(beepLongSound, { volume: (volume * 0.3) / 100 });
 
   const beepWithDelay = useCallback(
     (cb?: () => void) => {

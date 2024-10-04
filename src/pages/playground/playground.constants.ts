@@ -17,6 +17,7 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true },
 
   beep: {
+    volume: 10,
     heightFor3: { enable: true, value: 350 },
     heightFor2: { enable: true, value: 200 },
     heightFor1: { enable: true, value: 150 },

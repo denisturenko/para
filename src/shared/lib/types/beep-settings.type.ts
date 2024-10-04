@@ -8,4 +8,5 @@ export interface BeepSettingsType {
   heightFor2?: BeepItem;
   heightFor3?: BeepItem;
   heightForLong?: BeepItem;
+  volume?: number;
 }

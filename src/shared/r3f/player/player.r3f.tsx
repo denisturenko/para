@@ -37,7 +37,7 @@ export const Player = (props: PlayerProps) => {
     helpers: { isVisibleShadow, isVisibleTrack },
   } = props;
 
-  const { beep } = useBeep();
+  const { beep } = useBeep({ volume: props.beep?.volume });
 
   const [beepThree, beepThreeReset] = useOneTimeCall(() => beep(BEEP.THREE));
   const [beepTwo, beepTwoReset] = useOneTimeCall(() => beep(BEEP.TWO));

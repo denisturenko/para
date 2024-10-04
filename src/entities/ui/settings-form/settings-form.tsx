@@ -16,13 +16,19 @@ import { IoCloseSharp } from 'react-icons/io5';
 export const SettingsForm = (props: SettingsFormProps) => {
   const { onChange } = props;
 
-  const { beep } = useBeep();
-
   const form = useForm<SettingsFormValues>({
     initialValues: getInitialValues(props),
   });
 
-  const { winds, targets } = form.values;
+  const {
+    winds,
+    targets,
+    beep: { volume },
+  } = form.values;
+
+  const { beep } = useBeep({
+    volume,
+  });
 
   useEffect(() => {
     const normalizedValues = normalized(form.values);
@@ -208,7 +214,20 @@ export const SettingsForm = (props: SettingsFormProps) => {
         </Grid>
       </Card>
 
-      <Card title="Звуки">
+      <Card title="Пищалка">
+        <Slider
+          label="Громкость"
+          marks={[
+            { value: 0, label: '0' },
+            { value: 25, label: '25' },
+            { value: 50, label: '50' },
+            { value: 75, label: '75' },
+            { value: 100, label: '100' },
+          ]}
+          max={100}
+          min={0}
+          {...form.getInputProps('beep.volume')}
+        />
         {[
           { type: BEEP.THREE, label: 'Три beep', key: 'heightFor3' },
           { type: BEEP.TWO, label: 'Два beep', key: 'heightFor2' },
