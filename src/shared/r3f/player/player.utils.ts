@@ -130,11 +130,11 @@ export const calculateTrackFromCoords = () => {
     }));
   const sorted = sortBy(mapped, item => item.alt); /* .reverse() */
 
- /* const grouped = {};
+  /* const grouped = {};
 
   sorted.forEach(item => {
     grouped[item.alt] = item;
-  });*/
+  }); */
 
   /* const uniqRes = [];
 
@@ -147,9 +147,11 @@ export const calculateTrackFromCoords = () => {
   console.log('***', res);
 
   const track = res.map((item, idx) => {
-    if (idx === 1050) console.log('***',item)
-    if (idx === 1390) console.log('***',item)
-    // if (idx === 1580) console.log('***',item)
+    // if (idx === 1050) console.log('***', item);
+
+    if (idx === 1390) console.log('***', item);
+
+    if (idx === 1580) console.log('***', item);
 
     const { shiftX, shiftY } = getCoordinateShift(center[0], center[1], item.lat, item.lon);
 
@@ -160,3 +162,5 @@ export const calculateTrackFromCoords = () => {
 
   return track;
 };
+
+calculateTrackFromCoords();
