@@ -3,10 +3,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ArrowHelper } from 'three';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
-import { calculateTrackFromCoords, getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
+import { Skydiver2 } from 'shared/r3f/skydiver';
+import { degToRad } from 'three/src/math/MathUtils';
 
 export interface PlayerProps {
   angelCorrection?: number;
@@ -154,7 +156,7 @@ export const Player = (props: PlayerProps) => {
 
     if (!ignoreHeadCamera) {
       playerRef.current.attach(state.camera as THREE.Camera);
-      state.camera.position.set(0, playerBodyHeight, 0.4);
+      state.camera.position.set(0, playerBodyHeight + 1.4, 0.1);
       state.camera.rotation.set(cameraTheta, Math.PI, 0);
     }
 
@@ -179,10 +181,11 @@ export const Player = (props: PlayerProps) => {
   return (
     <>
       <mesh ref={playerRef} position={playerRef.current.position}>
-        <mesh position={[0, playerBodyHeight / 2, 0]}>
-          <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
-          <meshBasicMaterial attach="material" color="#595856" />
-          {showArrowHelper && <arrowHelper ref={arrowHelperRef} args={[undefined, undefined, 0.4]} />}
+        <mesh position={[0, playerBodyHeight / 2, 0]} rotation-x={degToRad(-5)}>
+          <Skydiver2 />
+          {/* <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
+          <meshBasicMaterial attach="material" color="#595856" /> */}
+          {/* {showArrowHelper && <arrowHelper ref={arrowHelperRef} args={[undefined, undefined, 0.4]} />} */}
         </mesh>
       </mesh>
 
@@ -192,14 +195,14 @@ export const Player = (props: PlayerProps) => {
       </mesh>
 
       {showTrack &&
-        track.map((trackPosition, idx) => (
+        track.map(trackPosition => (
           <mesh
             key={`${trackPosition.x}-${trackPosition.y}-${trackPosition.z}`}
             // position={new THREE.Vector3(trackPosition.x, 0, trackPosition.z)}
             position={trackPosition}
             rotation-x={-Math.PI / 2}
           >
-            <circleGeometry ref={playerShadowGeometryRef} args={[idx === 1050? 10 : 1, 32]} />
+            <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
             <meshBasicMaterial attach="material" color="orange" />
           </mesh>
         ))}

@@ -6,6 +6,17 @@ export const ContainerStyled = styled.div`
   height: 100%;
 `;
 
+export const LoaderWrapperStyled = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const BlockStyled = styled.div`
   position: absolute;
   width: 80px;

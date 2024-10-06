@@ -2,11 +2,12 @@ import { Canvas } from '@react-three/fiber';
 import React from 'react';
 import { Game } from 'entities/r3f/game';
 import { GameControls } from 'shared/ui/game-controls';
-import { AltitudeStyled, ContainerStyled } from './playground.styled';
+import { AltitudeStyled, ContainerStyled, LoaderWrapperStyled } from './playground.styled';
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
 import { usePlayground } from 'pages/playground/use-playground';
 import { Player } from 'shared/r3f/player';
+import loadingImg from 'shared/assets/loading.gif';
 
 export const Playground = () => {
   const {
@@ -18,15 +19,22 @@ export const Playground = () => {
     <GameControlsProvider>
       <ContainerStyled>
         {!isNotStarted && (
-          <Canvas>
-            <Game {...game}>
-              <Player {...player} />
-            </Game>
-          </Canvas>
+          <>
+            {!game.isReady && (
+              <LoaderWrapperStyled>
+                <img alt="" src={loadingImg} />
+              </LoaderWrapperStyled>
+            )}
+            <Canvas>
+              <Game {...game}>
+                <Player {...player} />
+              </Game>
+            </Canvas>
+          </>
         )}
       </ContainerStyled>
 
-      {!withOrbitControls && (
+      {!withOrbitControls && game.isReady && (
         <>
           <AltitudeStyled id="altitude" />
           {/* <InfoStyled id="info" /> */}

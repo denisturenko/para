@@ -17,10 +17,10 @@ export const Drawer = (props: DrawerProps) => {
 
           {onSubmit ? (
             <Group gap="lg">
-              <Button size="xs" variant="default" onClick={props.onClose}>
+              <Button size="md" variant="default" onClick={props.onClose}>
                 Отмена
               </Button>
-              <Button size="xs" variant="filled" onClick={onSubmit}>
+              <Button size="md" variant="filled" onClick={onSubmit}>
                 Сохранить
               </Button>
             </Group>

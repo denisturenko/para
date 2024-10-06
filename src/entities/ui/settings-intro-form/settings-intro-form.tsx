@@ -15,20 +15,20 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
   return (
     <ContainerStyled>
       {isNotStarted ? (
-        <Button size="xs" variant="filled" onClick={onStart}>
+        <Button size="md" variant="filled" onClick={onStart}>
           Начать
         </Button>
       ) : (
-        <Button size="xs" variant="filled" onClick={onResume}>
+        <Button size="md" variant="filled" onClick={onResume}>
           Продолжить
         </Button>
       )}
       {!isNotStarted && (
-        <Button size="xs" variant="default" onClick={onRestart}>
+        <Button size="md" variant="default" onClick={onRestart}>
           Начать заново
         </Button>
       )}
-      <Button size="xs" variant="default" onClick={onSettings}>
+      <Button size="md" variant="default" onClick={onSettings}>
         Настройки
       </Button>
     </ContainerStyled>

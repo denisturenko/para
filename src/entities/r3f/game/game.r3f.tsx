@@ -1,6 +1,6 @@
 import { Sky, PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import type { PropsWithChildren } from 'react';
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import type { GameSettings } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
@@ -12,22 +12,37 @@ import { useListenChangedProps } from 'shared/lib/hooks';
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
 
-export type GameProps = GameSettings;
+export interface GameProps extends GameSettings {
+  onReady(): void;
+}
 
 export const Game = memo((props: PropsWithChildren<GameProps>) => {
   const windAngel = getWindByHeight(props.winds, 0)?.angel || 0;
 
   useListenChangedProps(props, 'game-r3f');
 
-  const { withOrbitControls, angelCorrection = 0, arrowAngel = angelCorrection - windAngel, arrowPosition, helpers, children } = props;
+  const {
+    onReady,
+    withOrbitControls,
+    angelCorrection = 0,
+    arrowAngel = angelCorrection - windAngel,
+    arrowPosition,
+    helpers,
+    children,
+  } = props;
   const firstPersonCamera = useRef();
+
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
 
   return (
     <>
       {/* <Stats /> */}
-      {/* <fog args={[0xcc_cc_cc, 10, 2000]} attach="fog" /> */}
+      {/* <fog args={[0xcc_cc_cc, 10, 1000]} attach="fog" /> */}
       {/* <PointerLockControls /> */}
-      <PerspectiveCamera ref={firstPersonCamera} far={117_500} fov={60} makeDefault={!withOrbitControls} />
+      <Sky azimuth={0.25} distance={4000} inclination={0} sunPosition={[3000, 3000, 3000]} {...props} />
+      <PerspectiveCamera ref={firstPersonCamera} far={3500} fov={60} makeDefault={!withOrbitControls} />
       {withOrbitControls && (
         <OrbitControls
           camera={firstPersonCamera.current}
@@ -46,7 +61,6 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
       {/*  screenOrientation={90} */}
       {/*  deviceOrientation={{ alpha: Math.PI / 2 }} */}
       {/* /> */}
-      {!withOrbitControls && <Sky sunPosition={[3000, 3000, 3000]} />}
       <ambientLight intensity={20} />
       <Ground />
       <Target arrowAngel={arrowAngel} helpers={helpers} position={props.targetPosition} />

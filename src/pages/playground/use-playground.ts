@@ -34,6 +34,8 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onSaveSettingsHandle = useCallback(values => setState(prev => adjustInitialState({ ...prev, ...values })), []);
 
+  const onReadyHandler = useCallback(() => setState(prev => ({ ...prev, isReady: true })), []);
+
   return {
     meta: {
       isNotStarted: state.isNotStarted,
@@ -42,6 +44,7 @@ export const usePlayground = (): UsePlaygroundResult => {
     ui: {
       game: {
         ...state,
+        onReady: onReadyHandler,
       },
       gameControls: {
         onSettings: onSettingsIntroHandler,

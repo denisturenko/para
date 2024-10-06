@@ -17,6 +17,7 @@ export interface GameSettings {
   helpers: HelperSettings;
   isNotStarted: boolean;
   isPaused: boolean;
+  isReady: boolean;
 
   isRestart: boolean;
   playerAzimuth: number;
