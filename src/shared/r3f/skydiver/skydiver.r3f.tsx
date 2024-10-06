@@ -16,6 +16,7 @@ export const Skydiver = props => {
     <group {...props} dispose={null}>
       <group scale={0.01}>
         <group rotation={[-Math.PI / 2, 0, 0]}>
+          {/* eslint-disable-next-line no-underscore-dangle */}
           <primitive object={nodes._rootJoint} />
           <skinnedMesh geometry={nodes.Object_7.geometry} material={materials.peopleColors} skeleton={nodes.Object_7.skeleton} />
         </group>
