@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-export const useOneTimeCall = cb => {
+export const useOneTimeCall = (cb: () => void) => {
   const [flg, setFlg] = useState(false);
 
   const call = useCallback(() => {

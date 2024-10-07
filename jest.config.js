@@ -3,6 +3,7 @@ process.env.TZ = 'UTC';
 // Add any custom config to be passed to Jest
 /** @type {import('jest').Config} */
 const config = {
+  preset: 'ts-jest',
   // verbose: true,
   // clearMocks: true,
   // Add more setup options before each test is run
@@ -29,14 +30,13 @@ const config = {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
 
     // Handle CSS imports (without CSS modules)
-    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+    // '^.+\\.(css|sass|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
+    '(.*)\\.(css|sass|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
 
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
-    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$/i': '<rootDir>/__mocks__/fileMock.js',
-
-    // Handle sound imports
-    '^.+\\.(wav)$/i': '<rootDir>/__mocks__/sound-mock.js',
+    // '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$/i': '<rootDir>/src/__mocks__/fileMock.js',
+    '(.*)\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$': '<rootDir>/src/__mocks__/fileMock.js',
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   transform: {

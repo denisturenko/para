@@ -35,8 +35,32 @@ export const prepareForStorage = (initialState: InitialState): GameSettingsBase 
   winds: initialState.winds,
 });
 
-export const isSettingsStoreValid = (initialState: Record<string, unknown>, settingsStore: Record<string, unknown>): boolean => {
-  console.log('***', initialState, settingsStore);
+type Arg = Record<string, unknown>;
+
+export const isSettingsStoreValid = (obj1: Arg, obj2: Arg): boolean => {
+  // Проверка на равенство ссылок
+  if (typeof obj1 !== 'object' && typeof obj2 !== 'object' && typeof obj1 === typeof obj2) return true;
+
+  // Проверка на типы
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+    return false;
+  }
+
+  // Получаем ключи объектов
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  // Сравнение количества ключей
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  // Рекурсивное сравнение ключей и значений
+  for (const key of keys1) {
+    if (!keys2.includes(key) || !isSettingsStoreValid(obj1[key] as Arg, obj2[key] as Arg)) {
+      return false;
+    }
+  }
 
   return true;
 };

@@ -1,6 +1,6 @@
 import useSound from 'use-sound';
-import beepSound from 'shared/assets/sounds/beep05s.wav';
 import beepLongSound from 'shared/assets/sounds/beep-long.wav';
+import beepSound from 'shared/assets/sounds/beep05s.wav';
 import { useCallback } from 'react';
 
 export enum BEEP {

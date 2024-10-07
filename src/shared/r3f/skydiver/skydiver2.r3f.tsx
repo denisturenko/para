@@ -5,22 +5,25 @@ License: SKETCHFAB Standard (https://sketchfab.com/licenses)
 Source: https://sketchfab.com/3d-models/learning-suit-low-poly-4350bfaa1d1e445e89049dbc2ca9b732
 Title: Learning suit Low poly
 */
+import type * as THREE from 'three';
 
-import React, { useEffect, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 
-export const Skydiver2 = props => {
+interface Obj {
+  geometry: THREE.BoxGeometry;
+  skeleton: THREE.Skeleton;
+}
+
+export const Skydiver2 = () => {
   const { nodes, materials } = useGLTF('/models/player2.glb');
 
-  const ref = useRef();
-
   return (
-    <group ref={ref} {...props} dispose={null}>
+    <group dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
-        <mesh castShadow receiveShadow geometry={nodes.Object_2.geometry} material={materials.MatCamisa} />
-        <mesh castShadow receiveShadow geometry={nodes.Object_3.geometry} material={materials.MatPantalon} />
-        <mesh castShadow receiveShadow geometry={nodes.Object_4.geometry} material={materials.MatZapatos} />
-        <mesh castShadow receiveShadow geometry={nodes.Object_5.geometry} material={materials.MatTirante} />
+        <mesh castShadow receiveShadow geometry={(nodes.Object_2 as unknown as Obj).geometry} material={materials.MatCamisa} />
+        <mesh castShadow receiveShadow geometry={(nodes.Object_3 as unknown as Obj).geometry} material={materials.MatPantalon} />
+        <mesh castShadow receiveShadow geometry={(nodes.Object_4 as unknown as Obj).geometry} material={materials.MatZapatos} />
+        <mesh castShadow receiveShadow geometry={(nodes.Object_5 as unknown as Obj).geometry} material={materials.MatTirante} />
       </group>
     </group>
   );

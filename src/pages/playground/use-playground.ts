@@ -5,7 +5,7 @@ import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
 import { initialState, storageKey } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
-import { adjustInitialState, prepareForStorage } from 'pages/playground/playground.utils';
+import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pages/playground/playground.utils';
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
 
 interface UsePlaygroundResult {
@@ -26,7 +26,17 @@ export const usePlayground = (): UsePlaygroundResult => {
   /** State stuff. */
   const storageInst = useMemo(() => settingsStorage<GameSettingsBase>(storageKey), []);
 
-  const initialStateFromStorage = useMemo(() => storageInst.get(prepareForStorage(initialState)), [storageInst]);
+  const initialStateFromStorage = useMemo(() => {
+    const prepared = prepareForStorage(initialState);
+    const fromStore = storageInst.get(prepared);
+    const isValid = isSettingsStoreValid(fromStore, prepared);
+
+    if (!isValid) {
+      storageInst.reset();
+    }
+
+    return isValid ? fromStore : prepared;
+  }, [storageInst]);
 
   const getInitialStateFromStorage = useCallback(
     () =>
