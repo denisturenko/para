@@ -8,6 +8,7 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   isNotStarted: true,
   isPaused: true,
   isRestart: false,
+  isFinish: false,
   withOrbitControls: false,
 
   winds: [{ minHeight: 0, angel: degToRad(345), speed: 2, hasGusts: false }],

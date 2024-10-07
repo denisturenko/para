@@ -9,6 +9,7 @@ import { adjustInitialState } from 'pages/playground/playground.utils';
 
 interface UsePlaygroundResult {
   meta: {
+    isFinish: boolean;
     isNotStarted: boolean;
     withOrbitControls: boolean;
   };
@@ -26,11 +27,16 @@ export const usePlayground = (): UsePlaygroundResult => {
   /** Game settings stuff. */
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 
-  const onRestartHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false, isRestart: true })), []);
+  const onRestartHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false })), []);
 
-  const onStartHandler = useCallback(() => setState(prev => ({ ...prev, isNotStarted: false, isPaused: false, isRestart: true })), []);
+  const onStartHandler = useCallback(
+    () => setState(prev => ({ ...prev, isNotStarted: false, isPaused: false, isFinish: false, isRestart: true })),
+    []
+  );
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
+
+  const onFinishHandler = useCallback(() => setState(prev => ({ ...prev, isFinish: true })), []);
 
   const onSaveSettingsHandle = useCallback(values => setState(prev => adjustInitialState({ ...prev, ...values })), []);
 
@@ -38,6 +44,7 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   return {
     meta: {
+      isFinish: state.isFinish,
       isNotStarted: state.isNotStarted,
       withOrbitControls: state.withOrbitControls,
     },
@@ -62,6 +69,7 @@ export const usePlayground = (): UsePlaygroundResult => {
         winds: state.winds,
         helpers: state.helpers,
         beep: state.beep,
+        onFinish: onFinishHandler,
       },
       settings: {
         isNotStarted: state.isNotStarted,

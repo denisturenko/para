@@ -15,6 +15,7 @@ export interface GameSettings {
   currentTargetId: string;
 
   helpers: HelperSettings;
+  isFinish: boolean;
   isNotStarted: boolean;
   isPaused: boolean;
   isReady: boolean;

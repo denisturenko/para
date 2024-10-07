@@ -3,6 +3,7 @@ import React, { useCallback, useState, memo } from 'react';
 import { SettingsForm } from 'entities/ui/settings-form';
 import { Drawer } from 'shared/ui/drawer';
 import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
+import { projectName } from 'shared/lib/configs';
 
 export interface SettingsProps {
   isNotStarted: boolean;
@@ -41,7 +42,7 @@ export const Settings = memo((props: SettingsProps) => {
   }, [closeSettingsHandler, onSaveSettings, values]);
 
   return (
-    <Drawer opened={isOpen} position="right" size="md" title="P-AFFv1.0" withCloseButton={!isNotStarted} onClose={onCloseHandler}>
+    <Drawer opened={isOpen} position="right" size="md" title={projectName} withCloseButton={!isNotStarted} onClose={onCloseHandler}>
       <SettingsIntroForm
         isNotStarted={isNotStarted}
         onRestart={onRestart}

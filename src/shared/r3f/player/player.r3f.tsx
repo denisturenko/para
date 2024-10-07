@@ -20,6 +20,7 @@ export interface PlayerProps {
   isPaused: boolean;
   isRestart: boolean;
   onChangePosition?(position: THREE.Vector3): void;
+  onFinish?(): void;
   playerBodyHeight: number;
   position: THREE.Vector3;
   winds: WindSettings[];
@@ -37,6 +38,7 @@ export const Player = (props: PlayerProps) => {
     isRestart,
     angelCorrection = 0,
     helpers: { isVisibleShadow, isVisibleTrack },
+    onFinish,
   } = props;
 
   const { beep } = useBeep({ volume: props.beep?.volume });
@@ -45,6 +47,7 @@ export const Player = (props: PlayerProps) => {
   const [beepTwo, beepTwoReset] = useOneTimeCall(() => beep(BEEP.TWO));
   const [beepOne, beepOneReset] = useOneTimeCall(() => beep(BEEP.ONE));
   const [beepLong, beepLongReset] = useOneTimeCall(() => beep(BEEP.LONG));
+  const [onFinishHandler, onFinishHandlerReset] = useOneTimeCall(() => onFinish?.());
 
   const [track, setTrack] = useState<THREE.Vector3[]>([]);
   const [showTrack, setShowTrack] = useState(isVisibleTrack);
@@ -66,13 +69,23 @@ export const Player = (props: PlayerProps) => {
       setTrack([]);
       setShowTrack(isVisibleTrack);
 
-      console.log('***', 111);
       beepThreeReset();
       beepTwoReset();
       beepOneReset();
       beepLongReset();
+      onFinishHandlerReset();
     }
-  }, [props.position, isRestart, props.azimuth, isVisibleTrack, beepThreeReset, beepTwoReset, beepOneReset, beepLongReset]);
+  }, [
+    props.position,
+    isRestart,
+    props.azimuth,
+    isVisibleTrack,
+    beepThreeReset,
+    beepTwoReset,
+    beepOneReset,
+    beepLongReset,
+    onFinishHandlerReset,
+  ]);
 
   const arrowHelperRef = useRef<ArrowHelper>(null!);
 
@@ -132,9 +145,10 @@ export const Player = (props: PlayerProps) => {
 
     // todo
     if (nextY < 0) {
-      const cameraY = getSpeed(leftControlValue, 200, 800);
+      onFinishHandler();
+      // const cameraY = getSpeed(leftControlValue, 200, 800);
 
-      state.camera.position.set(0, cameraY, 0);
+      state.camera.position.set(0, 400, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
       setShowTrack(true);
       onChangePosition?.(new THREE.Vector3(playerRef.current.position.x, 0, playerRef.current.position.z));
@@ -190,7 +204,7 @@ export const Player = (props: PlayerProps) => {
       </mesh>
 
       <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2} visible={isVisibleShadow}>
-        <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
+        <circleGeometry ref={playerShadowGeometryRef} args={[0.5, 32]} />
         <meshBasicMaterial attach="material" color="white" />
       </mesh>
 
@@ -203,7 +217,7 @@ export const Player = (props: PlayerProps) => {
             rotation-x={-Math.PI / 2}
           >
             <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
-            <meshBasicMaterial attach="material" color="orange" />
+            <meshBasicMaterial attach="material" color="white" />
           </mesh>
         ))}
     </>

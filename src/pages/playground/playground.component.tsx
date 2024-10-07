@@ -1,13 +1,15 @@
 import { Canvas } from '@react-three/fiber';
 import React from 'react';
 import { Game } from 'entities/r3f/game';
+import ReactLoading from 'react-loading';
 import { GameControls } from 'shared/ui/game-controls';
-import { AltitudeStyled, ContainerStyled, LoaderWrapperStyled } from './playground.styled';
+import { AltitudeStyled, ContainerStyled, LoaderWrapperStyled, LogoImgStyled } from './playground.styled';
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
 import { usePlayground } from 'pages/playground/use-playground';
 import { Player } from 'shared/r3f/player';
-import loadingImg from 'shared/assets/loading.gif';
+import logoImg from 'shared/assets/logo.png';
+import { projectName } from 'shared/lib/configs';
 
 export const Playground = () => {
   const {
@@ -22,7 +24,9 @@ export const Playground = () => {
           <>
             {!game.isReady && (
               <LoaderWrapperStyled>
-                <img alt="" src={loadingImg} />
+                <LogoImgStyled alt="Prizemlenie-AFF" height="100" src={logoImg} />
+                {projectName}
+                <ReactLoading color="white" height={20} type="bubbles" width={100} />
               </LoaderWrapperStyled>
             )}
             <Canvas>

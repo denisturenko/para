@@ -15,6 +15,13 @@ export const LoaderWrapperStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+`;
+
+export const LogoImgStyled = styled.img`
+  //position: absolute;
+  //left: 0;
+  //top: 0;
 `;
 
 const BlockStyled = styled.div`
