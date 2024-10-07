@@ -13,4 +13,5 @@ export interface SettingsFormValues {
 export interface SettingsFormProps {
   initialValues: SettingsFormValues;
   onChange?(values: SettingsFormValues): void;
+  onReset?(): void;
 }

@@ -14,7 +14,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 
 // todo validation
 export const SettingsForm = (props: SettingsFormProps) => {
-  const { onChange } = props;
+  const { onChange, onReset } = props;
 
   const form = useForm<SettingsFormValues>({
     initialValues: getInitialValues(props),
@@ -268,6 +268,12 @@ export const SettingsForm = (props: SettingsFormProps) => {
           </Grid>
         ))}
       </Card>
+
+      <br />
+      <br />
+      <Button size="md" variant="default" onClick={onReset}>
+        Сбросить настройки
+      </Button>
     </LayoutStyled>
   );
 };

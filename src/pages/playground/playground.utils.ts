@@ -1,11 +1,10 @@
 import { createVector, getWindByHeight } from 'shared/r3f/player';
-import type { GameSettings } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 
-export const adjustInitialState = (
-  initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'>,
-  distance: number = 400
-): GameSettings => {
-  const currentTarget = initialState.targets.find(target => target.id === initialState.currentTargetId);
+type InitialState = Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'>;
+
+export const adjustInitialState = (initialState: InitialState, distance: number = 400): GameSettings => {
+  const currentTarget = initialState.targets.find(target => target.id === initialState.currentTargetId) || initialState.targets[0];
 
   const targetPosition = createVector(initialState.arrowPosition, currentTarget.length, -1 * currentTarget.azimuth, 0);
 
@@ -21,3 +20,12 @@ export const adjustInitialState = (
     targetPosition,
   };
 };
+
+export const prepareForStorage = (initialState: InitialState): GameSettingsBase => ({
+  beep: initialState.beep,
+  canopy: initialState.canopy,
+  currentTargetId: initialState.currentTargetId,
+  helpers: initialState.helpers,
+  playerPositionHeight: initialState.playerPositionHeight,
+  winds: initialState.winds,
+});

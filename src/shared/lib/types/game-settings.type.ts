@@ -5,17 +5,22 @@ import type { HelperSettings } from './helper-settings.type';
 import type { BeepSettingsType } from './beep-settings.type';
 import type { TargetSettings } from './target-settings.type';
 
-export interface GameSettings {
-  angelCorrection?: number;
-  arrowAngel?: number;
-  arrowPosition: THREE.Vector3;
-
+export interface GameSettingsBase {
   beep?: BeepSettingsType;
   canopy: CanopySettings;
   currentTargetId: string;
 
   helpers: HelperSettings;
+  playerPositionHeight: number;
+  winds: WindSettings[];
+}
+
+export interface GameSettings extends GameSettingsBase {
+  angelCorrection?: number;
+  arrowAngel?: number;
+  arrowPosition: THREE.Vector3;
   isFinish: boolean;
+
   isNotStarted: boolean;
   isPaused: boolean;
   isReady: boolean;
@@ -25,10 +30,8 @@ export interface GameSettings {
   playerBodyHeight: number;
 
   playerPosition: THREE.Vector3;
-  playerPositionHeight: number;
   targetPosition: THREE.Vector3;
   targets: TargetSettings[];
-  winds: WindSettings[];
 
   withOrbitControls: boolean;
 }

@@ -1,1 +1,1 @@
-export const projectName = 'Prizemlenie-AFFv1.0';
+export const projectName = 'P-AFF v1.0';

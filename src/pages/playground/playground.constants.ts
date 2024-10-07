@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
 import type { GameSettings } from 'shared/lib/types';
 
+export const storageKey = 'gameSettings';
+
 export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 
@@ -13,7 +15,7 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
 
   winds: [{ minHeight: 0, angel: degToRad(345), speed: 2, hasGusts: false }],
 
-  canopy: { verticalSpeed: 7, maxSpeed: 13, minSpeed: 3, inertiaFactor: 1 },
+  canopy: { verticalSpeed: 5, maxSpeed: 10, minSpeed: 1, inertiaFactor: 3 },
 
   helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true, allowToggleReleasing: false },
 

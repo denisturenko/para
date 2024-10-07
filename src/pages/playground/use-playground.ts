@@ -1,11 +1,12 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { GameProps } from 'entities/r3f/game';
-import type { GameSettings } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
-import { initialState } from './playground.constants';
+import { initialState, storageKey } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
-import { adjustInitialState } from 'pages/playground/playground.utils';
+import { adjustInitialState, prepareForStorage } from 'pages/playground/playground.utils';
+import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
 
 interface UsePlaygroundResult {
   meta: {
@@ -22,7 +23,19 @@ interface UsePlaygroundResult {
 }
 
 export const usePlayground = (): UsePlaygroundResult => {
-  const [state, setState] = useState<GameSettings>(adjustInitialState(initialState));
+  /** State stuff. */
+  const storageInst = useMemo(() => settingsStorage<GameSettingsBase>(storageKey), []);
+
+  const getInitialStateFromStorage = useCallback(
+    () =>
+      adjustInitialState({
+        ...initialState,
+        ...storageInst.get(prepareForStorage(initialState)),
+      }),
+    [storageInst]
+  );
+
+  const [state, setState] = useState<GameSettings>(getInitialStateFromStorage);
 
   /** Game settings stuff. */
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
@@ -38,7 +51,27 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onFinishHandler = useCallback(() => setState(prev => ({ ...prev, isFinish: true })), []);
 
-  const onSaveSettingsHandle = useCallback(values => setState(prev => adjustInitialState({ ...prev, ...values })), []);
+  const onSaveSettingsHandle = useCallback(
+    values =>
+      setState(prev => {
+        const next = adjustInitialState({ ...prev, ...values });
+
+        storageInst.set(prepareForStorage(next));
+
+        return next;
+      }),
+    [storageInst]
+  );
+
+  const onResetSettingsHandle = useCallback(
+    () =>
+      setState(() => {
+        storageInst.reset();
+
+        return getInitialStateFromStorage();
+      }),
+    [getInitialStateFromStorage, storageInst]
+  );
 
   const onReadyHandler = useCallback(() => setState(prev => ({ ...prev, isReady: true })), []);
 
@@ -87,6 +120,7 @@ export const usePlayground = (): UsePlaygroundResult => {
         onResume: onResumeHandler,
         onSaveSettings: onSaveSettingsHandle,
         onStart: onStartHandler,
+        onResetSettings: onResetSettingsHandle,
       },
     },
   };

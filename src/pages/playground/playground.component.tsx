@@ -24,7 +24,7 @@ export const Playground = () => {
           <>
             {!game.isReady && (
               <LoaderWrapperStyled>
-                <LogoImgStyled alt="Prizemlenie-AFF" height="100" src={logoImg} />
+                <LogoImgStyled alt={projectName} height="100" src={logoImg} />
                 {projectName}
                 <ReactLoading color="white" height={20} type="bubbles" width={100} />
               </LoaderWrapperStyled>
