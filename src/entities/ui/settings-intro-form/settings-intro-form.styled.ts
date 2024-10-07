@@ -4,6 +4,7 @@ export const ContainerStyled = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding-top: 16px;
 `;
 
 export const IconWrapperStyled = styled.div`

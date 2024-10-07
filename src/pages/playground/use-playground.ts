@@ -49,6 +49,8 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const [state, setState] = useState<GameSettings>(getInitialStateFromStorage);
 
+  console.log('***', state);
+
   /** Game settings stuff. */
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 

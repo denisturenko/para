@@ -11,6 +11,7 @@ import { Switch } from 'shared/ui/switch';
 import { AiOutlineSound } from 'react-icons/ai';
 import { BEEP, useBeep } from 'shared/lib/hooks';
 import { IoCloseSharp } from 'react-icons/io5';
+import { NumberInput } from 'shared/ui/number-input';
 
 // todo validation
 export const SettingsForm = (props: SettingsFormProps) => {
@@ -147,13 +148,13 @@ export const SettingsForm = (props: SettingsFormProps) => {
       <Card title="Характеристики купола">
         <Grid>
           <Grid.Col span={{ base: 6, xs: 4 }}>
-            <Input label="Макс. горизонтальная" {...form.getInputProps('canopy.maxSpeed')} />
+            <NumberInput label="Макс. горизонтальная" {...form.getInputProps('canopy.maxSpeed')} />
           </Grid.Col>
           <Grid.Col span={{ base: 6, xs: 4 }}>
-            <Input label="Мин. горизонтальная" {...form.getInputProps('canopy.minSpeed')} />
+            <NumberInput label="Мин. горизонтальная" {...form.getInputProps('canopy.minSpeed')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, xs: 4 }}>
-            <Input label="Верт. скорость" {...form.getInputProps('canopy.verticalSpeed')} />
+            <NumberInput label="Верт. скорость" {...form.getInputProps('canopy.verticalSpeed')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, xs: 6 }}>
             <Slider
@@ -263,7 +264,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
               />
             </Grid.Col>
             <Grid.Col span={{ base: 4, xs: 2 }}>
-              <Input label="Высота" size="xs" {...form.getInputProps(`beep.${key}.value`)} />
+              <NumberInput label="Высота" size="xs" {...form.getInputProps(`beep.${key}.value`)} />
             </Grid.Col>
           </Grid>
         ))}

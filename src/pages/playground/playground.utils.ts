@@ -46,19 +46,29 @@ export const isSettingsStoreValid = (obj1: Arg, obj2: Arg): boolean => {
     return false;
   }
 
-  // Получаем ключи объектов
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
+  if (Array.isArray(obj1) && Array.isArray(obj2)) {
+    if (obj1.length === 0) return true;
 
-  // Сравнение количества ключей
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
+    for (const value of obj2) {
+      if (!isSettingsStoreValid(obj1[0] as Arg, value as Arg)) {
+        return false;
+      }
+    }
+  } else {
+    // Получаем ключи объектов
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
 
-  // Рекурсивное сравнение ключей и значений
-  for (const key of keys1) {
-    if (!keys2.includes(key) || !isSettingsStoreValid(obj1[key] as Arg, obj2[key] as Arg)) {
+    // Сравнение количества ключей
+    if (keys1.length !== keys2.length) {
       return false;
+    }
+
+    // Рекурсивное сравнение ключей и значений
+    for (const key of keys1) {
+      if (!keys2.includes(key) || !isSettingsStoreValid(obj1[key] as Arg, obj2[key] as Arg)) {
+        return false;
+      }
     }
   }
 

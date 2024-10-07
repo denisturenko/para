@@ -12,22 +12,24 @@ export const Drawer = (props: DrawerProps) => {
     <DrawerBase.Root {...other}>
       <DrawerBase.Overlay />
       <DrawerBase.Content>
-        <DrawerBase.Header>
-          <DrawerBase.Title>{title}</DrawerBase.Title>
+        {(title || withCloseButton || onSubmit) && (
+          <DrawerBase.Header>
+            <DrawerBase.Title>{title}</DrawerBase.Title>
 
-          {onSubmit ? (
-            <Group gap="lg">
-              <Button size="md" variant="default" onClick={props.onClose}>
-                Отмена
-              </Button>
-              <Button size="md" variant="filled" onClick={onSubmit}>
-                Сохранить
-              </Button>
-            </Group>
-          ) : (
-            withCloseButton && <DrawerBase.CloseButton />
-          )}
-        </DrawerBase.Header>
+            {onSubmit ? (
+              <Group gap="lg">
+                <Button size="md" variant="default" onClick={props.onClose}>
+                  Отмена
+                </Button>
+                <Button size="md" variant="filled" onClick={onSubmit}>
+                  Сохранить
+                </Button>
+              </Group>
+            ) : (
+              withCloseButton && <DrawerBase.CloseButton />
+            )}
+          </DrawerBase.Header>
+        )}
         <DrawerBase.Body style={{ paddingTop: '8px' }}>{children}</DrawerBase.Body>
       </DrawerBase.Content>
     </DrawerBase.Root>

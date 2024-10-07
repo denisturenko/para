@@ -50,7 +50,7 @@ export const Settings = memo((props: SettingsProps) => {
   }, [closeSettingsHandler, onResetSettings]);
 
   return (
-    <Drawer opened={isOpen} position="right" size="md" withCloseButton={!isNotStarted} onClose={onCloseHandler}>
+    <Drawer opened={isOpen} position="right" size="md" onClose={onCloseHandler}>
       <SettingsIntroForm
         isNotStarted={isNotStarted}
         onRestart={onRestart}

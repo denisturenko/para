@@ -45,9 +45,27 @@ describe('isSettingsStoreValid', () => {
 
     expect(isSettingsStoreValid(init, store)).toBe(true);
   });
+  it('should be valid #4', () => {
+    const init = { foo: 90, bar: [{ zoo: 90 }] };
+    const store = { foo: 90, bar: [{ zoo: '90' }, { zoo: '90' }] };
+
+    expect(isSettingsStoreValid(init, store)).toBe(false);
+  });
   it('should be valid #1', () => {
     const init = { foo: 90, bar: { zoo: { value: 90 } } };
     const store = { foo: 90, bar: { zoo: { value: 90 } } };
+
+    expect(isSettingsStoreValid(init, store)).toBe(true);
+  });
+  it('should be valid #2', () => {
+    const init = { foo: 90, bar: [] };
+    const store = { foo: 90, bar: [{ zoo: 90 }, { zoo: 90 }] };
+
+    expect(isSettingsStoreValid(init, store)).toBe(true);
+  });
+  it('should be valid #3', () => {
+    const init = { foo: 90, bar: [{ zoo: 90 }] };
+    const store = { foo: 90, bar: [{ zoo: 90 }, { zoo: 90 }] };
 
     expect(isSettingsStoreValid(init, store)).toBe(true);
   });

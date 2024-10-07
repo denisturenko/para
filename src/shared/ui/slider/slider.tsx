@@ -1,6 +1,6 @@
 import type { SliderProps } from '@mantine/core';
 import { Slider as SliderBase, Input as InputBase } from '@mantine/core';
-import { Input } from 'shared/ui/input';
+import { NumberInput } from 'shared/ui/number-input';
 import { ContainerStyled, InputWrapperStyled, SliderWrapperStyled } from 'shared/ui/slider/slider.styled';
 
 export const Slider = (props: SliderProps) => {
@@ -14,7 +14,7 @@ export const Slider = (props: SliderProps) => {
         </InputBase.Wrapper>
       </SliderWrapperStyled>
       <InputWrapperStyled>
-        <Input {...other} size="xs" />
+        <NumberInput {...other} size="xs" />
       </InputWrapperStyled>
     </ContainerStyled>
   );

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Input } from 'shared/ui/input';
 import { Switch } from 'shared/ui/switch';
+import { NumberInput } from 'shared/ui/number-input';
 
 export const LayoutStyled = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ export const LayoutStyled = styled.div`
   gap: 8px;
 `;
 
-export const HeightInputStyled = styled(Input)`
+export const HeightInputStyled = styled(NumberInput)`
   width: 80px;
 `;
 
