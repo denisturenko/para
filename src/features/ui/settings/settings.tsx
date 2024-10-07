@@ -41,7 +41,7 @@ export const Settings = memo((props: SettingsProps) => {
   }, [closeSettingsHandler, onSaveSettings, values]);
 
   return (
-    <Drawer opened={isOpen} position="right" size="md" title="PaRa1.0" withCloseButton={!isNotStarted} onClose={onCloseHandler}>
+    <Drawer opened={isOpen} position="right" size="md" title="P-AFFv1.0" withCloseButton={!isNotStarted} onClose={onCloseHandler}>
       <SettingsIntroForm
         isNotStarted={isNotStarted}
         onRestart={onRestart}

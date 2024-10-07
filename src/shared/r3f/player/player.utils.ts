@@ -144,7 +144,7 @@ export const calculateTrackFromCoords = () => {
 */
   const res = sortBy(sorted, item => item.alt).reverse();
 
-  console.log('***', res);
+  // console.log('***', res);
 
   const track = res.map((item, idx) => {
     // if (idx === 1050) console.log('***', item);
@@ -158,9 +158,9 @@ export const calculateTrackFromCoords = () => {
     return new THREE.Vector3(shiftX - 1000, item.alt - 100, shiftY - 500);
   });
 
-  console.log('***', track);
+  // console.log('***', track);
 
   return track;
 };
 
-calculateTrackFromCoords();
+// calculateTrackFromCoords();
