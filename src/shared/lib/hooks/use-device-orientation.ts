@@ -29,37 +29,37 @@ export const useDeviceOrientation = ({ thetaInitial, azimuthInitial }: UseDevice
       let { beta } = event;
       let { gamma } = event; // vertical
 
-      if (gamma > 0 && gamma < 45) gamma = 0;
+      if (gamma && gamma > 0 && gamma < 45) gamma = 0;
 
-      if (gamma > 0 && gamma > 45) gamma = -90;
+      if (gamma && gamma > 0 && gamma > 45) gamma = -90;
 
       // 90 - 0, 360 - 270
-      if (alpha > 90 && alpha < 180) alpha = 90;
+      if (alpha && alpha > 90 && alpha < 180) alpha = 90;
 
-      if (alpha <= 90) alpha = -1 * alpha;
+      if (alpha && alpha <= 90) alpha = -1 * alpha;
 
       // -90 ... +90
-      beta += 180;
+      if (beta !== null) beta += 180;
 
-      if (alpha < 270 && alpha > 180) alpha = 270;
+      if (alpha && alpha < 270 && alpha > 180) alpha = 270;
 
-      if (alpha >= 270) alpha = 360 - alpha;
+      if (alpha && alpha >= 270) alpha = 360 - alpha;
 
-      document.getElementById('info').innerHTML = String(window.orientation);
+      // document.getElementById('info').innerHTML = String(window.orientation);
 
       setState(() => ({
-        theta: Math.PI / 2 + degToRad(gamma),
-        azimuth: degToRad(alpha),
-        beta: degToRad(beta),
+        theta: Math.PI / 2 + degToRad(gamma || 0),
+        azimuth: degToRad(alpha || 0),
+        beta: degToRad(beta || 0),
       }));
     };
 
     window.addEventListener('deviceorientation', deviceOrientationHandler);
-    window.addEventListener('MozOrientation', deviceOrientationHandler);
+    // window.addEventListener('MozOrientation', deviceOrientationHandler);
 
     return () => {
       window.removeEventListener('deviceorientation', deviceOrientationHandler);
-      window.removeEventListener('MozOrientation', deviceOrientationHandler);
+      // window.removeEventListener('MozOrientation', deviceOrientationHandler);
     };
   }, []);
 

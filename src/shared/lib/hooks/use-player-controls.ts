@@ -12,7 +12,7 @@ export const usePlayerControls = () => {
     []
   );
 
-  const moveFieldByKey = useCallback(key => keys[key], [keys]);
+  const moveFieldByKey = useCallback((key: string) => keys[key as keyof typeof keys], [keys]);
 
   const [movement, setMovement] = useState({
     leftUp: false,
@@ -22,16 +22,16 @@ export const usePlayerControls = () => {
     space: false,
   });
 
-  const setMovementStatus = (code, status) => {
+  const setMovementStatus = (code: string, status: boolean) => {
     setMovement(m => ({ ...m, [code]: status }));
   };
 
   useEffect(() => {
-    const handleKeyDown = ev => {
+    const handleKeyDown = (ev: KeyboardEvent) => {
       setMovementStatus(moveFieldByKey(ev.code), true);
     };
 
-    const handleKeyUp = ev => {
+    const handleKeyUp = (ev: KeyboardEvent) => {
       setMovementStatus(moveFieldByKey(ev.code), false);
     };
 

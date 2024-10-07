@@ -26,13 +26,15 @@ export const usePlayground = (): UsePlaygroundResult => {
   /** State stuff. */
   const storageInst = useMemo(() => settingsStorage<GameSettingsBase>(storageKey), []);
 
+  const initialStateFromStorage = useMemo(() => storageInst.get(prepareForStorage(initialState)), [storageInst]);
+
   const getInitialStateFromStorage = useCallback(
     () =>
       adjustInitialState({
         ...initialState,
-        ...storageInst.get(prepareForStorage(initialState)),
+        ...initialStateFromStorage,
       }),
-    [storageInst]
+    [initialStateFromStorage]
   );
 
   const [state, setState] = useState<GameSettings>(getInitialStateFromStorage);

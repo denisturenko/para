@@ -1,6 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ArrowHelper } from 'three';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
 import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
@@ -8,7 +7,8 @@ import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.pr
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
 import { Skydiver2 } from 'shared/r3f/skydiver';
-import { degToRad } from 'three/src/math/MathUtils';
+
+const { degToRad } = THREE.MathUtils;
 
 export interface PlayerProps {
   angelCorrection?: number;
@@ -54,13 +54,10 @@ export const Player = (props: PlayerProps) => {
 
   const { leftControlValue, rightControlValue, cameraTheta } = useGameControlsContext();
 
-  const [showArrowHelper] = useState(false);
-
   const azimuth = useRef(props.azimuth || 0);
 
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const playerShadowRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
-  const playerShadowGeometryRef = useRef<THREE.Mesh>();
 
   useEffect(() => {
     if (isRestart) {
@@ -86,8 +83,6 @@ export const Player = (props: PlayerProps) => {
     beepLongReset,
     onFinishHandlerReset,
   ]);
-
-  const arrowHelperRef = useRef<ArrowHelper>(null!);
 
   const setTrackThrottled = useThrottledCallback(() => {
     setTrack(prev => {
@@ -125,21 +120,21 @@ export const Player = (props: PlayerProps) => {
     const nextY = playerRef.current.position.y - verticalSpeed * delta;
     // nextY = 100;
 
-    const { heightFor3, heightFor2, heightFor1, heightForLong } = props.beep;
+    const { heightFor3, heightFor2, heightFor1, heightForLong } = props.beep || {};
 
-    if (heightFor3?.enable && nextY < heightFor3.value) {
+    if (heightFor3?.enable && heightFor3?.value !== undefined && nextY < heightFor3?.value) {
       beepThree();
     }
 
-    if (heightFor2?.enable && nextY < heightFor2.value) {
+    if (heightFor2?.enable && heightFor2?.value !== undefined && nextY < heightFor2?.value) {
       beepTwo();
     }
 
-    if (heightFor1?.enable && nextY < heightFor1.value) {
+    if (heightFor1?.enable && heightFor1?.value !== undefined && nextY < heightFor1?.value) {
       beepOne();
     }
 
-    if (heightForLong?.enable && nextY < heightForLong.value) {
+    if (heightForLong?.enable && heightForLong?.value !== undefined && nextY < heightForLong?.value) {
       beepLong();
     }
 
@@ -204,7 +199,7 @@ export const Player = (props: PlayerProps) => {
       </mesh>
 
       <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2} visible={isVisibleShadow}>
-        <circleGeometry ref={playerShadowGeometryRef} args={[0.5, 32]} />
+        <circleGeometry args={[0.5, 32]} />
         <meshBasicMaterial attach="material" color="white" />
       </mesh>
 
@@ -216,7 +211,7 @@ export const Player = (props: PlayerProps) => {
             position={trackPosition}
             rotation-x={-Math.PI / 2}
           >
-            <circleGeometry ref={playerShadowGeometryRef} args={[1, 32]} />
+            <circleGeometry args={[1, 32]} />
             <meshBasicMaterial attach="material" color="white" />
           </mesh>
         ))}

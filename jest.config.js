@@ -3,6 +3,8 @@ process.env.TZ = 'UTC';
 // Add any custom config to be passed to Jest
 /** @type {import('jest').Config} */
 const config = {
+  // verbose: true,
+  // clearMocks: true,
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 
@@ -31,7 +33,10 @@ const config = {
 
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
-    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': '<rootDir>/__mocks__/fileMock.js',
+    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$/i': '<rootDir>/__mocks__/fileMock.js',
+
+    // Handle sound imports
+    '^.+\\.(wav)$/i': '<rootDir>/__mocks__/sound-mock.js',
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   transform: {
