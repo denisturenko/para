@@ -2,7 +2,7 @@ import { createVector, getWindByHeight } from 'shared/r3f/player';
 import type { GameSettings } from 'shared/lib/types';
 
 export const adjustInitialState = (
-  initialState: Omit<GameSettings, 'isReady' | 'playerAzimuth' | 'playerPosition' | 'targetPosition'>,
+  initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'>,
   distance: number = 400
 ): GameSettings => {
   const currentTarget = initialState.targets.find(target => target.id === initialState.currentTargetId);
@@ -16,7 +16,6 @@ export const adjustInitialState = (
 
   return {
     ...initialState,
-    isReady: false,
     playerPosition,
     playerAzimuth,
     targetPosition,

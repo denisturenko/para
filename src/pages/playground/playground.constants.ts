@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
 import type { GameSettings } from 'shared/lib/types';
 
-export const initialState: Omit<GameSettings, 'isReady' | 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
+export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 
   isNotStarted: true,
@@ -29,6 +29,7 @@ export const initialState: Omit<GameSettings, 'isReady' | 'playerAzimuth' | 'pla
   // playerAzimuth: Math.PI / 2, // !
   playerBodyHeight: 2,
   playerPositionHeight: 800,
+  isReady: false,
 
   currentTargetId: '1',
   targets: [
