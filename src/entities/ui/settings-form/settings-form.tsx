@@ -212,6 +212,17 @@ export const SettingsForm = (props: SettingsFormProps) => {
             />
           </Grid.Col>
         </Grid>
+        <Grid>
+          <Grid.Col span={{ base: 6, xs: 3 }}>
+            <Switch
+              label="Авто-отпускание строп управления"
+              labelPosition="left"
+              {...form.getInputProps('helpers.allowToggleReleasing', {
+                type: 'checkbox',
+              })}
+            />
+          </Grid.Col>
+        </Grid>
       </Card>
 
       <Card title="Пищалка">

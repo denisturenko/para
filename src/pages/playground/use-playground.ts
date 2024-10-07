@@ -48,6 +48,7 @@ export const usePlayground = (): UsePlaygroundResult => {
       },
       gameControls: {
         onSettings: onSettingsIntroHandler,
+        allowTouchEndHandler: state.helpers.allowToggleReleasing,
       },
       player: {
         angelCorrection: state.angelCorrection,

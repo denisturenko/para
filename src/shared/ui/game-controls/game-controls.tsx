@@ -8,11 +8,12 @@ import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.pr
 import { MAX_VERTICAL_ANGEL, MIDDLE_VERTICAL_ANGEL, MIN_VERTICAL_ANGEL } from './game-controls.constants';
 
 export interface GameControlsProps {
+  allowTouchEndHandler?: boolean;
   onSettings(): void;
 }
 
 export const GameControls = memo((props: GameControlsProps) => {
-  const { onSettings } = props;
+  const { onSettings, allowTouchEndHandler } = props;
 
   const { leftControlValue, onLeftControlChange, rightControlValue, onRightControlChange, cameraTheta, onChangeCameraTheta } =
     useGameControlsContext();
@@ -106,11 +107,11 @@ export const GameControls = memo((props: GameControlsProps) => {
 
   return (
     <ContainerStyled onClick={onTouchStartHandler}>
-      <TouchBar isLeft value={leftControlValue} onChange={onLeftControlChange} />
+      <TouchBar isLeft allowTouchEndHandler={allowTouchEndHandler} value={leftControlValue} onChange={onLeftControlChange} />
       <SettingButtonStyled onClick={onSettingsClickHandler}>
         <AiOutlineMenu />
       </SettingButtonStyled>
-      <TouchBar isRight value={rightControlValue} onChange={onRightControlChange} />
+      <TouchBar isRight allowTouchEndHandler={allowTouchEndHandler} value={rightControlValue} onChange={onRightControlChange} />
     </ContainerStyled>
   );
 });

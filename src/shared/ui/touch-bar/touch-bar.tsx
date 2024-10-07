@@ -4,6 +4,7 @@ import { WrapperStyled, LevelStyled } from './touch-bar.styled';
 import { calculateTouching } from './touch-bar.utils';
 
 interface TouchBarProps {
+  allowTouchEndHandler?: boolean;
   isLeft?: boolean;
   isRight?: boolean;
   onChange(value: number): void;
@@ -11,7 +12,7 @@ interface TouchBarProps {
 }
 
 export const TouchBar: FC<TouchBarProps> = props => {
-  const { onChange, value } = props;
+  const { onChange, value, allowTouchEndHandler } = props;
 
   const wrapperRef = useRef<HTMLElement>(null!);
   const levelRef = useRef<HTMLElement>(null!);
@@ -36,12 +37,23 @@ export const TouchBar: FC<TouchBarProps> = props => {
     event.stopPropagation();
   }, []);
 
+  const onTouchEndHandler = useCallback(
+    (event: MouseEvent) => {
+      if (allowTouchEndHandler) {
+        setTimeout(() => onChange(0), 1000);
+        event.stopPropagation();
+      }
+    },
+    [onChange, allowTouchEndHandler]
+  );
+
   return (
     <WrapperStyled
       ref={wrapperRef}
       $isLeft={props.isLeft}
       $isRight={props.isRight}
       onClick={onClickHandler}
+      onTouchEnd={onTouchEndHandler}
       onTouchMove={onTouchMoveHandler}
       onTouchStart={onTouchStartHandler}
     >

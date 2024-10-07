@@ -14,7 +14,7 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
 
   canopy: { verticalSpeed: 7, maxSpeed: 13, minSpeed: 3, inertiaFactor: 1 },
 
-  helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true },
+  helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true, allowToggleReleasing: false },
 
   beep: {
     volume: 1,
