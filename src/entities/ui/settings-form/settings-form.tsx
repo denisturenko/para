@@ -5,13 +5,14 @@ import { getInitialValues, normalized } from './settings-form.utils';
 import { useForm } from '@mantine/form';
 import { Button, Divider, ActionIcon, Grid, Group, Radio } from '@mantine/core';
 import { ActionIconWrapperStyled, HeightInputStyled, LayoutStyled, WindContainerStyled } from './settings-form.styled';
-import { Input } from 'shared/ui/input';
+import { yupResolver } from 'mantine-form-yup-resolver';
 import { Card } from 'shared/ui/card';
 import { Switch } from 'shared/ui/switch';
 import { AiOutlineSound } from 'react-icons/ai';
 import { BEEP, useBeep } from 'shared/lib/hooks';
 import { IoCloseSharp } from 'react-icons/io5';
 import { NumberInput } from 'shared/ui/number-input';
+import { settingsFormValidationSchema } from './settings-form.validation';
 
 // todo validation
 export const SettingsForm = (props: SettingsFormProps) => {
@@ -19,6 +20,8 @@ export const SettingsForm = (props: SettingsFormProps) => {
 
   const form = useForm<SettingsFormValues>({
     initialValues: getInitialValues(props),
+    validate: yupResolver(settingsFormValidationSchema),
+    validateInputOnChange: true,
   });
 
   const {

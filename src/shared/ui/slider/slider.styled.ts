@@ -11,6 +11,11 @@ export const ContainerStyled = styled.div`
 
 export const SliderWrapperStyled = styled.div`
   padding-bottom: 16px;
+
+  & .mantine-InputWrapper-error {
+    margin-top: 20px;
+    margin-bottom: -20px;
+  }
 `;
 
 export const InputWrapperStyled = styled.div`

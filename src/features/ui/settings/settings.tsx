@@ -38,9 +38,8 @@ export const Settings = memo((props: SettingsProps) => {
   }, [closeSettingsHandler]);
 
   const onSaveSettingsHandler = useCallback(() => {
-    onSaveSettings?.(values);
-
-    closeSettingsHandler();
+    // onSaveSettings?.(values);
+    // closeSettingsHandler();
   }, [closeSettingsHandler, onSaveSettings, values]);
 
   const onResetSettingsHandler = useCallback(() => {
