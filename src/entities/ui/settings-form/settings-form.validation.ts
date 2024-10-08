@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 import { WindSettings } from 'shared/lib/types';
+import { extractIndex } from 'shared/lib/utils';
+import { isValidWindHeights } from 'entities/ui/settings-form/settings-form.utils';
 
 const required = 'Это обязательное поле';
 const moreThen0 = 'Значение должно быть больше 0';
@@ -16,33 +18,32 @@ export const settingsFormValidationSchema = yup.object().shape({
   winds: yup
     .array()
     .of(
-      yup
-        .object()
-        .shape({
-          minHeight: yup.number().typeError(required).required(required).min(0, moreThen0).max(900, lessThen900),
-          angel: yup
-            .number()
-            .typeError(required)
-            .required(required)
-            .min(0, moreThen0)
-            .max(900, 'Значение должно быть меньше или равно 360'),
-          speed: yup.number().typeError(required).required(required).min(0, moreThen0).max(20, 'Значение должно быть меньше или равно 20'),
-        })
-        .test({
-          name: 'not less when',
-          message: 'Значение должно быть больше',
-          test: (values, ctx) => {
-            console.log('***', ctx);
+      yup.object().shape({
+        minHeight: yup
+          .number()
+          .typeError(required)
+          .required(required)
+          .min(0, moreThen0)
+          .max(900, lessThen900)
+          .test({
+            name: 'not-less-when',
+            message: '',
+            test: (values, ctx) => {
+              const idx = extractIndex(ctx.path);
 
-            /* return val.every(({ startTime, endTime }, index) => {
-              if (index === 0 || index === val.length - 1) {
-                return !!startTime && !!endTime;
+              if (!isValidWindHeights(ctx.from[1].value.winds, idx)) {
+                return ctx.createError({
+                  path: ctx.path,
+                  message: `Значение должно быть больше чем ${ctx.from[1].value.winds[idx - 1].minHeight}`,
+                });
               }
 
               return true;
-            }); */
-          },
-        })
+            },
+          }),
+        angel: yup.number().typeError(required).required(required).min(0, moreThen0).max(900, 'Значение должно быть меньше или равно 360'),
+        speed: yup.number().typeError(required).required(required).min(0, moreThen0).max(20, 'Значение должно быть меньше или равно 20'),
+      })
     )
     .required(required),
   canopy: yup.object().shape({

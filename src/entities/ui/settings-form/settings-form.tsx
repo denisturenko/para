@@ -28,7 +28,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
     winds,
     targets,
     beep: { volume },
-  } = form.values;
+  } = form.getValues();
 
   const { beep } = useBeep({
     volume,
@@ -76,7 +76,13 @@ export const SettingsForm = (props: SettingsFormProps) => {
             <WindContainerStyled>
               <Grid>
                 <Grid.Col span={{ base: 4, xs: 2 }}>
-                  <HeightInputStyled disabled={!idx} label="До высоты" size="xs" {...form.getInputProps(`winds.${idx}.minHeight`)} />
+                  <HeightInputStyled
+                    disabled={!idx}
+                    label="До высоты"
+                    size="xs"
+                    {...form.getInputProps(`winds.${idx}.minHeight`)}
+                    key={form.key(`winds.${idx}.minHeight`)}
+                  />
                 </Grid.Col>
                 <Grid.Col span={{ base: 6, xs: 9 }}>
                   <Switch
@@ -86,6 +92,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
                     {...form.getInputProps(`winds.${idx}.hasGusts`, {
                       type: 'checkbox',
                     })}
+                    key={form.key(`winds.${idx}.hasGusts`)}
                   />
                 </Grid.Col>
                 <Grid.Col span={{ base: 2, xs: 1 }}>
@@ -110,6 +117,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
                     max={360}
                     min={0}
                     {...form.getInputProps(`winds.${idx}.angel`)}
+                    key={form.key(`winds.${idx}.angel`)}
                   />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, xs: 6 }}>
@@ -125,6 +133,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
                     max={20}
                     min={0}
                     {...form.getInputProps(`winds.${idx}.speed`)}
+                    key={form.key(`winds.${idx}.speed`)}
                   />
                 </Grid.Col>
               </Grid>

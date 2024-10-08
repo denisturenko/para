@@ -47,7 +47,9 @@
       "entities/*": ["./entities/*"],
 
       "shared": ["./shared"],
-      "shared/*": ["./shared/*"]
+      "shared/*": ["./shared/*"],
+
+      "three/*": ["../node_modules/tree/*"],
     }
   }
 
