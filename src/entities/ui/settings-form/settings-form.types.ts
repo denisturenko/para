@@ -1,5 +1,9 @@
 import type { WindSettings, HelperSettings, CanopySettings, BeepSettingsType, TargetSettings } from 'shared/lib/types';
 
+export interface SettingsFormMethods {
+  submit(): void;
+}
+
 export interface SettingsFormValues {
   beep?: BeepSettingsType;
   canopy: CanopySettings;
@@ -12,6 +16,6 @@ export interface SettingsFormValues {
 
 export interface SettingsFormProps {
   initialValues: SettingsFormValues;
-  onChange?(values: SettingsFormValues): void;
   onReset?(): void;
+  onSubmit?(values: SettingsFormValues): void;
 }

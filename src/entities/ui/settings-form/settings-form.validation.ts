@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { WindSettings } from 'shared/lib/types';
 import { extractIndex } from 'shared/lib/utils';
 import { isValidWindHeights } from 'entities/ui/settings-form/settings-form.utils';
 

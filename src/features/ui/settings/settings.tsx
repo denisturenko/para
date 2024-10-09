@@ -1,5 +1,6 @@
 import { SettingsIntroForm } from 'entities/ui/settings-intro-form';
-import React, { useCallback, useState, memo, useEffect } from 'react';
+import React, { useCallback, useState, memo, useRef } from 'react';
+import type { SettingsFormMethods } from 'entities/ui/settings-form';
 import { SettingsForm } from 'entities/ui/settings-form';
 import { Drawer } from 'shared/ui/drawer';
 import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
@@ -16,31 +17,28 @@ export interface SettingsProps {
 }
 
 export const Settings = memo((props: SettingsProps) => {
-  const { isOpen, onResume, onRestart, onSaveSettings, onStart, onResetSettings, isNotStarted } = props;
+  const { values, isOpen, onResume, onRestart, onSaveSettings, onStart, onResetSettings, isNotStarted } = props;
 
-  const [values, setValues] = useState(props.values);
-
-  useEffect(() => setValues(props.values), [props.values]);
-
-  // useListenChangedProps(values, 'setting');
+  const settingFormMethodsRef = useRef<SettingsFormMethods>();
 
   const [isOpenSettings, setIsOpenSettings] = useState(false);
 
-  const onCloseHandler = useCallback(() => {
-    onResume?.();
-  }, [onResume]);
+  const onCloseHandler = useCallback(() => onResume?.(), [onResume]);
 
   const openSettingsHandler = useCallback(() => setIsOpenSettings(true), []);
   const closeSettingsHandler = useCallback(() => setIsOpenSettings(false), []);
 
-  const onCloseSettingsHandler = useCallback(() => {
-    closeSettingsHandler();
-  }, [closeSettingsHandler]);
+  const onSubmitSettingsDrawerHandler = useCallback(() => {
+    settingFormMethodsRef.current?.submit();
+  }, []);
 
-  const onSaveSettingsHandler = useCallback(() => {
-    // onSaveSettings?.(values);
-    // closeSettingsHandler();
-  }, [closeSettingsHandler, onSaveSettings, values]);
+  const onSubmitSettingsHandler = useCallback(
+    (formValues: SettingsFormValues) => {
+      onSaveSettings?.(formValues);
+      closeSettingsHandler();
+    },
+    [closeSettingsHandler, onSaveSettings]
+  );
 
   const onResetSettingsHandler = useCallback(() => {
     onResetSettings?.();
@@ -49,25 +47,35 @@ export const Settings = memo((props: SettingsProps) => {
   }, [closeSettingsHandler, onResetSettings]);
 
   return (
-    <Drawer opened={isOpen} position="right" size="md" onClose={onCloseHandler}>
-      <SettingsIntroForm
-        isNotStarted={isNotStarted}
-        onRestart={onRestart}
-        onResume={onResume}
-        onSettings={openSettingsHandler}
-        onStart={onStart}
-      />
+    <>
+      {/* Intro drawer */}
+      <Drawer opened={isOpen} position="right" size="md" onClose={onCloseHandler}>
+        <SettingsIntroForm
+          isNotStarted={isNotStarted}
+          onRestart={onRestart}
+          onResume={onResume}
+          onSettings={openSettingsHandler}
+          onStart={onStart}
+        />
+      </Drawer>
+
+      {/* Setting form drawer */}
       <Drawer
         opened={isOpenSettings}
         position="right"
         size="xl"
         title="Настройки"
-        onClose={onCloseSettingsHandler}
-        onSubmit={onSaveSettingsHandler}
+        onClose={closeSettingsHandler}
+        onSubmit={onSubmitSettingsDrawerHandler}
       >
-        <SettingsForm initialValues={values} onChange={setValues} onReset={onResetSettingsHandler} />
+        <SettingsForm
+          ref={settingFormMethodsRef}
+          initialValues={values}
+          onReset={onResetSettingsHandler}
+          onSubmit={onSubmitSettingsHandler}
+        />
       </Drawer>
-    </Drawer>
+    </>
   );
 });
 Settings.displayName = 'Settings';

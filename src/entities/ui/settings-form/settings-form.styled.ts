@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Input } from 'shared/ui/input';
 import { Switch } from 'shared/ui/switch';
 import { NumberInput } from 'shared/ui/number-input';
 

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import { Slider } from 'shared/ui/slider/slider';
-import type { SettingsFormProps, SettingsFormValues } from './settings-form.types';
+import type { SettingsFormMethods, SettingsFormProps, SettingsFormValues } from './settings-form.types';
 import { getInitialValues, normalized } from './settings-form.utils';
 import { useForm } from '@mantine/form';
 import { Button, Divider, ActionIcon, Grid, Group, Radio } from '@mantine/core';
@@ -13,16 +13,33 @@ import { BEEP, useBeep } from 'shared/lib/hooks';
 import { IoCloseSharp } from 'react-icons/io5';
 import { NumberInput } from 'shared/ui/number-input';
 import { settingsFormValidationSchema } from './settings-form.validation';
+import { Alert } from 'shared/ui/alert';
+import { defer, uniqueId } from 'lodash';
 
-// todo validation
-export const SettingsForm = (props: SettingsFormProps) => {
-  const { onChange, onReset } = props;
+export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
+  const { onSubmit, onReset } = props;
 
   const form = useForm<SettingsFormValues>({
     initialValues: getInitialValues(props),
     validate: yupResolver(settingsFormValidationSchema),
-    validateInputOnChange: true,
   });
+
+  const hasErrors = useMemo(() => Object.keys(form.errors).length > 0, [form.errors]);
+
+  const alertRef = useRef<HTMLDivElement | null>(null);
+
+  const handleSubmit = useCallback(() => {
+    if (form.validate().hasErrors) {
+      // todo ugly ugly next tick
+      defer(() => alertRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }));
+
+      return;
+    }
+
+    onSubmit?.(normalized(form.values));
+  }, [form, onSubmit]);
+
+  useImperativeHandle<SettingsFormMethods>(ref, () => ({ submit: handleSubmit }), [handleSubmit]);
 
   const {
     winds,
@@ -30,18 +47,15 @@ export const SettingsForm = (props: SettingsFormProps) => {
     beep: { volume },
   } = form.getValues();
 
-  const { beep } = useBeep({
-    volume,
-  });
-
-  useEffect(() => {
-    const normalizedValues = normalized(form.values);
-
-    onChange?.(normalizedValues);
-  }, [form.values, onChange]);
+  const { beep } = useBeep({ volume });
 
   return (
     <LayoutStyled>
+      {hasErrors && (
+        <Alert ref={alertRef} title="Ошибка сохранения" type="error">
+          Не удалось сохранить форму. Проверьте правильность введённых данных.
+        </Alert>
+      )}
       <Card title="Основные">
         <LayoutStyled>
           <Grid>
@@ -72,7 +86,7 @@ export const SettingsForm = (props: SettingsFormProps) => {
 
       <Card title="Ветер">
         {winds.map((wind, idx) => (
-          <div key={wind.minHeight}>
+          <div key={wind.id || 0}>
             <WindContainerStyled>
               <Grid>
                 <Grid.Col span={{ base: 4, xs: 2 }}>
@@ -147,9 +161,11 @@ export const SettingsForm = (props: SettingsFormProps) => {
           size="sm"
           variant="outline"
           onClick={() => {
-            const nextWindValue = { ...winds[winds.length - 1] };
+            const prev = winds[winds.length - 1];
+            const nextWindValue = { ...prev };
 
             nextWindValue.minHeight += 100;
+            nextWindValue.id = uniqueId();
             form.insertListItem('winds', nextWindValue);
           }}
         >
@@ -289,4 +305,6 @@ export const SettingsForm = (props: SettingsFormProps) => {
       </Button>
     </LayoutStyled>
   );
-};
+});
+
+SettingsForm.displayName = 'SettingsForm';
