@@ -10,6 +10,7 @@ import { usePlayground } from 'pages/playground/use-playground';
 import { Player } from 'shared/r3f/player';
 import logoImg from 'shared/assets/logo.png';
 import { projectName } from 'shared/lib/configs';
+import { Intro } from 'shared/ui/intro';
 
 export const Playground = () => {
   const {
@@ -23,11 +24,12 @@ export const Playground = () => {
         {!isNotStarted && (
           <>
             {!game.isReady && (
-              <LoaderWrapperStyled>
+              <Intro />
+              /* <LoaderWrapperStyled>
                 <LogoImgStyled alt={projectName} height="100" src={logoImg} />
                 {projectName}
                 <ReactLoading color="white" height={20} type="bubbles" width={100} />
-              </LoaderWrapperStyled>
+              </LoaderWrapperStyled> */
             )}
             <Canvas>
               <Game {...game}>
