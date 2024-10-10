@@ -23,6 +23,7 @@ export interface GameSettings {
 
   isNotStarted: boolean;
   isPaused: boolean;
+  isPlayerArrowVisible: boolean;
   isReady: boolean;
 
   isRestart: boolean;

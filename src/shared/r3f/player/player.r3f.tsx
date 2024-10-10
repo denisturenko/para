@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
-import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { createDirectionVector, getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
@@ -12,12 +12,14 @@ const { degToRad } = THREE.MathUtils;
 
 export interface PlayerProps {
   angelCorrection?: number;
+  arrowAngel?: number;
   azimuth?: number;
   beep?: BeepSettingsType;
   canopy: CanopySettings;
   helpers: HelperSettings;
   ignoreHeadCamera?: boolean;
   isPaused: boolean;
+  isPlayerArrowVisible: boolean;
   isRestart: boolean;
   onChangePosition?(position: THREE.Vector3): void;
   onFinish?(): void;
@@ -39,6 +41,8 @@ export const Player = (props: PlayerProps) => {
     angelCorrection = 0,
     helpers: { isVisibleShadow, isVisibleTrack },
     onFinish,
+    arrowAngel,
+    isPlayerArrowVisible,
   } = props;
 
   const { beep } = useBeep({ volume: props.beep?.volume });
@@ -58,6 +62,7 @@ export const Player = (props: PlayerProps) => {
 
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const playerShadowRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
+  const arrowHelperRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
 
   useEffect(() => {
     if (isRestart) {
@@ -169,6 +174,11 @@ export const Player = (props: PlayerProps) => {
       state.camera.rotation.set(cameraTheta, Math.PI, 0);
     }
 
+    if (isPlayerArrowVisible) {
+      // todo looks like PI wouldn't be here
+      arrowHelperRef.current.rotation.set(0, arrowAngel - azimuth.current - Math.PI, 0);
+    }
+
     // console.log("***", radToDeg(orientation.theta));
     /* state.camera.rotation.set(
       orientation.theta,
@@ -194,8 +204,12 @@ export const Player = (props: PlayerProps) => {
           <Skydiver2 />
           {/* <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
           <meshBasicMaterial attach="material" color="#595856" /> */}
-          {/* {showArrowHelper && <arrowHelper ref={arrowHelperRef} args={[undefined, undefined, 0.4]} />} */}
         </mesh>
+        {isPlayerArrowVisible && (
+          <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-y={arrowAngel}>
+            <arrowHelper args={[undefined, undefined, 2, 'orange', 1]} />
+          </mesh>
+        )}
       </mesh>
 
       <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2} visible={isVisibleShadow}>

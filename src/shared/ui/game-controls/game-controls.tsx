@@ -3,17 +3,19 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { useThrottledCallback } from 'use-debounce';
 import { usePlayerControls } from 'shared/lib/hooks';
 import { TouchBar } from 'shared/ui/touch-bar';
-import { ContainerStyled, SettingButtonStyled } from './game-controls.styled';
+import { ArrowButtonStyled, ContainerStyled, SettingButtonStyled } from './game-controls.styled';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { MAX_VERTICAL_ANGEL, MIDDLE_VERTICAL_ANGEL, MIN_VERTICAL_ANGEL } from './game-controls.constants';
+import { FaArrowPointer } from 'react-icons/fa6';
 
 export interface GameControlsProps {
   allowTouchEndHandler?: boolean;
+  onArrowShowToggle(): void;
   onSettings(): void;
 }
 
 export const GameControls = memo((props: GameControlsProps) => {
-  const { onSettings, allowTouchEndHandler } = props;
+  const { onSettings, allowTouchEndHandler, onArrowShowToggle } = props;
 
   const { leftControlValue, onLeftControlChange, rightControlValue, onRightControlChange, cameraTheta, onChangeCameraTheta } =
     useGameControlsContext();
@@ -105,12 +107,23 @@ export const GameControls = memo((props: GameControlsProps) => {
     [onSettings]
   );
 
+  const onArrowShowClickHandler = useCallback(
+    (event: MouseEvent) => {
+      onArrowShowToggle();
+      event.stopPropagation();
+    },
+    [onArrowShowToggle]
+  );
+
   return (
     <ContainerStyled onClick={onTouchStartHandler}>
       <TouchBar isLeft allowTouchEndHandler={allowTouchEndHandler} value={leftControlValue} onChange={onLeftControlChange} />
       <SettingButtonStyled onClick={onSettingsClickHandler}>
         <AiOutlineMenu />
       </SettingButtonStyled>
+      <ArrowButtonStyled onClick={onArrowShowClickHandler}>
+        <FaArrowPointer />
+      </ArrowButtonStyled>
       <TouchBar isRight allowTouchEndHandler={allowTouchEndHandler} value={rightControlValue} onChange={onRightControlChange} />
     </ContainerStyled>
   );

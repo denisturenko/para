@@ -12,6 +12,7 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   isRestart: false,
   isFinish: false,
   isReady: false,
+  isPlayerArrowVisible: false,
 
   withOrbitControls: false,
   playerBodyHeight: 2,

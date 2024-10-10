@@ -25,3 +25,10 @@ export const SettingButtonStyled = styled(ButtonWrapperStyled)`
   right: 100px;
   color: black;
 `;
+
+export const ArrowButtonStyled = styled(ButtonWrapperStyled)`
+  right: 100px;
+  top: auto;
+  bottom: 0;
+  color: black;
+`;

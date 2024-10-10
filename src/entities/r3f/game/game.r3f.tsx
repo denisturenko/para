@@ -17,19 +17,11 @@ export interface GameProps extends GameSettings, GameSettingsBase {
 }
 
 export const Game = memo((props: PropsWithChildren<GameProps>) => {
-  const windAngel = getWindByHeight(props.winds, 0)?.angel || 0;
+  // const windAngel = getWindByHeight(props.winds, 0)?.angel || 0;
 
   useListenChangedProps(props, 'game-r3f');
 
-  const {
-    onReady,
-    withOrbitControls,
-    angelCorrection = 0,
-    arrowAngel = angelCorrection - windAngel,
-    arrowPosition,
-    helpers,
-    children,
-  } = props;
+  const { onReady, withOrbitControls, arrowAngel, arrowPosition, helpers, children } = props;
   const firstPersonCamera = useRef();
 
   useEffect(() => {

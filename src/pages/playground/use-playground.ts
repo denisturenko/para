@@ -7,6 +7,7 @@ import { initialSettings, initialState, storageKey } from './playground.constant
 import type { PlayerProps } from 'shared/r3f/player';
 import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pages/playground/playground.utils';
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
+import { getWindByHeight } from 'shared/r3f/player';
 
 interface UsePlaygroundResult {
   meta: {
@@ -30,10 +31,6 @@ export const usePlayground = (): UsePlaygroundResult => {
     const fromStore = storageInst.get(prepareForStorage(initialSettings));
 
     const isValid = isSettingsStoreValid(fromStore, initialSettings);
-
-    console.log('***', isValid);
-    console.log('***', fromStore);
-    console.log('***', initialSettings);
 
     if (!isValid) {
       storageInst.reset();
@@ -89,6 +86,14 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onReadyHandler = useCallback(() => setState(prev => ({ ...prev, isReady: true })), []);
 
+  const onArrowShowToggleHandler = useCallback(() => setState(prev => ({ ...prev, isPlayerArrowVisible: !prev.isPlayerArrowVisible })), []);
+
+  const arrowAngel = useMemo(() => {
+    const windAngel = getWindByHeight(settings.winds, 0)?.angel || 0;
+
+    return (state.angelCorrection || 0) - windAngel;
+  }, [settings.winds, state.angelCorrection]);
+
   return {
     meta: {
       isFinish: state.isFinish,
@@ -99,19 +104,23 @@ export const usePlayground = (): UsePlaygroundResult => {
       game: {
         ...state,
         ...settings,
+        arrowAngel,
         onReady: onReadyHandler,
       },
       gameControls: {
+        onArrowShowToggle: onArrowShowToggleHandler,
         onSettings: onSettingsIntroHandler,
         allowTouchEndHandler: settings.helpers.allowToggleReleasing,
       },
       player: {
+        arrowAngel,
         angelCorrection: state.angelCorrection,
         azimuth: state.playerAzimuth,
         canopy: settings.canopy,
         ignoreHeadCamera: state.withOrbitControls,
         isPaused: state.isPaused,
         isRestart: state.isRestart,
+        isPlayerArrowVisible: state.isPlayerArrowVisible,
         playerBodyHeight: state.playerBodyHeight,
         position: state.playerPosition,
         winds: settings.winds,
