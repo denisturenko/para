@@ -1,5 +1,5 @@
 {
-  "name": "Prizemlenie-AFF",
+  "name": "P-AFF",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "vite build",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx src",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:dev": "aws s3 --endpoint-url='https://storage.yandexcloud.net' cp ./dist/ s3://dev.p-aff.lab601.ru/ --recursive"
   },
   "dependencies": {
     "@mantine/core": "^7.13.1",
