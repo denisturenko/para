@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
-import { createDirectionVector, getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
@@ -41,7 +41,7 @@ export const Player = (props: PlayerProps) => {
     angelCorrection = 0,
     helpers: { isVisibleShadow, isVisibleTrack },
     onFinish,
-    arrowAngel,
+    arrowAngel = 0,
     isPlayerArrowVisible,
   } = props;
 

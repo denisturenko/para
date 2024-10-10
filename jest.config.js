@@ -37,8 +37,6 @@ const config = {
     // https://jestjs.io/docs/webpack#handling-static-assets
     // '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$/i': '<rootDir>/src/__mocks__/fileMock.js',
     '(.*)\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$': '<rootDir>/src/__mocks__/fileMock.js',
-
-    'three/(.*)': '<rootDir>/node_modules/tree/$1',
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   transform: {

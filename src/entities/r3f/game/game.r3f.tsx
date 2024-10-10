@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
-import { getWindByHeight } from 'shared/r3f/player';
 import { Target } from 'shared/r3f/target';
 import { useListenChangedProps } from 'shared/lib/hooks';
 
