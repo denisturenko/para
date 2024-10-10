@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
-import type { GameSettings } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 
 export const storageKey = 'gameSettings';
 
@@ -11,30 +11,11 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   isPaused: true,
   isRestart: false,
   isFinish: false,
-  withOrbitControls: false,
-
-  winds: [{ minHeight: 0, angel: degToRad(345), speed: 2, hasGusts: false }],
-
-  canopy: { verticalSpeed: 5, maxSpeed: 10, minSpeed: 1, inertiaFactor: 3 },
-
-  helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true, allowToggleReleasing: false },
-
-  beep: {
-    volume: 1,
-    heightFor3: { enable: true, value: 350 },
-    heightFor2: { enable: true, value: 200 },
-    heightFor1: { enable: true, value: 150 },
-    heightForLong: { enable: true, value: 110 },
-  },
-
-  // Player setting
-  // playerPosition: new THREE.Vector3(-300, 600, -300), // !
-  // playerAzimuth: Math.PI / 2, // !
-  playerBodyHeight: 2,
-  playerPositionHeight: 800,
   isReady: false,
 
-  currentTargetId: '1',
+  withOrbitControls: false,
+  playerBodyHeight: 2,
+
   targets: [
     {
       id: '1',
@@ -56,4 +37,22 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
     },
   ],
   arrowPosition: new THREE.Vector3(-190, 0.1, -170),
+};
+
+export const initialSettings: GameSettingsBase = {
+  winds: [{ minHeight: 0, angel: degToRad(345), speed: 2, hasGusts: false }],
+  canopy: { verticalSpeed: 5, maxSpeed: 10, minSpeed: 1, inertiaFactor: 3 },
+  helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true, allowToggleReleasing: false },
+
+  beep: {
+    volume: 1,
+    heightFor3: { enable: true, value: 350 },
+    heightFor2: { enable: true, value: 200 },
+    heightFor1: { enable: true, value: 150 },
+    heightForLong: { enable: true, value: 110 },
+  },
+
+  playerPositionHeight: 800,
+
+  currentTargetId: '1',
 };

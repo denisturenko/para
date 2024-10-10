@@ -2,7 +2,7 @@ import { Sky, PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import type { PropsWithChildren } from 'react';
 import { memo, useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import type { GameSettings } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
 import { getWindByHeight } from 'shared/r3f/player';
@@ -12,7 +12,7 @@ import { useListenChangedProps } from 'shared/lib/hooks';
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
 
-export interface GameProps extends GameSettings {
+export interface GameProps extends GameSettings, GameSettingsBase {
   onReady(): void;
 }
 

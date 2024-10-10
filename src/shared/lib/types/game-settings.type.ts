@@ -15,7 +15,7 @@ export interface GameSettingsBase {
   winds: WindSettings[];
 }
 
-export interface GameSettings extends GameSettingsBase {
+export interface GameSettings {
   angelCorrection?: number;
   arrowAngel?: number;
   arrowPosition: THREE.Vector3;

@@ -1,9 +1,9 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { GameProps } from 'entities/r3f/game';
 import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
-import { initialState, storageKey } from './playground.constants';
+import { initialSettings, initialState, storageKey } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
 import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pages/playground/playground.utils';
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
@@ -26,30 +26,54 @@ export const usePlayground = (): UsePlaygroundResult => {
   /** State stuff. */
   const storageInst = useMemo(() => settingsStorage<GameSettingsBase>(storageKey), []);
 
-  const initialStateFromStorage = useMemo(() => {
-    const prepared = prepareForStorage(initialState);
-    const fromStore = storageInst.get(prepared);
-    const isValid = isSettingsStoreValid(fromStore, prepared);
+  const settingsFromStorage = useMemo(() => {
+    const fromStore = storageInst.get(prepareForStorage(initialSettings));
+
+    const isValid = isSettingsStoreValid(fromStore, initialSettings);
+
+    console.log('***', isValid);
+    console.log('***', fromStore);
+    console.log('***', initialSettings);
 
     if (!isValid) {
       storageInst.reset();
     }
 
-    return isValid ? fromStore : prepared;
+    return isValid ? fromStore : initialSettings;
   }, [storageInst]);
 
-  const getInitialStateFromStorage = useCallback(
-    () =>
-      adjustInitialState({
-        ...initialState,
-        ...initialStateFromStorage,
-      }),
-    [initialStateFromStorage]
+  /** Game settings stuff. */
+
+  const [settings, setSettings] = useState<GameSettingsBase>(settingsFromStorage);
+
+  const onSaveSettingsHandle = useCallback(
+    values => {
+      setSettings(prev => {
+        const next = { ...prev, ...values };
+
+        storageInst.set(prepareForStorage(next));
+
+        return next;
+      });
+    },
+    [storageInst]
   );
 
-  const [state, setState] = useState<GameSettings>(getInitialStateFromStorage);
+  const onResetSettingsHandle = useCallback(
+    () =>
+      setSettings(() => {
+        storageInst.reset();
 
-  /** Game settings stuff. */
+        return initialSettings;
+      }),
+    [storageInst]
+  );
+
+  /** Game state stuff. */
+  const [state, setState] = useState<GameSettings>(adjustInitialState(initialState, settingsFromStorage));
+
+  useEffect(() => setState(prev => adjustInitialState(prev, settings)), [settings]);
+
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 
   const onRestartHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false })), []);
@@ -63,28 +87,6 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onFinishHandler = useCallback(() => setState(prev => ({ ...prev, isFinish: true })), []);
 
-  const onSaveSettingsHandle = useCallback(
-    values =>
-      setState(prev => {
-        const next = adjustInitialState({ ...prev, ...values });
-
-        storageInst.set(prepareForStorage(next));
-
-        return next;
-      }),
-    [storageInst]
-  );
-
-  const onResetSettingsHandle = useCallback(
-    () =>
-      setState(() => {
-        storageInst.reset();
-
-        return getInitialStateFromStorage();
-      }),
-    [getInitialStateFromStorage, storageInst]
-  );
-
   const onReadyHandler = useCallback(() => setState(prev => ({ ...prev, isReady: true })), []);
 
   return {
@@ -96,37 +98,38 @@ export const usePlayground = (): UsePlaygroundResult => {
     ui: {
       game: {
         ...state,
+        ...settings,
         onReady: onReadyHandler,
       },
       gameControls: {
         onSettings: onSettingsIntroHandler,
-        allowTouchEndHandler: state.helpers.allowToggleReleasing,
+        allowTouchEndHandler: settings.helpers.allowToggleReleasing,
       },
       player: {
         angelCorrection: state.angelCorrection,
         azimuth: state.playerAzimuth,
-        canopy: state.canopy,
+        canopy: settings.canopy,
         ignoreHeadCamera: state.withOrbitControls,
         isPaused: state.isPaused,
         isRestart: state.isRestart,
         playerBodyHeight: state.playerBodyHeight,
         position: state.playerPosition,
-        winds: state.winds,
-        helpers: state.helpers,
-        beep: state.beep,
+        winds: settings.winds,
+        helpers: settings.helpers,
+        beep: settings.beep,
         onFinish: onFinishHandler,
       },
       settings: {
         isNotStarted: state.isNotStarted,
         isOpen: state.isPaused || state.isNotStarted,
         values: {
-          canopy: state.canopy,
-          winds: state.winds,
-          helpers: state.helpers,
-          playerPositionHeight: state.playerPositionHeight,
-          beep: state.beep,
+          canopy: settings.canopy,
+          winds: settings.winds,
+          helpers: settings.helpers,
+          playerPositionHeight: settings.playerPositionHeight,
+          beep: settings.beep,
           targets: state.targets,
-          currentTargetId: state.currentTargetId,
+          currentTargetId: settings.currentTargetId,
         },
         onRestart: onRestartHandler,
         onResume: onResumeHandler,
