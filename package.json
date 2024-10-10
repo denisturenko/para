@@ -9,7 +9,9 @@
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx src",
     "preview": "vite preview",
-    "deploy:dev": "aws s3 --endpoint-url='https://storage.yandexcloud.net' cp ./dist/ s3://dev.p-aff.lab601.ru/ --recursive"
+    "deploy:dev": "aws s3 --endpoint-url='https://storage.yandexcloud.net' cp ./dist/ s3://dev.p-aff.lab601.ru/ --recursive",
+    "integration-testing": "selenium-side-runner integration-testing/p-aff.side --base-url",
+    "integration-testing:local": "npm run integration-testing https://localhost:8080"
   },
   "dependencies": {
     "@mantine/core": "^7.13.1",
@@ -74,7 +76,9 @@
     "typescript": "5.1.6",
     "typescript-eslint": "^8.7.0",
     "vite": "^5.4.1",
-    "vite-plugin-mkcert": "^1.17.6"
+    "vite-plugin-mkcert": "^1.17.6",
+    "selenium-side-runner": "^4.0.12",
+    "chromedriver": "^120.0.0"
   },
   "engines": {
     "node": "18.x"

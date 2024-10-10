@@ -61,6 +61,7 @@ export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
           <Grid>
             <Grid.Col span={{ base: 12, xs: 6 }}>
               <Slider
+                dataTestId="playerPositionHeight"
                 label="Высота начала пилотирования"
                 marks={[
                   { value: 0, label: '0' },
@@ -77,7 +78,7 @@ export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
           <Radio.Group label="Зона приземления" {...form.getInputProps('currentTargetId')}>
             <Group mt="xs">
               {targets.map(target => (
-                <Radio key={target.id} label={target.name} value={target.id} />
+                <Radio key={target.id} data-testid={`target-radio-${target.id}`} label={target.name} value={target.id} />
               ))}
             </Group>
           </Radio.Group>
@@ -300,7 +301,7 @@ export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
 
       <br />
       <br />
-      <Button size="md" variant="default" onClick={onReset}>
+      <Button data-testid="reset" size="md" variant="default" onClick={onReset}>
         Сбросить настройки
       </Button>
     </LayoutStyled>

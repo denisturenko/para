@@ -1,0 +1,235 @@
+{
+  "id": "5d82a4e0-941d-4013-a8a4-cd3278b8ecbf",
+  "version": "2.0",
+  "name": "p-aff",
+  "url": "https://localhost:8080",
+  "tests": [{
+    "id": "dfd87e9b-80e6-4589-8b80-34c92bf79a63",
+    "name": "settings-reset",
+    "commands": [{
+      "id": "7a7c9e9d-dd01-4fe5-9184-7f93eb1dd5aa",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "530bda65-614a-4c33-b425-02c2ae3a68ce",
+      "comment": "",
+      "command": "//executeScript",
+      "target": "localStorage.setItem('gameSettings','{}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7bfb8271-a85c-46b2-87c8-d4a03e264ff3",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ee8054a8-b890-40dd-8580-e4634cb1c5e9",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1864x1053",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f166970f-eaba-407c-bd66-fe76ba2a4b28",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"settings\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "92f39945-2dd1-43c2-bc10-f06b27aa7f72",
+      "comment": "",
+      "command": "assertElementNotPresent",
+      "target": "//*[@data-checked=\"true\"]//*[@data-testid=\"target-radio-3\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b3b17d28-aeeb-4521-80d9-a39ddbc0d1c2",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"target-radio-3\"]",
+      "targets": [
+        ["id=mantine-ts1ep88r3", "id"],
+        ["css=#mantine-ts1ep88r3", "css:finder"],
+        ["xpath=//input[@id='mantine-ts1ep88r3']", "xpath:attributes"],
+        ["xpath=//div[@id='mantine-5xds5wxn2-body']/div/div/div[2]/div[2]/div[2]/div/div[3]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9879ff1a-4068-459e-a0a6-3f9355be5ade",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"submit\"]",
+      "targets": [
+        ["css=.m_4081bf90 > .mantine-focus-auto:nth-child(2) .m_811560b9", "css:finder"],
+        ["xpath=//header/div/button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "16be732d-5de6-4a89-b30b-421201bcaa83",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"settings\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "05505340-9caa-411c-b6da-35abe3e1163b",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "//*[@data-checked=\"true\"]//*[@data-testid=\"target-radio-3\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c1f13d6d-77d5-481d-9e16-ecfa0d8025b7",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"reset\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(8) > .m_80f1301b", "css:finder"],
+        ["xpath=//div[@id='mantine-5xds5wxn2-body']/div/button/span", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div/div[2]/section/div/div/button/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Сбросить настройки')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d44c0ad-09f9-4fdc-8021-104e14554e1f",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"settings\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "05d94cc1-adcd-4df6-93a4-44a1b4eeee78",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "8c3f95a7-2ab6-4820-a282-74feba27ed83",
+    "name": "Settings applying",
+    "commands": [{
+      "id": "ba739e63-0a72-4f1e-952e-a6ecf43aafc7",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "abc23741-9fec-401c-8d74-b9d23aee6983",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.setItem('gameSettings','{}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "88c65f84-7089-4dc1-b1d6-bc85cbf62953",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1864x1053",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1b143518-483b-4fa1-999f-e94ca0c3b4e7",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"settings\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bcb8e6e6-0abc-413b-988d-92eedfef7584",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"playerPositionHeight-input\"]",
+      "targets": [
+        ["id=mantine-al091xuok", "id"],
+        ["css=#mantine-al091xuok", "css:finder"],
+        ["xpath=//input[@id='mantine-al091xuok']", "xpath:attributes"],
+        ["xpath=//div[@id='mantine-y4lfd15ru-body']/div/div/div[2]/div/div/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "25227c2c-cb5f-4126-a6a9-4286519a5a9a",
+      "comment": "",
+      "command": "type",
+      "target": "//*[@data-testid=\"playerPositionHeight-input\"]",
+      "targets": [
+        ["id=mantine-al091xuok", "id"],
+        ["css=#mantine-al091xuok", "css:finder"],
+        ["xpath=//input[@id='mantine-al091xuok']", "xpath:attributes"],
+        ["xpath=//div[@id='mantine-y4lfd15ru-body']/div/div/div[2]/div/div/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/input", "xpath:position"]
+      ],
+      "value": "500"
+    }, {
+      "id": "2c48254a-8932-46dc-8c3e-225689ba040d",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"target-radio-3\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f14e7583-f319-4e8c-974a-9a226f42b3b3",
+      "comment": "",
+      "command": "//click",
+      "target": "//*[@data-testid=\"submit\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3a06362b-c75e-4126-a524-ee1b4cc08f31",
+      "comment": "",
+      "command": "//click",
+      "target": "//*[@data-testid=\"settings\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "03548cee-d117-4fb8-8888-1fa11eebbf11",
+      "comment": "",
+      "command": "//assertElementPresent",
+      "target": "//*[@data-checked=\"true\"]//*[@data-testid=\"target-radio-3\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d739dab8-36a3-4a5a-86ec-6dc9d14eb508",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "c8f3adaa-545e-4e04-9dd3-bce2e8855e04",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["dfd87e9b-80e6-4589-8b80-34c92bf79a63"]
+  }],
+  "urls": ["https://localhost:8080/"],
+  "plugins": []
+}

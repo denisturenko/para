@@ -22,20 +22,20 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
         {projectName}
       </IconWrapperStyled>
       {isNotStarted ? (
-        <Button size="md" variant="filled" onClick={onStart}>
+        <Button data-testid="start" size="md" variant="filled" onClick={onStart}>
           Начать
         </Button>
       ) : (
-        <Button size="md" variant="filled" onClick={onResume}>
+        <Button data-testid="resume" size="md" variant="filled" onClick={onResume}>
           Продолжить
         </Button>
       )}
       {!isNotStarted && (
-        <Button size="md" variant="default" onClick={onRestart}>
+        <Button data-testid="restart" size="md" variant="default" onClick={onRestart}>
           Начать заново
         </Button>
       )}
-      <Button size="md" variant="default" onClick={onSettings}>
+      <Button data-testid="settings" size="md" variant="default" onClick={onSettings}>
         Настройки
       </Button>
     </ContainerStyled>
