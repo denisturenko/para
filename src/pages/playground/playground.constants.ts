@@ -7,6 +7,7 @@ export const storageKey = 'gameSettings';
 export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 
+  isHomePageVisible: true,
   isNotStarted: true,
   isPaused: true,
   isRestart: false,

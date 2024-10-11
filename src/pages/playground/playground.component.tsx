@@ -10,26 +10,34 @@ import { usePlayground } from 'pages/playground/use-playground';
 import { Player } from 'shared/r3f/player';
 import logoImg from 'shared/assets/logo.png';
 import { projectName } from 'shared/lib/configs';
-import { Intro } from 'shared/ui/intro';
+import { HomePageHeaderComponent } from 'entities/ui/home-page-header';
+import { HomePageTopSection } from 'entities/ui/home-page-top-section';
+import { HomePageFooterComponent } from 'entities/ui/home-page-footer';
 
 export const Playground = () => {
   const {
-    meta: { isNotStarted, withOrbitControls },
-    ui: { game, player, settings, gameControls },
+    meta: { isNotStarted, withOrbitControls, isHomePageVisible },
+    ui: { game, player, settings, gameControls, homePage },
   } = usePlayground();
 
-  return (
+  return isHomePageVisible ? (
+    <>
+      <HomePageHeaderComponent />
+      <HomePageTopSection {...homePage} />
+      <HomePageFooterComponent />
+    </>
+  ) : (
     <GameControlsProvider>
       <ContainerStyled>
         {!isNotStarted && (
           <>
             {!game.isReady && (
-              <Intro />
-              /* <LoaderWrapperStyled>
+              // <Intro />
+              <LoaderWrapperStyled>
                 <LogoImgStyled alt={projectName} height="100" src={logoImg} />
                 {projectName}
                 <ReactLoading color="white" height={20} type="bubbles" width={100} />
-              </LoaderWrapperStyled> */
+              </LoaderWrapperStyled>
             )}
             <Canvas>
               <Game {...game}>

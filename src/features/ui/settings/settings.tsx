@@ -8,6 +8,7 @@ import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form
 export interface SettingsProps {
   isNotStarted: boolean;
   isOpen?: boolean;
+  onGotoHomePageClick?(): void;
   onResetSettings?(): void;
   onRestart?(): void;
   onResume?(): void;
@@ -17,7 +18,7 @@ export interface SettingsProps {
 }
 
 export const Settings = memo((props: SettingsProps) => {
-  const { values, isOpen, onResume, onRestart, onSaveSettings, onStart, onResetSettings, isNotStarted } = props;
+  const { values, isOpen, onResume, onRestart, onSaveSettings, onStart, onResetSettings, onGotoHomePageClick, isNotStarted } = props;
 
   const settingFormMethodsRef = useRef<SettingsFormMethods>();
 
@@ -52,6 +53,7 @@ export const Settings = memo((props: SettingsProps) => {
       <Drawer opened={isOpen} position="right" size="md" onClose={onCloseHandler}>
         <SettingsIntroForm
           isNotStarted={isNotStarted}
+          onGotoHomePageClick={onGotoHomePageClick}
           onRestart={onRestart}
           onResume={onResume}
           onSettings={openSettingsHandler}

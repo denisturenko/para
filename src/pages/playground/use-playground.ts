@@ -8,16 +8,19 @@ import type { PlayerProps } from 'shared/r3f/player';
 import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pages/playground/playground.utils';
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
 import { getWindByHeight } from 'shared/r3f/player';
+import type { HomePageTopSectionProps } from 'entities/ui/home-page-top-section';
 
 interface UsePlaygroundResult {
   meta: {
     isFinish: boolean;
+    isHomePageVisible: boolean;
     isNotStarted: boolean;
     withOrbitControls: boolean;
   };
   ui: {
     game: GameProps;
     gameControls: GameControlsProps;
+    homePage: HomePageTopSectionProps;
     player: PlayerProps;
     settings: SettingsProps;
   };
@@ -76,7 +79,7 @@ export const usePlayground = (): UsePlaygroundResult => {
   const onRestartHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false })), []);
 
   const onStartHandler = useCallback(
-    () => setState(prev => ({ ...prev, isNotStarted: false, isPaused: false, isFinish: false, isRestart: true })),
+    () => setState(prev => ({ ...prev, isNotStarted: false, isPaused: false, isFinish: false, isRestart: true, isHomePageVisible: false })),
     []
   );
 
@@ -88,6 +91,8 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onArrowShowToggleHandler = useCallback(() => setState(prev => ({ ...prev, isPlayerArrowVisible: !prev.isPlayerArrowVisible })), []);
 
+  const onGotoHomePageClickHandler = useCallback(() => setState(prev => ({ ...prev, isHomePageVisible: true })), []);
+
   const arrowAngel = useMemo(() => {
     const windAngel = getWindByHeight(settings.winds, 0)?.angel || 0;
 
@@ -96,6 +101,7 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   return {
     meta: {
+      isHomePageVisible: state.isHomePageVisible,
       isFinish: state.isFinish,
       isNotStarted: state.isNotStarted,
       withOrbitControls: state.withOrbitControls,
@@ -145,6 +151,10 @@ export const usePlayground = (): UsePlaygroundResult => {
         onSaveSettings: onSaveSettingsHandle,
         onStart: onStartHandler,
         onResetSettings: onResetSettingsHandle,
+        onGotoHomePageClick: onGotoHomePageClickHandler,
+      },
+      homePage: {
+        onClickStart: onStartHandler,
       },
     },
   };

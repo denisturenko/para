@@ -11,6 +11,12 @@ html, body, #root, #container {
 }
 
 html {
-  overflow: hidden;
+  /*overflow: hidden;*/
   overscroll-behavior: none;
+}
+
+
+ul,
+nav {
+  list-style: none;
 }

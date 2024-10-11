@@ -6,6 +6,7 @@ import React from 'react';
 
 interface SettingsIntroFormProps {
   isNotStarted: boolean;
+  onGotoHomePageClick?(): void;
   onRestart?(): void;
   onResume?(): void;
   onSettings?(): void;
@@ -13,7 +14,7 @@ interface SettingsIntroFormProps {
 }
 
 export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
-  const { onRestart, onResume, onStart, onSettings, isNotStarted } = props;
+  const { onRestart, onResume, onStart, onSettings, onGotoHomePageClick, isNotStarted } = props;
 
   return (
     <ContainerStyled>
@@ -35,6 +36,9 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
           Начать заново
         </Button>
       )}
+      <Button data-testid="to-home-page" size="md" variant="default" onClick={onGotoHomePageClick}>
+        На главную страницу
+      </Button>
       <Button data-testid="settings" size="md" variant="default" onClick={onSettings}>
         Настройки
       </Button>
