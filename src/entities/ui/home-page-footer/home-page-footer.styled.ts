@@ -54,6 +54,10 @@ export const TelegramLink = styled(Link)`
   align-items: center;
   justify-content: center;
   gap: 10px;
+
+  & svg {
+    font-size: 36px;
+  }
 `;
 
 /*

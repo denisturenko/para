@@ -51,7 +51,7 @@ export const H1Styled = styled.h1`
   background-color: rgba(85, 85, 85, 0.5);
 
   @media (max-width: 800px) {
-    font-size: 48px;
+    font-size: 40px;
   }
 `;
 

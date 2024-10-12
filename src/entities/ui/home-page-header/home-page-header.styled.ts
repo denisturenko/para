@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'shared/ui/link';
 
 export const ContainerStyled = styled.header`
   position: absolute;
@@ -6,7 +7,6 @@ export const ContainerStyled = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 35px 100px 0;
   animation: 1s fadein 0.2s forwards;
   opacity: 0;
   color: #fff;
@@ -17,9 +17,10 @@ export const ContainerStyled = styled.header`
       opacity: 1;
     }
   }
-
-  @media (max-width: 800px) {
-    padding: 20px 50px;
+  @media (min-width: 800px) {
+    padding: 35px 100px 0;
+  }
+  @media (max-width: 600px) {
     flex-direction: column;
   }
 `;
@@ -37,9 +38,13 @@ export const LogoWrapperStyled = styled.p`
     font-size: 40px;
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 600px) {
     margin-bottom: 15px;
   }
+`;
+
+export const LinkStyled = styled(Link)`
+  color: #f56946;
 `;
 
 export const NavWrapperStyled = styled.div`
