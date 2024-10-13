@@ -13,6 +13,8 @@ import { projectName } from 'shared/lib/configs';
 import { HomePageHeaderComponent } from 'entities/ui/home-page-header';
 import { HomePageTopSection } from 'entities/ui/home-page-top-section';
 import { HomePageFooterComponent } from 'entities/ui/home-page-footer';
+import { HomePageAboutApp } from 'entities/ui/home-page-about-app/home-page-about-app.component';
+import { links } from 'pages/playground/playground.constants';
 
 export const Playground = () => {
   const {
@@ -22,8 +24,9 @@ export const Playground = () => {
 
   return isHomePageVisible ? (
     <>
-      <HomePageHeaderComponent />
+      <HomePageHeaderComponent aboutLink={links.about} />
       <HomePageTopSection {...homePage} />
+      <HomePageAboutApp id={links.about} />
       <HomePageFooterComponent />
     </>
   ) : (

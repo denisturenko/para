@@ -4,6 +4,10 @@ import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 
 export const storageKey = 'gameSettings';
 
+export const links = {
+  about: 'about',
+};
+
 export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 

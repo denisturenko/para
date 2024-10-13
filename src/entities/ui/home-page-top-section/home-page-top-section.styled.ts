@@ -18,7 +18,7 @@ export const BackBlockStyled = styled.div`
   width: 100%;
   height: 100%;
   background-size: cover;
-  z-index: -1;
+  //z-index: -1;
   background-color: #a1532f;
   background-position: center center;
 `;
@@ -33,6 +33,7 @@ export const ContentAreaStyled = styled.div`
   align-items: center;
 
   animation: 1s slidefade 0.2s forwards;
+  z-index: 10;
 
   @keyframes slidefade {
     100% {
