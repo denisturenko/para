@@ -24,7 +24,7 @@ export const TouchBar: FC<TouchBarProps> = props => {
       onChange(Number(controlValue));
 
       event.stopPropagation();
-      // event.preventDefault();
+      // event.preventDefault();  error!!!
     },
     [onChange]
   );

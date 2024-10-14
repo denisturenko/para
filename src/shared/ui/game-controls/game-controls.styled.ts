@@ -8,11 +8,29 @@ export const ContainerStyled = styled.div`
   height: 100%;
 `;
 
+export const CenterBlockWrapperStyled = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CenterBlockStyled = styled.div`
+  position: relative;
+  top: 0;
+  width: 70%;
+  height: 70%;
+  //border: solid 1px silver;
+`;
+
 export const ButtonWrapperStyled = styled.div`
   position: absolute;
   top: 0;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;

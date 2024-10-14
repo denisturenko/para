@@ -3,10 +3,21 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { useThrottledCallback } from 'use-debounce';
 import { usePlayerControls } from 'shared/lib/hooks';
 import { TouchBar } from 'shared/ui/touch-bar';
-import { ArrowButtonStyled, ContainerStyled, SettingButtonStyled } from './game-controls.styled';
+import {
+  ArrowButtonStyled,
+  CenterBlockStyled,
+  CenterBlockWrapperStyled,
+  ContainerStyled,
+  SettingButtonStyled,
+} from './game-controls.styled';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { MAX_VERTICAL_ANGEL, MIDDLE_VERTICAL_ANGEL, MIN_VERTICAL_ANGEL } from './game-controls.constants';
 import { FaArrowPointer } from 'react-icons/fa6';
+import { calculateTouching } from 'shared/ui/touch-bar/touch-bar.utils';
+import { useSwipeable } from 'react-swipeable';
+import * as Three from 'three';
+
+const { degToRad } = Three.MathUtils;
 
 export interface GameControlsProps {
   allowTouchEndHandler?: boolean;
@@ -65,13 +76,13 @@ export const GameControls = memo((props: GameControlsProps) => {
 
   const adjustRightFn = useThrottledCallback(adjustRight, 50);
 
-  const onTouchStartHandler = useCallback(() => {
+  const onClickHandler = useCallback(() => {
     if (cameraTheta === MIN_VERTICAL_ANGEL) onChangeCameraTheta(MIDDLE_VERTICAL_ANGEL);
     else if (cameraTheta === MIDDLE_VERTICAL_ANGEL) onChangeCameraTheta(MAX_VERTICAL_ANGEL);
     else onChangeCameraTheta(MIN_VERTICAL_ANGEL);
   }, [cameraTheta, onChangeCameraTheta]);
 
-  const onTouchStartHandlerFn = useThrottledCallback(onTouchStartHandler, 100);
+  const onTouchStartHandlerFn = useThrottledCallback(onClickHandler, 100);
 
   useEffect(() => {
     if (controls.leftUp) {
@@ -115,8 +126,38 @@ export const GameControls = memo((props: GameControlsProps) => {
     [onArrowShowToggle]
   );
 
+  const handlers = useSwipeable({
+    onSwiping: eventData => {
+      if (eventData.dir === 'Up') {
+        const next = cameraTheta - degToRad(1);
+
+        if (next > MAX_VERTICAL_ANGEL) {
+          onChangeCameraTheta(next);
+        }
+      }
+
+      if (eventData.dir === 'Down') {
+        const next = cameraTheta + degToRad(1);
+
+        if (next < MIN_VERTICAL_ANGEL) {
+          onChangeCameraTheta(next);
+        }
+      }
+    },
+    delta: 10, // min distance(px) before a swipe starts. *See Notes*
+    preventScrollOnSwipe: false, // prevents scroll during swipe (*See Details*)
+    trackTouch: true, // track touch input
+    trackMouse: false, // track mouse input
+    rotationAngle: 0, // set a rotation angle
+    swipeDuration: Infinity, // allowable duration of a swipe (ms). *See Notes*
+    touchEventOptions: { passive: true }, // options for touch listeners (*See Details*)
+  });
+
   return (
-    <ContainerStyled onClick={onTouchStartHandler}>
+    <ContainerStyled onClick={onClickHandler}>
+      <CenterBlockWrapperStyled>
+        <CenterBlockStyled {...handlers} />
+      </CenterBlockWrapperStyled>
       <TouchBar isLeft allowTouchEndHandler={allowTouchEndHandler} value={leftControlValue} onChange={onLeftControlChange} />
       <SettingButtonStyled onClick={onSettingsClickHandler}>
         <AiOutlineMenu />

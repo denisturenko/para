@@ -32,7 +32,7 @@ export const LogoImgStyled = styled.img`
 const BlockStyled = styled.div`
   position: absolute;
   width: 80px;
-  height: 40px;
+  height: 50px;
   background-color: white;
   top: 0;
   font-size: 34px;

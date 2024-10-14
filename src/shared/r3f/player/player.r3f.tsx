@@ -225,12 +225,25 @@ export const Player = (props: PlayerProps) => {
           <Skydiver2 />
           {/* <boxGeometry args={[0.5, playerBodyHeight, 0.5]} />
           <meshBasicMaterial attach="material" color="#595856" /> */}
+          {isPlayerArrowVisible && (
+            <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-y={arrowAngel}>
+              <arrowHelper args={[undefined, undefined, 2, 'orange', 1]} />
+            </mesh>
+          )}
         </mesh>
-        {isPlayerArrowVisible && (
-          <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-y={arrowAngel}>
-            <arrowHelper args={[undefined, undefined, 2, 'orange', 1]} />
-          </mesh>
-        )}
+
+        <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-x={-Math.PI / 2}>
+          <ringGeometry args={[0.9, 0.903, 64]} />
+          <meshBasicMaterial attach="material" color="white" />
+        </mesh>
+        <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-x={-Math.PI / 2}>
+          <ringGeometry args={[2.29, 2.295, 64]} />
+          <meshBasicMaterial transparent attach="material" color="white" />
+        </mesh>
+        <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2 + 1.8, 0.2]} rotation-x={-Math.PI / 2}>
+          <ringGeometry args={[2.2, 2.205, 64]} />
+          <meshBasicMaterial attach="material" color="white" />
+        </mesh>
       </mesh>
 
       <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2} visible={isVisibleShadow}>
