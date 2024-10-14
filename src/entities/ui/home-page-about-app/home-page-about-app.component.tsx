@@ -22,7 +22,7 @@ export const HomePageAboutApp = (props: HomePageAboutAppProps) => {
           },
           {
             title: 'Вид',
-            description: 'Нажимайте на экран, что бы поменять угол обзора игрока',
+            description: 'Нажимайте на экран или двигайте вверх или вниз, что бы поменять угол обзора игрока',
           },
         ]}
         title="Управление"

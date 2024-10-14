@@ -11,7 +11,7 @@ import {
 import { FaTelegram } from 'react-icons/fa6';
 import { projectName } from 'shared/lib/configs';
 
-const telegramLink = 'https://t.me/';
+const telegramLink = 'https://t.me/post_aff';
 
 interface IProps {
   className?: string;
