@@ -4,6 +4,7 @@ import { DescriptionStyled, SectionStyled, TitleStyled, TitleWrapperStyled } fro
 
 interface CardProps {
   img?: ReactNode;
+  imgHeight?: number;
   items?: Array<{
     description: ReactNode;
     title: ReactNode;
@@ -12,7 +13,7 @@ interface CardProps {
 }
 
 export const Card2 = (props: CardProps) => {
-  const { items = [], img, title } = props;
+  const { items = [], imgHeight = 160, img, title } = props;
 
   return (
     <CardBase withBorder padding="lg" radius="md" shadow="sm">
@@ -20,7 +21,7 @@ export const Card2 = (props: CardProps) => {
 
       {img && (
         <CardBase.Section>
-          <ImageBase alt="" fit="contain" h={160} src={img} />
+          <ImageBase alt="" fit="contain" h={imgHeight} src={img} />
         </CardBase.Section>
       )}
 

@@ -6,6 +6,7 @@ export const storageKey = 'gameSettings';
 
 export const links = {
   about: 'about',
+  install: 'install',
 };
 
 export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {

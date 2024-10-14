@@ -5,10 +5,11 @@ import { projectName } from 'shared/lib/configs';
 
 interface HomePageHeaderProps {
   aboutLink: string;
+  installLink: string;
 }
 
 export const HomePageHeaderComponent = (props: HomePageHeaderProps) => {
-  const { aboutLink } = props;
+  const { aboutLink, installLink } = props;
 
   return (
     <ContainerStyled>
@@ -21,7 +22,7 @@ export const HomePageHeaderComponent = (props: HomePageHeaderProps) => {
             <Link href={'#' + aboutLink}>О приложении</Link>
           </LiStyled>
           <LiStyled>
-            <Link href={'#2'}>Отзывы</Link>
+            <Link href={'#' + installLink}>Установка</Link>
           </LiStyled>
         </NavStyled>
       </NavWrapperStyled>
