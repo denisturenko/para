@@ -9,6 +9,7 @@ import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pag
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
 import { getWindByHeight } from 'shared/r3f/player';
 import type { HomePageTopSectionProps } from 'entities/ui/home-page-top-section';
+import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 
 interface UsePlaygroundResult {
   meta: {
@@ -76,7 +77,9 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 
-  const onRestartHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false })), []);
+  const onRestartHandler = useCallback(() => {
+    setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false }));
+  }, []);
 
   const onStartHandler = useCallback(
     () => setState(prev => ({ ...prev, isNotStarted: false, isPaused: false, isFinish: false, isRestart: true, isHomePageVisible: false })),

@@ -56,7 +56,8 @@ export const Player = (props: PlayerProps) => {
   const [track, setTrack] = useState<THREE.Vector3[]>([]);
   const [showTrack, setShowTrack] = useState(isVisibleTrack);
 
-  const { leftControlValue, rightControlValue, cameraTheta } = useGameControlsContext();
+  const { leftControlValue, rightControlValue, cameraTheta, onLeftControlChange, onRightControlChange, onChangeCameraTheta } =
+    useGameControlsContext();
 
   const azimuth = useRef(props.azimuth || 0);
 
@@ -75,6 +76,11 @@ export const Player = (props: PlayerProps) => {
       beepTwoReset();
       beepOneReset();
       beepLongReset();
+
+      onLeftControlChange();
+      onRightControlChange();
+      onChangeCameraTheta();
+
       onFinishHandlerReset();
     }
   }, [
@@ -87,6 +93,9 @@ export const Player = (props: PlayerProps) => {
     beepOneReset,
     beepLongReset,
     onFinishHandlerReset,
+    onLeftControlChange,
+    onRightControlChange,
+    onChangeCameraTheta,
   ]);
 
   const setTrackThrottled = useThrottledCallback(() => {

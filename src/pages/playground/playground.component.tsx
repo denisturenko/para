@@ -23,7 +23,7 @@ export const Playground = () => {
     ui: { game, player, settings, gameControls, homePage },
   } = usePlayground();
 
-  return isHomePageVisible ? (
+  const homePageBlock = (
     <>
       <HomePageHeaderComponent aboutLink={links.about} installLink={links.install} />
       <HomePageTopSection {...homePage} />
@@ -31,37 +31,51 @@ export const Playground = () => {
       <HomePageInstallApp id={links.install} />
       <HomePageFooterComponent />
     </>
-  ) : (
-    <GameControlsProvider>
-      <ContainerStyled>
-        {!isNotStarted && (
-          <>
-            {!game.isReady && (
-              // <Intro />
-              <LoaderWrapperStyled>
-                <LogoImgStyled alt={projectName} height="100" src={logoImg} />
-                {projectName}
-                <ReactLoading color="white" height={20} type="bubbles" width={100} />
-              </LoaderWrapperStyled>
-            )}
-            <Canvas>
-              <Game {...game}>
-                <Player {...player} />
-              </Game>
-            </Canvas>
-          </>
-        )}
+  );
+
+  const loadingBlock = (
+    <LoaderWrapperStyled>
+      <LogoImgStyled alt={projectName} height="100" src={logoImg} />
+      {projectName}
+      <ReactLoading color="white" height={20} type="bubbles" width={100} />
+    </LoaderWrapperStyled>
+  );
+
+  const gameCanvasBlock = (
+    <Canvas>
+      <Game {...game}>
+        <Player {...player} />
+      </Game>
+    </Canvas>
+  );
+
+  const controlsBlock = (
+    <>
+      <AltitudeStyled id="altitude" />
+      {/* <InfoStyled id="info" /> */}
+      <GameControls {...gameControls} />
+    </>
+  );
+
+  const settingsBlock = <Settings {...settings} />;
+
+  return (
+    <>
+      <ContainerStyled $isHidden={!isHomePageVisible}>{homePageBlock}</ContainerStyled>
+      <ContainerStyled $isHidden={isHomePageVisible}>
+        <GameControlsProvider>
+          {!isNotStarted && (
+            <>
+              {!game.isReady && loadingBlock}
+              {gameCanvasBlock}
+            </>
+          )}
+
+          {!withOrbitControls && game.isReady && controlsBlock}
+
+          {!isHomePageVisible && settingsBlock}
+        </GameControlsProvider>
       </ContainerStyled>
-
-      {!withOrbitControls && game.isReady && (
-        <>
-          <AltitudeStyled id="altitude" />
-          {/* <InfoStyled id="info" /> */}
-          <GameControls {...gameControls} />
-        </>
-      )}
-
-      <Settings {...settings} />
-    </GameControlsProvider>
+    </>
   );
 };

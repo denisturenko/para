@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
-export const ContainerStyled = styled.div`
+interface ContainerStyledProps {
+  $isHidden?: boolean;
+}
+
+export const ContainerStyled = styled.div<ContainerStyledProps>`
   position: relative;
   width: 100%;
   height: 100%;
+  display: ${({ $isHidden }) => ($isHidden ? 'none' : 'block')};
 `;
 
 export const LoaderWrapperStyled = styled.div`
