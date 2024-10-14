@@ -1,6 +1,6 @@
 {
-  "name": "P-AFF",
-  "short_name": "P-AFF",
+  "name": "Post-AFF",
+  "short_name": "Post-AFF",
   "display": "standalone",
   "version": "1.0",
   "start_url": "./?utm_source=pwa_install&standalone=true",
