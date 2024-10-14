@@ -18,7 +18,7 @@ export const BackBlockStyled = styled.div`
   height: 100%;
   background-size: cover;
   //z-index: -1;
-  background-color: #a1532f;
+  //background-color: #a1532f;
   background-position: center center;
 `;
 
