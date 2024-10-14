@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
-import { getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import { calculateVerticalSpeed, getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
@@ -129,9 +129,16 @@ export const Player = (props: PlayerProps) => {
 
     const currentWindAngel = angelCorrection - currentWind.angel;
 
+    const currentVerticalSpeed = calculateVerticalSpeed({ leftControlValue, rightControlValue, middleSpeed: verticalSpeed });
+    /* const currentVerticalSpeed = calculateVerticalSpeedDuringLanding({
+      leftControlValue,
+      rightControlValue,
+      currentSpeed: currentVerticalSpeedTmp,
+    }); */
+
     const nextX = playerRef.current.position.x - (nextAxle.x + windSpeed * delta * Math.sin(currentWindAngel));
     const nextZ = playerRef.current.position.z - (nextAxle.z + windSpeed * delta * Math.cos(currentWindAngel));
-    const nextY = playerRef.current.position.y - verticalSpeed * delta;
+    const nextY = playerRef.current.position.y - currentVerticalSpeed * delta;
     // nextY = 100;
 
     const { heightFor3, heightFor2, heightFor1, heightForLong } = props.beep || {};
@@ -200,6 +207,11 @@ export const Player = (props: PlayerProps) => {
     const altitudeEl = document.getElementById('altitude');
 
     if (altitudeEl) altitudeEl.innerHTML = String(nextY.toFixed(0));
+
+    // todo ugly ugly
+    const infoEl = document.getElementById('info');
+
+    if (infoEl) infoEl.innerHTML = String(currentVerticalSpeed.toFixed(1));
 
     azimuth.current = nextAxle.angle;
   });

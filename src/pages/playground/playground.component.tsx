@@ -3,7 +3,7 @@ import React from 'react';
 import { Game } from 'entities/r3f/game';
 import ReactLoading from 'react-loading';
 import { GameControls } from 'shared/ui/game-controls';
-import { AltitudeStyled, ContainerStyled, LoaderWrapperStyled, LogoImgStyled } from './playground.styled';
+import { AltitudeStyled, ContainerStyled, LoaderWrapperStyled, LogoImgStyled, InfoStyled } from './playground.styled';
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
 import { usePlayground } from 'pages/playground/use-playground';
@@ -52,7 +52,7 @@ export const Playground = () => {
   const controlsBlock = (
     <>
       <AltitudeStyled id="altitude" />
-      {/* <InfoStyled id="info" /> */}
+      <InfoStyled id="info" />
       <GameControls {...gameControls} />
     </>
   );

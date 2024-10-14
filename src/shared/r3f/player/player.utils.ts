@@ -152,3 +152,60 @@ export const getWindByHeight = (winds: WindSettings[], height: number): WindSett
 }; */
 
 // calculateTrackFromCoords();
+
+interface calculateVerticalSpeedDuringLandingParams {
+  currentSpeed: number;
+  leftControlValue: number;
+  minSpeed?: number;
+  rightControlValue: number;
+}
+
+export const calculateVerticalSpeedDuringLanding = (params: calculateVerticalSpeedDuringLandingParams): number => {
+  const { leftControlValue, rightControlValue, currentSpeed, minSpeed = 1 } = params;
+  const min = Math.min(leftControlValue, rightControlValue);
+
+  if (min <= 50) {
+    return currentSpeed - (min / 100) * 2;
+  }
+
+  return ((100 - min) / 100) * (currentSpeed - 1 - minSpeed) * 2;
+};
+
+interface CalculateVerticalSpeedParams {
+  leftControlValue: number;
+  middleSpeed: number;
+  minSpeed?: number;
+  rightControlValue: number;
+}
+export const calculateVerticalSpeed = (params: CalculateVerticalSpeedParams): number => {
+  const { leftControlValue, rightControlValue, minSpeed = 0, middleSpeed } = params;
+  const delta = Math.abs(leftControlValue - rightControlValue);
+
+  return (delta / 100) * (middleSpeed - minSpeed) + middleSpeed;
+};
+
+// todo mode to utils
+/* const lastCallTimestampModifyVerticalSpeed = 0;
+const lastResultModifyVerticalSpeed = 0;
+
+export const modifyVerticalSpeed = (controlValue: number) => {
+  const matrix = [
+    [70, 10 * 1000, 4],
+    [80, 8 * 1000, 4],
+    [90, 5 * 1000, 4],
+    [95, 2 * 1000, 4],
+    [100, 2 * 1000, 8],
+  ];
+
+  const now = Date.now();
+
+  if (lastResult && now - lastCallTimestamp < 1000) {
+    return lastResult;
+  }
+
+  lastCallTimestamp = now;
+
+  lastResult = !from && !to ? 0 : from + Math.floor(Math.random() * (to - 1));
+
+  return lastResult;
+}; */
