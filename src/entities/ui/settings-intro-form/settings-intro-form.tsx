@@ -1,7 +1,7 @@
 import { Button } from '@mantine/core';
 import { ContainerStyled, IconWrapperStyled } from './settings-intro-form.styled';
 import logoImg from 'shared/assets/logo.png';
-import { projectName } from 'shared/lib/configs';
+import { projectName, projectVersion } from 'shared/lib/configs';
 import React from 'react';
 
 interface SettingsIntroFormProps {
@@ -20,7 +20,7 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
     <ContainerStyled>
       <IconWrapperStyled>
         <img alt={projectName} src={logoImg} width="100" />
-        {projectName}
+        {projectName} {projectVersion}
       </IconWrapperStyled>
       {isNotStarted ? (
         <Button data-testid="start" size="md" variant="filled" onClick={onStart}>

@@ -9,6 +9,7 @@ import {
   TelegramLink,
 } from 'entities/ui/home-page-footer/home-page-footer.styled';
 import { FaTelegram } from 'react-icons/fa6';
+import { projectName } from 'shared/lib/configs';
 
 const telegramLink = 'https://t.me/';
 
@@ -22,7 +23,7 @@ export const HomePageFooterComponent: React.FC<IProps> = () => (
       <CopyStyled>
         {'\u00a9'}2023 - {new Date().getFullYear()}
       </CopyStyled>
-      <BrandStyled>P-AFF</BrandStyled>
+      <BrandStyled>{projectName}</BrandStyled>
     </CopyAndLogoWrapperStyled>
 
     <ListStyled>

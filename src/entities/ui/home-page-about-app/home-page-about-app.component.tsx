@@ -1,7 +1,7 @@
 import { Card2 } from 'shared/ui/card2';
-import imgSettings from 'shared/assets/settings.png';
-import imgTarget from 'shared/assets/target.png';
-import imgControls from 'shared/assets/controls.png';
+import imgSettings from 'shared/assets/hp-bg/settings.jpg';
+import imgTarget from 'shared/assets/hp-bg/target.jpg';
+import imgControls from 'shared/assets/hp-bg/controls.jpg';
 import { ContainerStyled } from './home-page-about-app.styled';
 
 interface HomePageAboutAppProps {

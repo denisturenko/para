@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Group, Card as CardBase, Image as ImageBase } from '@mantine/core';
+import { Card as CardBase } from '@mantine/core';
 
 export const TitleWrapperStyled = styled(CardBase.Section)`
   padding-left: var(--mantine-spacing-md);

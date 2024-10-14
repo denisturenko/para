@@ -1,1 +1,2 @@
-export const projectName = 'P-AFF v1.0';
+export const projectName = 'Post-AFF.ru';
+export const projectVersion = 'v1.0';

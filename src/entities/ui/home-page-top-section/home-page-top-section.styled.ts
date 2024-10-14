@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Section } from 'shared/ui/section';
-import { Link } from 'shared/ui/link';
 import { Button } from '@mantine/core';
 
 export const ContainerStyled = styled(Section)`

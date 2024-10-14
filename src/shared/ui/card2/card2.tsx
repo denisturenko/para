@@ -1,4 +1,4 @@
-import { Group, Card as CardBase, Image as ImageBase } from '@mantine/core';
+import { Card as CardBase, Image as ImageBase } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { DescriptionStyled, SectionStyled, TitleStyled, TitleWrapperStyled } from './card2.styled';
 

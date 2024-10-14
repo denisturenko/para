@@ -1,6 +1,7 @@
 import { ContainerStyled, LinkStyled, LiStyled, LogoWrapperStyled, NavStyled, NavWrapperStyled } from './home-page-header.styled';
 import logoImg from 'shared/assets/logo.png';
 import { Link } from 'shared/ui/link';
+import { projectName } from 'shared/lib/configs';
 
 interface HomePageHeaderProps {
   aboutLink: string;
@@ -12,7 +13,7 @@ export const HomePageHeaderComponent = (props: HomePageHeaderProps) => {
   return (
     <ContainerStyled>
       <LogoWrapperStyled style={{ backgroundImage: `url("${logoImg}")` }}>
-        <LinkStyled href="./">P-AFF</LinkStyled>
+        <LinkStyled href="./">{projectName}</LinkStyled>
       </LogoWrapperStyled>
       <NavWrapperStyled>
         <NavStyled>
