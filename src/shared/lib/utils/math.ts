@@ -14,26 +14,28 @@ export const mapValueToPercentage = (min: number, max: number, currentValue: num
 
 export const dynamicValue = (matrix: number[][]) => {
   let startTime: number | null = null;
-  let flg = false;
+  let lastResult: number | null = null;
 
-  return function (controlValue: number, value: number, now: number) {
+  return function (controlValue: number, currentValue: number, nowTs: number) {
     if (!startTime) {
-      startTime = now;
+      startTime = nowTs;
     }
 
-    const elapsedTime = now - startTime;
+    const elapsedTime = nowTs - startTime;
 
     const foundIdx = matrix.findIndex((currentItem, idx) => {
       const nextItem = matrix[idx + 1];
+
+      if (currentItem[0] === controlValue) return true;
 
       return nextItem && currentItem[0] <= controlValue && nextItem[0] > controlValue;
     });
 
     if (foundIdx === -1) {
       startTime = null;
-      flg = false;
+      lastResult = null;
 
-      return controlValue;
+      return currentValue;
     }
 
     const matrixItem = matrix[foundIdx];
@@ -41,7 +43,7 @@ export const dynamicValue = (matrix: number[][]) => {
     const tsDelta = 3 * 1000;
 
     if (elapsedTime < matrixItem[1]) {
-      return value;
+      return currentValue;
     } else if (elapsedTime < startTime + matrixItem[1] + tsDelta) {
       /* try {
         mapValueToPercentage(elapsedTime, startTime + matrixItem[1] + tsDelta, now);
@@ -51,14 +53,21 @@ export const dynamicValue = (matrix: number[][]) => {
         return 0;
       } */
 
-      const percent = mapValueToPercentage(elapsedTime, startTime + matrixItem[1] + tsDelta, now);
+      const percent = mapValueToPercentage(elapsedTime, startTime + matrixItem[1] + tsDelta, nowTs);
 
-      return value + matrixItem[2] * value * percent;
+      lastResult = currentValue + matrixItem[2] * currentValue * percent;
+
+      return lastResult;
     }
 
-    console.log('***', flg);
-    flg = true;
-
-    return value + matrixItem[2] * value;
+    return lastResult;
   };
+};
+
+export const toPercent = (value: number) => {
+  if (value < 0) return 0;
+
+  if (value > 100) return 1;
+
+  return value / 100;
 };

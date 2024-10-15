@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import { useCallback, useRef } from 'react';
 import { WrapperStyled, LevelStyled } from './touch-bar.styled';
 import { calculateTouching } from './touch-bar.utils';
+import { scale } from 'chroma-js';
+import { toPercent } from 'shared/lib/utils';
 
 interface TouchBarProps {
   allowTouchEndHandler?: boolean;
@@ -10,6 +12,8 @@ interface TouchBarProps {
   onChange(value: number): void;
   value: number;
 }
+
+const colors = scale(['green', 'blue', 'red']);
 
 export const TouchBar: FC<TouchBarProps> = props => {
   const { onChange, value, allowTouchEndHandler } = props;
@@ -57,7 +61,12 @@ export const TouchBar: FC<TouchBarProps> = props => {
       onTouchMove={onTouchMoveHandler}
       onTouchStart={onTouchStartHandler}
     >
-      <LevelStyled ref={levelRef} $isLeft={props.isLeft} $isRight={props.isRight} style={{ height: String(value) + '%' }}>
+      <LevelStyled
+        ref={levelRef}
+        $isLeft={props.isLeft}
+        $isRight={props.isRight}
+        style={{ height: String(value) + '%', backgroundColor: colors(toPercent(value)) }}
+      >
         {value}
       </LevelStyled>
     </WrapperStyled>

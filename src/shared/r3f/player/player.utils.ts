@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { WindSettings } from 'shared/lib/types';
 import { sortBy } from 'lodash';
+import { dynamicValue } from 'shared/lib/utils';
 
 export const getSpeed = (val: number, maxSpeed: number, minSpeed: number) => {
   const percent = 100 - val;
@@ -168,7 +169,9 @@ export const calculateVerticalSpeedDuringLanding = (params: calculateVerticalSpe
     return currentSpeed - (min / 100) * 2;
   }
 
-  return ((100 - min) / 100) * (currentSpeed - 1 - minSpeed) * 2;
+  const res = ((100 - min) / 100) * (currentSpeed - 1 - minSpeed) * 3;
+
+  return res ? res : 0.1;
 };
 
 interface CalculateVerticalSpeedParams {
@@ -177,35 +180,29 @@ interface CalculateVerticalSpeedParams {
   minSpeed?: number;
   rightControlValue: number;
 }
-export const calculateVerticalSpeed = (params: CalculateVerticalSpeedParams): number => {
+export const calculateVerticalSpeedForTurns = (params: CalculateVerticalSpeedParams): number => {
   const { leftControlValue, rightControlValue, minSpeed = 0, middleSpeed } = params;
   const delta = Math.abs(leftControlValue - rightControlValue);
 
   return (delta / 100) * (middleSpeed - minSpeed) + middleSpeed;
 };
 
-// todo mode to utils
-/* const lastCallTimestampModifyVerticalSpeed = 0;
-const lastResultModifyVerticalSpeed = 0;
+// todo
+export const calculateVerticalSpeed = (matrix: number[][]) => {
+  const dynamicValueFn = dynamicValue(matrix);
 
-export const modifyVerticalSpeed = (controlValue: number) => {
-  const matrix = [
-    [70, 10 * 1000, 4],
-    [80, 8 * 1000, 4],
-    [90, 5 * 1000, 4],
-    [95, 2 * 1000, 4],
-    [100, 2 * 1000, 8],
-  ];
+  return (leftControlValue: number, rightControlValue: number, currentSpeed: number) => {
+    const currentVerticalSpeedTmp = calculateVerticalSpeedForTurns({ leftControlValue, rightControlValue, middleSpeed: currentSpeed });
+    const currentVerticalSpeedTmp2 = calculateVerticalSpeedDuringLanding({
+      leftControlValue,
+      rightControlValue,
+      currentSpeed: currentVerticalSpeedTmp,
+    });
+    const minControlValue = Math.min(leftControlValue, rightControlValue);
+    const res = dynamicValueFn(minControlValue, currentVerticalSpeedTmp2, Date.now());
 
-  const now = Date.now();
+    // console.log('***', currentVerticalSpeedTmp, currentVerticalSpeedTmp2, res);
 
-  if (lastResult && now - lastCallTimestamp < 1000) {
-    return lastResult;
-  }
-
-  lastCallTimestamp = now;
-
-  lastResult = !from && !to ? 0 : from + Math.floor(Math.random() * (to - 1));
-
-  return lastResult;
-}; */
+    return res;
+  };
+};

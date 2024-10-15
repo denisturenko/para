@@ -16,11 +16,12 @@ import { HomePageFooterComponent } from 'entities/ui/home-page-footer';
 import { HomePageAboutApp } from 'entities/ui/home-page-about-app/home-page-about-app.component';
 import { links } from 'pages/playground/playground.constants';
 import { HomePageInstallApp } from 'entities/ui/home-page-install-app';
+import { Greetings } from 'features/ui/greetings';
 
 export const Playground = () => {
   const {
     meta: { isNotStarted, withOrbitControls, isHomePageVisible },
-    ui: { game, player, settings, gameControls, homePage },
+    ui: { game, player, settings, gameControls, homePage, greetings },
   } = usePlayground();
 
   const homePageBlock = (
@@ -59,8 +60,11 @@ export const Playground = () => {
 
   const settingsBlock = <Settings {...settings} />;
 
+  const greetingsBlock = <Greetings {...greetings} />;
+
   return (
     <>
+      {greetingsBlock}
       <ContainerStyled $isHidden={!isHomePageVisible}>{homePageBlock}</ContainerStyled>
       <ContainerStyled $isHidden={isHomePageVisible}>
         <GameControlsProvider>

@@ -16,7 +16,7 @@ import { settingsFormValidationSchema } from './settings-form.validation';
 import { Alert } from 'shared/ui/alert';
 import { defer, uniqueId } from 'lodash';
 
-export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
+export const SettingsFormComponent = forwardRef((props: SettingsFormProps, ref) => {
   const { onSubmit, onReset } = props;
 
   const form = useForm<SettingsFormValues>({
@@ -252,6 +252,15 @@ export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
               })}
             />
           </Grid.Col>
+          <Grid.Col span={{ base: 6, xs: 3 }}>
+            <Switch
+              label="Визуализация вертикальных углов 22&deg; 45&deg; 67&deg;"
+              labelPosition="left"
+              {...form.getInputProps('helpers.isVisibleAngelCircles', {
+                type: 'checkbox',
+              })}
+            />
+          </Grid.Col>
         </Grid>
       </Card>
 
@@ -308,4 +317,4 @@ export const SettingsForm = forwardRef((props: SettingsFormProps, ref) => {
   );
 });
 
-SettingsForm.displayName = 'SettingsForm';
+SettingsFormComponent.displayName = 'SettingsForm';

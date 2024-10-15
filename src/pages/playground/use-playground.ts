@@ -1,26 +1,31 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { GameProps } from 'entities/r3f/game';
-import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase, UserSettings } from 'shared/lib/types';
 import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
-import { initialSettings, initialState, storageKey } from './playground.constants';
+import { initialSettings, initialState, initialUserSettings, storageKey } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
 import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pages/playground/playground.utils';
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
 import { getWindByHeight } from 'shared/r3f/player';
 import type { HomePageTopSectionProps } from 'entities/ui/home-page-top-section';
-import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
+import type { GreetingsProps } from 'features/ui/greetings';
+import { userStorage } from 'shared/lib/utils/storage/user-storage';
+import ym from 'react-yandex-metrika';
+import { ymCounterId } from 'shared/lib/configs';
 
 interface UsePlaygroundResult {
   meta: {
     isFinish: boolean;
     isHomePageVisible: boolean;
     isNotStarted: boolean;
+    userSettings: UserSettings;
     withOrbitControls: boolean;
   };
   ui: {
     game: GameProps;
     gameControls: GameControlsProps;
+    greetings: GreetingsProps;
     homePage: HomePageTopSectionProps;
     player: PlayerProps;
     settings: SettingsProps;
@@ -42,6 +47,30 @@ export const usePlayground = (): UsePlaygroundResult => {
 
     return isValid ? fromStore : initialSettings;
   }, [storageInst]);
+
+  /** User stuff. */
+  const userStorageInst = useMemo(() => userStorage<UserSettings>(storageKey), []);
+
+  const [userSettings, setUserSettings] = useState<UserSettings>(userStorageInst.get(initialUserSettings));
+
+  useEffect(() => {
+    if (userSettings.nickName) {
+      ym(String(ymCounterId), 'setUserID', userSettings.nickName);
+    }
+  }, [userSettings]);
+
+  const setUserSettingsToStorage = useCallback(
+    values => {
+      setUserSettings(prev => {
+        const next = { ...prev, ...values };
+
+        userStorageInst.set(next);
+
+        return next;
+      });
+    },
+    [userStorageInst]
+  );
 
   /** Game settings stuff. */
 
@@ -82,7 +111,16 @@ export const usePlayground = (): UsePlaygroundResult => {
   }, []);
 
   const onStartHandler = useCallback(
-    () => setState(prev => ({ ...prev, isNotStarted: false, isPaused: false, isFinish: false, isRestart: true, isHomePageVisible: false })),
+    () =>
+      setState(prev => ({
+        ...prev,
+        isNotStarted: false,
+        isPaused: false,
+        isFinish: false,
+        isRestart: true,
+        isHomePageVisible: false,
+        isGreetingsVisible: false,
+      })),
     []
   );
 
@@ -96,6 +134,22 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onGotoHomePageClickHandler = useCallback(() => setState(prev => ({ ...prev, isHomePageVisible: true })), []);
 
+  const onStartGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: true })), []);
+
+  const onStartGameOrGreetingsHandler = useCallback(() => {
+    userSettings.nickName && userSettings.isAgree ? onStartHandler() : onStartGreetingsHandler();
+  }, [onStartGreetingsHandler, onStartHandler, userSettings.isAgree, userSettings.nickName]);
+
+  const onCancelGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: false })), []);
+
+  const onSaveGreetingsHandle = useCallback(
+    (values: UserSettings) => {
+      setUserSettingsToStorage(values);
+      onStartHandler();
+    },
+    [onStartHandler, setUserSettingsToStorage]
+  );
+
   const arrowAngel = useMemo(() => {
     const windAngel = getWindByHeight(settings.winds, 0)?.angel || 0;
 
@@ -104,6 +158,7 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   return {
     meta: {
+      userSettings,
       isHomePageVisible: state.isHomePageVisible,
       isFinish: state.isFinish,
       isNotStarted: state.isNotStarted,
@@ -157,7 +212,13 @@ export const usePlayground = (): UsePlaygroundResult => {
         onGotoHomePageClick: onGotoHomePageClickHandler,
       },
       homePage: {
-        onClickStart: onStartHandler,
+        onClickStart: onStartGameOrGreetingsHandler,
+      },
+      greetings: {
+        isOpen: state.isGreetingsVisible,
+        values: userSettings,
+        onCancel: onCancelGreetingsHandler,
+        onSave: onSaveGreetingsHandle,
       },
     },
   };

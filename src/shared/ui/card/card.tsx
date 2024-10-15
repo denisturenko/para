@@ -3,7 +3,7 @@ import type { PropsWithChildren, ReactNode } from 'react';
 
 interface CardProps {
   img?: ReactNode;
-  title: ReactNode;
+  title?: ReactNode;
 }
 
 export const Card = (props: PropsWithChildren<CardProps>) => {
@@ -17,9 +17,11 @@ export const Card = (props: PropsWithChildren<CardProps>) => {
         </CardBase.Section>
       )}
 
-      <CardBase.Section inheritPadding withBorder py="xs">
-        <Group justify="space-between">{title}</Group>
-      </CardBase.Section>
+      {title && (
+        <CardBase.Section inheritPadding withBorder py="xs">
+          <Group justify="space-between">{title}</Group>
+        </CardBase.Section>
+      )}
 
       {children}
     </CardBase>

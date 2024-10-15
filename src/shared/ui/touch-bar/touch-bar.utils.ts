@@ -1,5 +1,5 @@
 export const calculateTouching = (el: HTMLElement, el2: HTMLElement, event: TouchEvent) => {
-  const height = el.offsetHeight; /* - el.offsetTop */
+  const height = el.offsetHeight - el.offsetTop;
   const currentTouch = [...event.changedTouches].find(item => item.target === el || item.target === el2);
   let tmp = Math.floor(currentTouch?.pageY || 0); /* - el.offsetTop */
 

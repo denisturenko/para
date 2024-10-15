@@ -1,7 +1,7 @@
 import { SettingsIntroForm } from 'entities/ui/settings-intro-form';
 import React, { useCallback, useState, memo, useRef } from 'react';
 import type { SettingsFormMethods } from 'entities/ui/settings-form';
-import { SettingsForm } from 'entities/ui/settings-form';
+import { SettingsFormComponent } from 'entities/ui/settings-form';
 import { Drawer } from 'shared/ui/drawer';
 import type { SettingsFormValues } from 'entities/ui/settings-form/settings-form.types';
 
@@ -70,7 +70,7 @@ export const Settings = memo((props: SettingsProps) => {
         onClose={closeSettingsHandler}
         onSubmit={onSubmitSettingsDrawerHandler}
       >
-        <SettingsForm
+        <SettingsFormComponent
           ref={settingFormMethodsRef}
           initialValues={values}
           onReset={onResetSettingsHandler}

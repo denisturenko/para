@@ -21,6 +21,7 @@ export interface GameSettings {
   arrowPosition: THREE.Vector3;
   isFinish: boolean;
 
+  isGreetingsVisible: boolean;
   isHomePageVisible: boolean;
   isNotStarted: boolean;
   isPaused: boolean;

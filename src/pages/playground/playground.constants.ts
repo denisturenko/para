@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
-import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase, UserSettings } from 'shared/lib/types';
 
 export const storageKey = 'gameSettings';
 
@@ -12,6 +12,7 @@ export const links = {
 export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 
+  isGreetingsVisible: false,
   isHomePageVisible: true,
   isNotStarted: true,
   isPaused: true,
@@ -46,10 +47,22 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
   arrowPosition: new THREE.Vector3(-190, 0.1, -170),
 };
 
+export const initialUserSettings: UserSettings = {
+  nickName: '',
+  isAgree: false,
+};
+
 export const initialSettings: GameSettingsBase = {
   winds: [{ minHeight: 0, angel: degToRad(345), speed: 2, hasGusts: false }],
   canopy: { verticalSpeed: 5, maxSpeed: 10, minSpeed: 1, inertiaFactor: 3 },
-  helpers: { isVisibleCircles: true, isVisibleCross: true, isVisibleShadow: true, isVisibleTrack: true, allowToggleReleasing: false },
+  helpers: {
+    isVisibleCircles: true,
+    isVisibleCross: true,
+    isVisibleShadow: true,
+    isVisibleTrack: true,
+    allowToggleReleasing: false,
+    isVisibleAngelCircles: true,
+  },
 
   beep: {
     volume: 1,

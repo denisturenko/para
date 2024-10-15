@@ -8,7 +8,7 @@ interface LeftRightProps {
 export const WrapperStyled = styled.div<LeftRightProps>`
   position: absolute;
   width: 100px;
-  height: 100%;
+  height: calc(100% - 20px);
   background-color: white;
   opacity: 0.1;
   font-size: 34px;
@@ -32,7 +32,7 @@ export const WrapperStyled = styled.div<LeftRightProps>`
 export const LevelStyled = styled.div<LeftRightProps>`
   height: 0;
   width: 100%;
-  background-color: blue;
+  //background-color: blue;
   color: white;
   padding: 0 10px;
 

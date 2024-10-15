@@ -5,3 +5,4 @@ export * from './helper-settings.type';
 export * from './player-controls.type';
 export * from './beep-settings.type';
 export * from './target-settings.type';
+export * from './user-settings.type';

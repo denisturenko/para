@@ -13,7 +13,6 @@ import {
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { MAX_VERTICAL_ANGEL, MIDDLE_VERTICAL_ANGEL, MIN_VERTICAL_ANGEL } from './game-controls.constants';
 import { FaArrowPointer } from 'react-icons/fa6';
-import { calculateTouching } from 'shared/ui/touch-bar/touch-bar.utils';
 import { useSwipeable } from 'react-swipeable';
 import * as Three from 'three';
 
@@ -128,7 +127,7 @@ export const GameControls = memo((props: GameControlsProps) => {
 
   const handlers = useSwipeable({
     onSwiping: eventData => {
-      if (eventData.dir === 'Up') {
+      if (eventData.dir === 'Down') {
         const next = cameraTheta - degToRad(1);
 
         if (next > MAX_VERTICAL_ANGEL) {
@@ -136,7 +135,7 @@ export const GameControls = memo((props: GameControlsProps) => {
         }
       }
 
-      if (eventData.dir === 'Down') {
+      if (eventData.dir === 'Up') {
         const next = cameraTheta + degToRad(1);
 
         if (next < MIN_VERTICAL_ANGEL) {

@@ -2,7 +2,14 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
-import { calculateVerticalSpeed, getSpeed, getWindByHeight, modifyParamWithinRange, moveAxle } from './player.utils';
+import {
+  calculateVerticalSpeed,
+  calculateVerticalSpeedForTurns,
+  getSpeed,
+  getWindByHeight,
+  modifyParamWithinRange,
+  moveAxle,
+} from './player.utils';
 import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.provider';
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
@@ -39,7 +46,7 @@ export const Player = (props: PlayerProps) => {
     isPaused,
     isRestart,
     angelCorrection = 0,
-    helpers: { isVisibleShadow, isVisibleTrack },
+    helpers: { isVisibleShadow, isVisibleTrack, isVisibleAngelCircles },
     onFinish,
     arrowAngel = 0,
     isPlayerArrowVisible,
@@ -64,9 +71,18 @@ export const Player = (props: PlayerProps) => {
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const playerShadowRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const arrowHelperRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
+  const calculateVerticalSpeedRef = useRef<ReturnType<typeof calculateVerticalSpeed> | null>();
 
   useEffect(() => {
     if (isRestart) {
+      calculateVerticalSpeedRef.current = calculateVerticalSpeed([
+        [70, 10 * 1000, 0.25],
+        [80, 8 * 1000, 1],
+        [90, 5 * 1000, 2],
+        [95, 2 * 1000, 3],
+        [100, 2 * 1000, 75],
+      ]);
+
       playerRef.current.position.set(props.position.x, props.position.y, props.position.z);
       azimuth.current = props.azimuth || 0;
       setTrack([]);
@@ -129,12 +145,10 @@ export const Player = (props: PlayerProps) => {
 
     const currentWindAngel = angelCorrection - currentWind.angel;
 
-    const currentVerticalSpeed = calculateVerticalSpeed({ leftControlValue, rightControlValue, middleSpeed: verticalSpeed });
-    /* const currentVerticalSpeed = calculateVerticalSpeedDuringLanding({
-      leftControlValue,
-      rightControlValue,
-      currentSpeed: currentVerticalSpeedTmp,
-    }); */
+    // todos
+    // const currentVerticalSpeed =
+    // calculateVerticalSpeedRef.current?.(leftControlValue, rightControlValue, verticalSpeed) || verticalSpeed;
+    const currentVerticalSpeed = calculateVerticalSpeedForTurns({ leftControlValue, rightControlValue, middleSpeed: verticalSpeed });
 
     const nextX = playerRef.current.position.x - (nextAxle.x + windSpeed * delta * Math.sin(currentWindAngel));
     const nextZ = playerRef.current.position.z - (nextAxle.z + windSpeed * delta * Math.cos(currentWindAngel));
@@ -232,18 +246,22 @@ export const Player = (props: PlayerProps) => {
           )}
         </mesh>
 
-        <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-x={-Math.PI / 2}>
-          <ringGeometry args={[0.9, 0.903, 64]} />
-          <meshBasicMaterial attach="material" color="white" />
-        </mesh>
-        <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-x={-Math.PI / 2}>
-          <ringGeometry args={[2.29, 2.295, 64]} />
-          <meshBasicMaterial transparent attach="material" color="white" />
-        </mesh>
-        <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2 + 1.8, 0.2]} rotation-x={-Math.PI / 2}>
-          <ringGeometry args={[2.2, 2.205, 64]} />
-          <meshBasicMaterial attach="material" color="white" />
-        </mesh>
+        {isVisibleAngelCircles && (
+          <>
+            <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[0.9, 0.903, 64]} />
+              <meshBasicMaterial attach="material" color="white" />
+            </mesh>
+            <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2, 0.2]} rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[2.29, 2.295, 64]} />
+              <meshBasicMaterial attach="material" color="white" />
+            </mesh>
+            <mesh ref={arrowHelperRef} position={[0, playerBodyHeight / 2 + 1.8, 0.2]} rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[2.2, 2.205, 64]} />
+              <meshBasicMaterial attach="material" color="white" />
+            </mesh>
+          </>
+        )}
       </mesh>
 
       <mesh ref={playerShadowRef} rotation-x={-Math.PI / 2} visible={isVisibleShadow}>
