@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { touchBarWidth } from 'shared/ui/touch-bar';
 
 export const ContainerStyled = styled.div`
   position: absolute;
@@ -9,20 +10,19 @@ export const ContainerStyled = styled.div`
 `;
 
 export const CenterBlockWrapperStyled = styled.div`
-  position: absolute;
-  top: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
 `;
 
 export const CenterBlockStyled = styled.div`
-  position: relative;
-  top: 0;
-  width: 70%;
-  height: 70%;
+  //position: relative;
+  //top: 0;
+  width: calc(100% - ${touchBarWidth} - ${touchBarWidth});
+  height: 80%;
   //border: solid 1px silver;
 `;
 

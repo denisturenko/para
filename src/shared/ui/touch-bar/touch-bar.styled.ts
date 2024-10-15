@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { touchBarWidth } from 'shared/ui/touch-bar/touch-bar.constants';
 
 interface LeftRightProps {
   $isLeft?: boolean;
@@ -7,7 +8,7 @@ interface LeftRightProps {
 
 export const WrapperStyled = styled.div<LeftRightProps>`
   position: absolute;
-  width: 100px;
+  width: ${touchBarWidth};
   height: calc(100% - 20px);
   background-color: white;
   opacity: 0.1;

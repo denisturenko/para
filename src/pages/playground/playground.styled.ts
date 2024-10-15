@@ -11,6 +11,10 @@ export const ContainerStyled = styled.div<ContainerStyledProps>`
   display: ${({ $isHidden }) => ($isHidden ? 'none' : 'block')};
 `;
 
+export const GameContainerStyled = styled(ContainerStyled)`
+  user-select: none;
+`;
+
 export const LoaderWrapperStyled = styled.div`
   position: absolute;
   left: 0;
