@@ -21,6 +21,7 @@ export const ContainerStyled = styled.header`
     padding: 35px 100px 0;
   }
   @media (max-width: 600px) {
+    padding-top: 50px;
     flex-direction: column;
   }
 `;

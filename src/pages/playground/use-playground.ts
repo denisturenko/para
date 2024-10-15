@@ -12,7 +12,6 @@ import type { HomePageTopSectionProps } from 'entities/ui/home-page-top-section'
 import type { GreetingsProps } from 'features/ui/greetings';
 import { userStorage } from 'shared/lib/utils/storage/user-storage';
 import ym from 'react-yandex-metrika';
-import { ymCounterId } from 'shared/lib/configs';
 
 interface UsePlaygroundResult {
   meta: {
@@ -55,7 +54,10 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   useEffect(() => {
     if (userSettings.nickName) {
-      ym(String(ymCounterId), 'setUserID', userSettings.nickName);
+      ym('userParams', {
+        UserID: userSettings.nickName,
+      });
+      ym('setUserID', userSettings.nickName);
     }
   }, [userSettings]);
 
@@ -107,22 +109,22 @@ export const usePlayground = (): UsePlaygroundResult => {
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 
   const onRestartHandler = useCallback(() => {
+    ym('reachGoal', 'btn-click-play');
     setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false }));
   }, []);
 
-  const onStartHandler = useCallback(
-    () =>
-      setState(prev => ({
-        ...prev,
-        isNotStarted: false,
-        isPaused: false,
-        isFinish: false,
-        isRestart: true,
-        isHomePageVisible: false,
-        isGreetingsVisible: false,
-      })),
-    []
-  );
+  const onStartHandler = useCallback(() => {
+    ym('reachGoal', 'btn-click-play');
+    setState(prev => ({
+      ...prev,
+      isNotStarted: false,
+      isPaused: false,
+      isFinish: false,
+      isRestart: true,
+      isHomePageVisible: false,
+      isGreetingsVisible: false,
+    }));
+  }, []);
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
 

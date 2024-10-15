@@ -1,1 +1,1 @@
-export const ymCounterId = 98_628_300;
+export const ymCounterId = import.meta.env.VITE_YM_ID || 0;
