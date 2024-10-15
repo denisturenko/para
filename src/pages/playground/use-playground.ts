@@ -74,6 +74,14 @@ export const usePlayground = (): UsePlaygroundResult => {
     [userStorageInst]
   );
 
+  const reachGoalClickPlayButton = useCallback(
+    () =>
+      ym('reachGoal', 'btn-click-play', { userId: userSettings.nickName }, res => {
+        console.log('***', res);
+      }),
+    [userSettings.nickName]
+  );
+
   /** Game settings stuff. */
 
   const [settings, setSettings] = useState<GameSettingsBase>(settingsFromStorage);
@@ -109,12 +117,12 @@ export const usePlayground = (): UsePlaygroundResult => {
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 
   const onRestartHandler = useCallback(() => {
-    ym('reachGoal', 'btn-click-play');
+    reachGoalClickPlayButton();
     setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false }));
-  }, []);
+  }, [reachGoalClickPlayButton]);
 
   const onStartHandler = useCallback(() => {
-    ym('reachGoal', 'btn-click-play');
+    reachGoalClickPlayButton();
     setState(prev => ({
       ...prev,
       isNotStarted: false,
@@ -124,7 +132,7 @@ export const usePlayground = (): UsePlaygroundResult => {
       isHomePageVisible: false,
       isGreetingsVisible: false,
     }));
-  }, []);
+  }, [reachGoalClickPlayButton]);
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
 
