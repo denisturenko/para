@@ -23,23 +23,23 @@ export const SettingsIntroForm = (props: SettingsIntroFormProps) => {
         {projectName} {projectVersion}
       </IconWrapperStyled>
       {isNotStarted ? (
-        <Button data-testid="start" size="md" variant="filled" onClick={onStart}>
+        <Button data-testid="btn-start-settings-intro" size="md" variant="filled" onClick={onStart}>
           Начать
         </Button>
       ) : (
-        <Button data-testid="resume" size="md" variant="filled" onClick={onResume}>
+        <Button data-testid="btn-resume-settings-intro" size="md" variant="filled" onClick={onResume}>
           Продолжить
         </Button>
       )}
       {!isNotStarted && (
-        <Button data-testid="restart" size="md" variant="default" onClick={onRestart}>
+        <Button data-testid="btn-restart-settings-intro" size="md" variant="default" onClick={onRestart}>
           Начать заново
         </Button>
       )}
-      <Button data-testid="to-home-page" size="md" variant="default" onClick={onGotoHomePageClick}>
+      <Button data-testid="btn-home-page-settings-intro" size="md" variant="default" onClick={onGotoHomePageClick}>
         На главную страницу
       </Button>
-      <Button data-testid="settings" size="md" variant="default" onClick={onSettings}>
+      <Button data-testid="btn-settings-settings-intro" size="md" variant="default" onClick={onSettings}>
         Настройки
       </Button>
     </ContainerStyled>

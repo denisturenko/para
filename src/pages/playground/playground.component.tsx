@@ -26,7 +26,7 @@ export const Playground = () => {
 
   const homePageBlock = (
     <>
-      <HomePageHeaderComponent aboutLink={links.about} installLink={links.install} />
+      <HomePageHeaderComponent aboutLink={links.about} dataTestId="hp-header" installLink={links.install} />
       <HomePageTopSection {...homePage} />
       <HomePageAboutApp id={links.about} />
       <HomePageInstallApp id={links.install} />
@@ -43,7 +43,7 @@ export const Playground = () => {
   );
 
   const gameCanvasBlock = (
-    <Canvas>
+    <Canvas data-testid="canvas-game">
       <Game {...game}>
         <Player {...player} />
       </Game>

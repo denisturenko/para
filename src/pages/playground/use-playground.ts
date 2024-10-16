@@ -50,6 +50,8 @@ export const usePlayground = (): UsePlaygroundResult => {
   /** User stuff. */
   const userStorageInst = useMemo(() => userStorage<UserSettings>(storageKey), []);
 
+  console.log('***11', userStorageInst.get(initialUserSettings));
+
   const [userSettings, setUserSettings] = useState<UserSettings>(userStorageInst.get(initialUserSettings));
 
   useEffect(() => {
@@ -147,8 +149,9 @@ export const usePlayground = (): UsePlaygroundResult => {
   const onStartGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: true })), []);
 
   const onStartGameOrGreetingsHandler = useCallback(() => {
+    console.log('***', userSettings);
     userSettings.nickName && userSettings.isAgree ? onStartHandler() : onStartGreetingsHandler();
-  }, [onStartGreetingsHandler, onStartHandler, userSettings.isAgree, userSettings.nickName]);
+  }, [onStartGreetingsHandler, onStartHandler, userSettings]);
 
   const onCancelGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: false })), []);
 

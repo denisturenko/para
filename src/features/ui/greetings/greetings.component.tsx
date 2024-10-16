@@ -31,7 +31,15 @@ export const Greetings = memo((props: GreetingsProps) => {
   return (
     <>
       {/* Greetings form drawer */}
-      <Drawer opened={isOpen} position="right" size="sm" title="" onClose={onCloseHandler} onSubmit={onSubmitDrawerHandler}>
+      <Drawer
+        dataTestId="greetings"
+        opened={isOpen}
+        position="right"
+        size="sm"
+        title=""
+        onClose={onCloseHandler}
+        onSubmit={onSubmitDrawerHandler}
+      >
         <GreetingsForm ref={greetingsFormMethodsRef} initialValues={values} onReset={onCloseHandler} onSubmit={onSubmitHandler} />
       </Drawer>
     </>

@@ -310,7 +310,7 @@ export const SettingsFormComponent = forwardRef((props: SettingsFormProps, ref) 
 
       <br />
       <br />
-      <Button data-testid="reset" size="md" variant="default" onClick={onReset}>
+      <Button data-testid="btn-reset-settings-form" size="md" variant="default" onClick={onReset}>
         Сбросить настройки
       </Button>
     </LayoutStyled>

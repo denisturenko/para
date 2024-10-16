@@ -50,7 +50,7 @@ export const Settings = memo((props: SettingsProps) => {
   return (
     <>
       {/* Intro drawer */}
-      <Drawer opened={isOpen} position="right" size="md" onClose={onCloseHandler}>
+      <Drawer dataTestId="settings-intro" opened={isOpen} position="right" size="md" onClose={onCloseHandler}>
         <SettingsIntroForm
           isNotStarted={isNotStarted}
           onGotoHomePageClick={onGotoHomePageClick}
@@ -63,6 +63,7 @@ export const Settings = memo((props: SettingsProps) => {
 
       {/* Setting form drawer */}
       <Drawer
+        dataTestId="settings"
         opened={isOpenSettings}
         position="right"
         size="xl"

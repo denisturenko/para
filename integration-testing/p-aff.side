@@ -7,44 +7,94 @@
     "id": "dfd87e9b-80e6-4589-8b80-34c92bf79a63",
     "name": "settings-reset",
     "commands": [{
-      "id": "7a7c9e9d-dd01-4fe5-9184-7f93eb1dd5aa",
+      "id": "9cca97b6-87f1-4d01-97f0-656c7154d754",
       "comment": "",
       "command": "open",
       "target": "/",
       "targets": [],
       "value": ""
     }, {
-      "id": "530bda65-614a-4c33-b425-02c2ae3a68ce",
-      "comment": "",
-      "command": "//executeScript",
-      "target": "localStorage.setItem('gameSettings','{}');",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "7bfb8271-a85c-46b2-87c8-d4a03e264ff3",
+      "id": "1ab88298-37b8-481d-b730-81a580b31e3f",
       "comment": "",
       "command": "executeScript",
       "target": "localStorage.clear();",
       "targets": [],
       "value": ""
     }, {
-      "id": "ee8054a8-b890-40dd-8580-e4634cb1c5e9",
+      "id": "fb122dcf-e5a1-4007-a682-fa1042783f81",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.setItem('gameSettings','{\"USER_SETTINGS\":{\"nickName\":\"John Connor\",\"isAgree\":true}}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "afea2945-f22d-4d98-a81d-2308c6600417",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c2285f06-22d4-4b0d-bb8e-a41bade367e1",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.location.reload()",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "635cbd48-5a09-4f26-a11d-cec18692e49d",
       "comment": "",
       "command": "setWindowSize",
       "target": "1864x1053",
       "targets": [],
       "value": ""
     }, {
-      "id": "f166970f-eaba-407c-bd66-fe76ba2a4b28",
+      "id": "7edcff83-b46b-4b47-b454-e5568dce5e8a",
       "comment": "",
       "command": "click",
-      "target": "//*[@data-testid=\"settings\"]",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
       "targets": [
         ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
         ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
         ["xpath=//button[2]/span/span", "xpath:position"]
       ],
       "value": ""
+    }, {
+      "id": "9acc9dc5-c3d2-4712-849b-69629d680810",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-settings-game-control\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a95bb1ab-573e-45be-b938-5bd89a8bc10b",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"drawer-settings-intro\"]",
+      "targets": [],
+      "value": "1000"
+    }, {
+      "id": "d89c96ab-40fd-4039-9ee6-037692dff5e8",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-settings-settings-intro\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3eb27e86-d20e-4fc7-9140-1fa81e447b45",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"drawer-settings\"]",
+      "targets": [],
+      "value": "1000"
     }, {
       "id": "92f39945-2dd1-43c2-bc10-f06b27aa7f72",
       "comment": "",
@@ -79,7 +129,7 @@
       "id": "16be732d-5de6-4a89-b30b-421201bcaa83",
       "comment": "",
       "command": "click",
-      "target": "//*[@data-testid=\"settings\"]",
+      "target": "//*[@data-testid=\"btn-settings-settings-intro\"]",
       "targets": [
         ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
         ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
@@ -97,7 +147,7 @@
       "id": "c1f13d6d-77d5-481d-9e16-ecfa0d8025b7",
       "comment": "",
       "command": "click",
-      "target": "//*[@data-testid=\"reset\"]",
+      "target": "//*[@data-testid=\"btn-reset-settings-form\"]",
       "targets": [
         ["css=.mantine-focus-auto:nth-child(8) > .m_80f1301b", "css:finder"],
         ["xpath=//div[@id='mantine-5xds5wxn2-body']/div/button/span", "xpath:idRelative"],
@@ -106,23 +156,33 @@
       ],
       "value": ""
     }, {
-      "id": "7d44c0ad-09f9-4fdc-8021-104e14554e1f",
+      "id": "263d7d0b-6787-485e-9368-18fbe9dc3214",
       "comment": "",
-      "command": "click",
-      "target": "//*[@data-testid=\"settings\"]",
-      "targets": [
-        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
-        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
-        ["xpath=//button[2]/span/span", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "05d94cc1-adcd-4df6-93a4-44a1b4eeee78",
-      "comment": "",
-      "command": "executeScript",
-      "target": "localStorage.clear();",
+      "command": "pause",
+      "target": "500",
       "targets": [],
       "value": ""
+    }, {
+      "id": "29c6b1cb-50c7-4396-b45c-cf0124db356d",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-settings-settings-intro\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bcfd8155-fbb8-4194-ba6b-657f3a9b8ae5",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"drawer-settings\"]",
+      "targets": [],
+      "value": "1000"
+    }, {
+      "id": "cdec4294-0a55-43c8-9006-715dad4c89b2",
+      "comment": "",
+      "command": "waitForElementNotPresent",
+      "target": "//*[@data-checked=\"true\"]//*[@data-testid=\"target-radio-3\"]",
+      "targets": [],
+      "value": "30000"
     }]
   }, {
     "id": "8c3f95a7-2ab6-4820-a282-74feba27ed83",
@@ -135,10 +195,31 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "abc23741-9fec-401c-8d74-b9d23aee6983",
+      "id": "e032bee1-9c80-4edf-8052-db469c469372",
       "comment": "",
       "command": "executeScript",
-      "target": "localStorage.setItem('gameSettings','{}');",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "17039962-8a59-4586-a66b-1722a253e7e4",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.setItem('gameSettings','{\"USER_SETTINGS\":{\"nickName\":\"John Connor\",\"isAgree\":true}}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4ef15302-ca0e-42ee-b4f8-61b66965e988",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "de871608-e7e0-48f3-bb26-389e30e81f59",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.location.reload()",
       "targets": [],
       "value": ""
     }, {
@@ -149,16 +230,52 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "1b143518-483b-4fa1-999f-e94ca0c3b4e7",
+      "id": "99f74acf-811a-4485-b404-dfc7f326ed13",
       "comment": "",
       "command": "click",
-      "target": "//*[@data-testid=\"settings\"]",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
       "targets": [
         ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
         ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
         ["xpath=//button[2]/span/span", "xpath:position"]
       ],
       "value": ""
+    }, {
+      "id": "1b143518-483b-4fa1-999f-e94ca0c3b4e7",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-settings-game-control\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b6eb04a0-2f08-4a81-afc4-1dd61b8ffd3c",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"drawer-settings-intro\"]",
+      "targets": [],
+      "value": "1000"
+    }, {
+      "id": "035d4a23-66ee-40de-8056-cf80192cbcbb",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-settings-settings-intro\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "50d877f4-93af-49a5-bfb2-41ffa4ab13a2",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"drawer-settings\"]",
+      "targets": [],
+      "value": "1000"
     }, {
       "id": "bcb8e6e6-0abc-413b-988d-92eedfef7584",
       "comment": "",
@@ -203,7 +320,7 @@
       "id": "3a06362b-c75e-4126-a524-ee1b4cc08f31",
       "comment": "",
       "command": "//click",
-      "target": "//*[@data-testid=\"settings\"]",
+      "target": "//*[@data-testid=\"btn-settings-settings-intro\"]",
       "targets": [],
       "value": ""
     }, {
@@ -213,13 +330,170 @@
       "target": "//*[@data-checked=\"true\"]//*[@data-testid=\"target-radio-3\"]",
       "targets": [],
       "value": ""
+    }]
+  }, {
+    "id": "1f0b3c8f-9c5b-408e-b172-189173b0bbfa",
+    "name": "Greetings",
+    "commands": [{
+      "id": "b16a6236-8a49-41f7-8f63-6ce8743da607",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
     }, {
-      "id": "d739dab8-36a3-4a5a-86ec-6dc9d14eb508",
+      "id": "a1ee991b-4c7a-4b90-a607-a3029bb5e38d",
       "comment": "",
       "command": "executeScript",
       "target": "localStorage.clear();",
       "targets": [],
       "value": ""
+    }, {
+      "id": "e04cfb2e-d487-4d0f-bcbc-26d06d181dc8",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.setItem('gameSettings','{}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cea0ccdd-cf6a-4171-b585-5d0fb86db510",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "75928f96-1b21-4078-9ee0-6af688306d19",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.location.reload()",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d365e891-55af-4d54-8122-c0c6c64c1071",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1864x1053",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bb0f4c64-054f-4fe3-9eff-4b10cb687932",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9a0ee035-b141-4312-a201-4f86fa7e30ab",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"drawer-greetings\"]",
+      "targets": [],
+      "value": "1000"
+    }, {
+      "id": "28e70e8f-4788-4b1e-af08-1ee0021bde4d",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"submit\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2adb6e4a-fb8e-43eb-b90b-64be50c8bd53",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"alert-error-block\"]",
+      "targets": [],
+      "value": "1000"
+    }, {
+      "id": "c78df13b-31ba-458a-ba32-7b007871a647",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"input-nickName\"]",
+      "targets": [
+        ["id=mantine-al091xuok", "id"],
+        ["css=#mantine-al091xuok", "css:finder"],
+        ["xpath=//input[@id='mantine-al091xuok']", "xpath:attributes"],
+        ["xpath=//div[@id='mantine-y4lfd15ru-body']/div/div/div[2]/div/div/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "87989a09-7a83-4cb4-9fa8-ae7ff2fb3455",
+      "comment": "",
+      "command": "type",
+      "target": "//*[@data-testid=\"input-nickName\"]",
+      "targets": [
+        ["id=mantine-al091xuok", "id"],
+        ["css=#mantine-al091xuok", "css:finder"],
+        ["xpath=//input[@id='mantine-al091xuok']", "xpath:attributes"],
+        ["xpath=//div[@id='mantine-y4lfd15ru-body']/div/div/div[2]/div/div/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/input", "xpath:position"]
+      ],
+      "value": "John Connor"
+    }, {
+      "id": "385f1204-a803-4269-b99f-59bb976cc7a2",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"switch-isAgree\"]/following-sibling::div",
+      "targets": [
+        ["id=mantine-al091xuok", "id"],
+        ["css=#mantine-al091xuok", "css:finder"],
+        ["xpath=//input[@id='mantine-al091xuok']", "xpath:attributes"],
+        ["xpath=//div[@id='mantine-y4lfd15ru-body']/div/div/div[2]/div/div/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e845709f-c988-4556-b0e5-0b7323d40a81",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"submit\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e9911c32-cbc5-4707-9818-95e68513e6b4",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"canvas-game\"]",
+      "targets": [],
+      "value": "10000"
+    }, {
+      "id": "52dc5ec1-7bf5-4e86-9b4a-03b35431539a",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b2d7838a-be15-4624-b832-dcc72d01fcd8",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f549ade6-f99c-4c09-aaf0-f065e74866d2",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"canvas-game\"]",
+      "targets": [],
+      "value": "10000"
     }]
   }],
   "suites": [{

@@ -5,14 +5,15 @@ import { projectName } from 'shared/lib/configs';
 
 interface HomePageHeaderProps {
   aboutLink: string;
+  dataTestId: string;
   installLink: string;
 }
 
 export const HomePageHeaderComponent = (props: HomePageHeaderProps) => {
-  const { aboutLink, installLink } = props;
+  const { aboutLink, installLink, dataTestId } = props;
 
   return (
-    <ContainerStyled>
+    <ContainerStyled data-testid={dataTestId}>
       <LogoWrapperStyled style={{ backgroundImage: `url("${logoImg}")` }}>
         <LinkStyled href="./">{projectName}</LinkStyled>
       </LogoWrapperStyled>

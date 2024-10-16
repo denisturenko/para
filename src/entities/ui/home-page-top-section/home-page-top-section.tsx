@@ -13,7 +13,7 @@ export const HomePageTopSection = ({ onClickStart }: HomePageTopSectionProps) =>
     <ContentAreaStyled>
       <H1Styled id="top-section_title">Хотите уверенно приземляться под куполом парашюта?</H1Styled>
       <H2Styled id="top-section_msg">Потренируйтесь в нашем веб-приложении</H2Styled>
-      <ButtonStyled id="top-section_order-link" size="xl" variant="filled" onClick={onClickStart}>
+      <ButtonStyled data-testid="btn-play-top-section" size="xl" variant="filled" onClick={onClickStart}>
         Играть
       </ButtonStyled>
     </ContentAreaStyled>

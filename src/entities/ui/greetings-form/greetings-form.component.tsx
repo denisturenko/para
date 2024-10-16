@@ -38,15 +38,16 @@ export const GreetingsForm = forwardRef((props: GreetingsFormProps, ref) => {
   return (
     <>
       {hasErrors && (
-        <Alert ref={alertRef} title="Ошибка сохранения" type="error">
+        <Alert ref={alertRef} dataTestId="error-block" title="Ошибка сохранения" type="error">
           Не удалось сохранить форму. Проверьте правильность введённых данных.
         </Alert>
       )}
 
       <Card>
         <Group gap="18px">
-          <Input label="Ваше имя" placeholder="Введите ваше имя" {...form.getInputProps('nickName')} />
+          <Input dataTestId="nickName" label="Ваше имя" placeholder="Введите ваше имя" {...form.getInputProps('nickName')} />
           <Switch
+            dataTestId="isAgree"
             label="Я подтверждаю свое согласие с тем, что данный тренажер является лишь симуляцией, и в реальной жизни управление парашютом может существенно отличаться от представленного процесса"
             labelPosition="left"
             size="md"

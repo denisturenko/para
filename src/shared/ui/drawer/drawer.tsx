@@ -2,16 +2,17 @@ import type { DrawerProps as DrawerPropsBase } from '@mantine/core';
 import { Drawer as DrawerBase, Button, Group } from '@mantine/core';
 
 interface DrawerProps extends DrawerPropsBase {
+  dataTestId: string;
   onSubmit?(): void;
 }
 
 export const Drawer = (props: DrawerProps) => {
-  const { title, children, onSubmit, withCloseButton, ...other } = props;
+  const { title, children, onSubmit, withCloseButton, dataTestId, ...other } = props;
 
   return (
     <DrawerBase.Root {...other}>
       <DrawerBase.Overlay />
-      <DrawerBase.Content>
+      <DrawerBase.Content data-testid={'drawer-' + dataTestId}>
         {(title || withCloseButton || onSubmit) && (
           <DrawerBase.Header>
             <DrawerBase.Title>{title}</DrawerBase.Title>

@@ -158,7 +158,7 @@ export const GameControls = memo((props: GameControlsProps) => {
         <CenterBlockStyled {...handlers} />
       </CenterBlockWrapperStyled>
       <TouchBar isLeft allowTouchEndHandler={allowTouchEndHandler} value={leftControlValue} onChange={onLeftControlChange} />
-      <SettingButtonStyled onClick={onSettingsClickHandler}>
+      <SettingButtonStyled data-testid="btn-settings-game-control" onClick={onSettingsClickHandler}>
         <AiOutlineMenu />
       </SettingButtonStyled>
       <ArrowButtonStyled onClick={onArrowShowClickHandler}>
