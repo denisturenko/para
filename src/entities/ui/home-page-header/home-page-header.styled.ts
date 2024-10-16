@@ -17,8 +17,10 @@ export const ContainerStyled = styled.header`
       opacity: 1;
     }
   }
-  @media (min-width: 800px) {
-    padding: 35px 100px 0;
+  @media (min-width: 600px) {
+    @media screen and (orientation: landscape) {
+      padding: 10px 100px 0;
+    }
   }
   @media (max-width: 600px) {
     @media screen and (orientation: portrait) {
