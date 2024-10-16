@@ -5,7 +5,7 @@
   "scripts": {
     "http-server": "http-server dist -S -C cert.pem",
     "dev": "vite --port 8080",
-    "build": "vite build",
+    "build": "vite build && node ./scripts/write-build-info.js",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx src",
     "preview": "vite preview",
@@ -58,6 +58,8 @@
     "babel-jest": "^29.7.0",
     "chromedriver": "^120.0.0",
     "cross-env": "^7.0.3",
+    "current-git-branch": "^1.1.0",
+    "git-commit-info": "^2.0.2",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "8.4.0",
     "eslint-import-resolver-typescript": "^3.6.3",
