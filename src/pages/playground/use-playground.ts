@@ -50,8 +50,6 @@ export const usePlayground = (): UsePlaygroundResult => {
   /** User stuff. */
   const userStorageInst = useMemo(() => userStorage<UserSettings>(storageKey), []);
 
-  console.log('***11', userStorageInst.get(initialUserSettings));
-
   const [userSettings, setUserSettings] = useState<UserSettings>(userStorageInst.get(initialUserSettings));
 
   useEffect(() => {

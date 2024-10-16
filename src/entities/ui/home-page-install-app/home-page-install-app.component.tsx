@@ -11,7 +11,7 @@ export const HomePageInstallApp = (props: HomePageInstallAppProps) => {
   const { id } = props;
 
   return (
-    <ContainerStyled id={id}>
+    <ContainerStyled dataTestId={id} id={id}>
       <Card2
         img={imgInstall}
         imgHeight={400}

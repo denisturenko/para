@@ -20,10 +20,14 @@ export const HomePageHeaderComponent = (props: HomePageHeaderProps) => {
       <NavWrapperStyled>
         <NavStyled>
           <LiStyled>
-            <Link href={'#' + aboutLink}>О приложении</Link>
+            <Link dataTestId="link-about-hp" href={'#' + aboutLink}>
+              О приложении
+            </Link>
           </LiStyled>
           <LiStyled>
-            <Link href={'#' + installLink}>Установка</Link>
+            <Link dataTestId="link-install-hp" href={'#' + installLink}>
+              Установка
+            </Link>
           </LiStyled>
         </NavStyled>
       </NavWrapperStyled>

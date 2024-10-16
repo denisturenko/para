@@ -12,7 +12,7 @@ export const HomePageAboutApp = (props: HomePageAboutAppProps) => {
   const { id } = props;
 
   return (
-    <ContainerStyled id={id}>
+    <ContainerStyled dataTestId={id} id={id}>
       <Card2
         img={imgControls}
         items={[

@@ -3,11 +3,12 @@ import React, { useCallback } from 'react';
 import { LinkStyled } from './link.styled';
 
 interface IProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  dataTestId: string;
   preventDefault?: boolean;
   variant?: 'button';
 }
 
-export const Link: React.FC<PropsWithChildren<IProps>> = ({ preventDefault, children, variant, ...rest }) => {
+export const Link: React.FC<PropsWithChildren<IProps>> = ({ dataTestId, preventDefault, children, variant, ...rest }) => {
   const handleClickEye = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       rest.onClick?.(e);
@@ -17,7 +18,7 @@ export const Link: React.FC<PropsWithChildren<IProps>> = ({ preventDefault, chil
   );
 
   return (
-    <LinkStyled {...rest} $variant={variant} onClick={handleClickEye}>
+    <LinkStyled data-testid={dataTestId} {...rest} $variant={variant} onClick={handleClickEye}>
       {children}
     </LinkStyled>
   );

@@ -186,7 +186,7 @@
     }]
   }, {
     "id": "8c3f95a7-2ab6-4820-a282-74feba27ed83",
-    "name": "Settings applying",
+    "name": "settings-applying",
     "commands": [{
       "id": "ba739e63-0a72-4f1e-952e-a6ecf43aafc7",
       "comment": "",
@@ -333,7 +333,7 @@
     }]
   }, {
     "id": "1f0b3c8f-9c5b-408e-b172-189173b0bbfa",
-    "name": "Greetings",
+    "name": "greetings",
     "commands": [{
       "id": "b16a6236-8a49-41f7-8f63-6ce8743da607",
       "comment": "",
@@ -495,6 +495,133 @@
       "targets": [],
       "value": "10000"
     }]
+  }, {
+    "id": "1971ebd1-effb-4a65-b841-907d4e7d5950",
+    "name": "hp",
+    "commands": [{
+      "id": "6b8ee1dd-1653-425c-b5dd-9b7861504389",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2e691d85-6580-44d1-bfcf-a4f0f60e5394",
+      "comment": "Clean localStorage",
+      "command": "executeScript",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8fdd33ad-007f-4a44-a798-9859887b95ea",
+      "comment": "Setup user",
+      "command": "executeScript",
+      "target": "localStorage.setItem('gameSettings','{\"USER_SETTINGS\":{\"nickName\":\"John Connor\",\"isAgree\":true}}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2e200185-5fce-4e98-8fb7-8720ae87e165",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "87a5624c-afd0-44b9-8b32-39e6d17965b3",
+      "comment": "Reload page",
+      "command": "executeScript",
+      "target": "window.location.reload()",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "abfbd9a9-8102-4fc9-af6f-4b4325a49773",
+      "comment": "Set window size",
+      "command": "setWindowSize",
+      "target": "1864x1053",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2b7de610-423a-441a-b200-9d0d744ca978",
+      "comment": "Click to about link",
+      "command": "click",
+      "target": "//*[@data-testid=\"link-about-hp\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3d06ecae-8a78-4f61-b3e8-3eef6a1c90ed",
+      "comment": "Read about block top value",
+      "command": "executeScript",
+      "target": "return document.querySelector(\"[data-testid=section-about]\").getBoundingClientRect().top",
+      "targets": [],
+      "value": "top"
+    }, {
+      "id": "3ed89994-4c53-46ff-bc57-fc18248b23f4",
+      "comment": "Check what top is 0",
+      "command": "assert",
+      "target": "top",
+      "targets": [],
+      "value": "0"
+    }, {
+      "id": "ccb20f1e-e3c6-4b9d-9a4e-6315ae020645",
+      "comment": "Click to install link",
+      "command": "click",
+      "target": "//*[@data-testid=\"link-install-hp\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c25057a8-9aa7-4477-94c8-1924d8de48b5",
+      "comment": "Read install block top value",
+      "command": "executeScript",
+      "target": "return document.querySelector(\"[data-testid=section-install]\").getBoundingClientRect().top < 100",
+      "targets": [],
+      "value": "isTop"
+    }, {
+      "id": "01ec1e20-fdb4-47c8-af64-8fd2834eb31e",
+      "comment": "Check section install isTop",
+      "command": "assert",
+      "target": "isTop",
+      "targets": [],
+      "value": "true"
+    }, {
+      "id": "6bfff2aa-be4a-478b-afa2-d53cc0ddc02e",
+      "comment": "Click to play btn",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2bb7edcc-dd01-4fe2-9405-8bf92857a935",
+      "comment": "Wait for Game",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"canvas-game\"]",
+      "targets": [],
+      "value": "10000"
+    }, {
+      "id": "4ec5165e-d43e-4e34-b208-955b7fc25cda",
+      "comment": "Click game settings button",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-settings-game-control\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "925dfed5-4df5-4c5f-b3e9-18f428ed9f87",
+      "comment": "Click to HP Setting intro",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-home-page-settings-intro\"]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6963002e-41b8-4956-a832-e52ab6cefb06",
+      "comment": "Wait for HP play btn",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
+      "targets": [],
+      "value": "1000"
+    }]
   }],
   "suites": [{
     "id": "c8f3adaa-545e-4e04-9dd3-bce2e8855e04",
@@ -502,7 +629,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["dfd87e9b-80e6-4589-8b80-34c92bf79a63"]
+    "tests": ["dfd87e9b-80e6-4589-8b80-34c92bf79a63", "1f0b3c8f-9c5b-408e-b172-189173b0bbfa", "8c3f95a7-2ab6-4820-a282-74feba27ed83", "1971ebd1-effb-4a65-b841-907d4e7d5950"]
   }],
   "urls": ["https://localhost:8080/"],
   "plugins": []
