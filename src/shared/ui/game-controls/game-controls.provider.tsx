@@ -1,7 +1,8 @@
 import type { PropsWithChildren } from 'react';
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { initialPlayerControls } from './game-controls.constants';
 import type { PlayerControls } from 'shared/lib/types';
+import set from 'lodash/set';
 
 export interface GameControlsContextValues extends PlayerControls {
   onChangeCameraTheta(value?: number): void;
@@ -32,6 +33,13 @@ export const GameControlsProvider: GameControlsProviderProps = ({ children }: Pr
     (cameraTheta: number = initialPlayerControls.cameraTheta) => setState(prev => ({ ...prev, cameraTheta })),
     []
   );
+
+  /** Selenium tests stuff */
+  /* useEffect(() => {
+    set(window, 'game.controls.onLeftControlChange', onLeftControlChangeHandler);
+    set(window, 'game.controls.onRightControlChange', onRightControlChangeHandler);
+    set(window, 'game.controls.onChangeCameraTheta', onChangeCameraThetaHandler);
+  }, [onChangeCameraThetaHandler, onLeftControlChangeHandler, onRightControlChangeHandler]); */
 
   const contextValue = useMemo<GameControlsContextValues>(
     () => ({

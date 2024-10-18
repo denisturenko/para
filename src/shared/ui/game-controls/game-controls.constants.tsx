@@ -9,7 +9,7 @@ export const MIDDLE_VERTICAL_ANGEL = degToRad(48);
 export const MIN_VERTICAL_ANGEL = degToRad(67);
 
 export const initialPlayerControls: PlayerControls = {
-  leftControlValue: 50,
-  rightControlValue: 50,
+  leftControlValue: 10,
+  rightControlValue: 10,
   cameraTheta: MIN_VERTICAL_ANGEL,
 };

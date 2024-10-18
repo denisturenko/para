@@ -1,0 +1,11 @@
+capabilities:
+  browserName: "safari"
+  'bstack:options':
+    deviceName: 'iPhone 14 Pro Max'
+    osVersion: '16.0'
+    sessionName: 'Selenium IDE automate W3C Mobile'
+    buildName: 'Selenium IDE automate W3C Mobile'
+    projectName: 'Selenium IDE automate W3C Mobile'
+    debug: true
+    consoleLogs: "verbose"
+    networkLogs: true

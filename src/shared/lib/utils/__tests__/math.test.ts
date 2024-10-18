@@ -1,4 +1,5 @@
-import { dynamicValue, mapValueToPercentage } from '../math';
+import { dynamicValue, getResultVectorLength, mapValueToPercentage } from '../math';
+import * as THREE from 'three';
 
 describe('extractIndex', () => {
   it.each([
@@ -69,5 +70,20 @@ describe('dynamicValue', () => {
     [40, 5, 35 * 1000, 5],
   ])('dynamicValue(matrix)(%s,%s,%s)=%s', (min, max, param, expected) => {
     expect(Number(fn(min, max, param))).toBe(expected);
+  });
+});
+
+describe('getResultVectorLength', () => {
+  it('should calculate #1', () => {
+    const a = new THREE.Vector3(10, 0, 10);
+    const b = new THREE.Vector3(20, 0, 10);
+
+    expect(getResultVectorLength(a, b)).toBe(10);
+  });
+  it('should calculate #2', () => {
+    const a = new THREE.Vector3(10, 0, 10);
+    const b = new THREE.Vector3(20, 0, 20);
+
+    expect(getResultVectorLength(a, b)).toBe(14.142_135_623_730_951);
   });
 });

@@ -35,7 +35,7 @@ export const LogoImgStyled = styled.img`
 
 const BlockStyled = styled.div`
   position: absolute;
-  width: 80px;
+  width: 70px;
   height: 50px;
   background-color: white;
   top: 0;
@@ -53,5 +53,16 @@ export const AltitudeStyled = styled(BlockStyled)`
 `;
 
 export const InfoStyled = styled(BlockStyled)`
-  left: 200px;
+  left: 172px;
+  width: 50px;
+`;
+
+export const DebugStyled = styled(BlockStyled)`
+  display: none;
+  top: auto;
+  bottom: 0;
+  left: 100px;
+  width: 250px;
+  height: 250px;
+  font-size: 8px;
 `;

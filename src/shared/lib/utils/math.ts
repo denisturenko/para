@@ -1,3 +1,7 @@
+import type * as THREE from 'three';
+import { Line2 } from '@daign/math';
+import { Vector2 } from '@daign/math';
+
 export const mapValueToPercentage = (min: number, max: number, currentValue: number) => {
   if (currentValue < min) {
     return 0;
@@ -71,3 +75,6 @@ export const toPercent = (value: number) => {
 
   return value / 100;
 };
+
+export const getResultVectorLength = (a: THREE.Vector3, b: THREE.Vector3): number =>
+  new Line2(new Vector2(a.x, a.z), new Vector2(b.x, b.z)).length;

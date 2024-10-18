@@ -1,3 +1,5 @@
+import { mapValueToPercentage } from 'shared/lib/utils';
+
 export const calculateTouching = (el: HTMLElement, el2: HTMLElement, event: TouchEvent) => {
   const height = el.offsetHeight - el.offsetTop;
   const currentTouch = [...event.changedTouches].find(item => item.target === el || item.target === el2);
@@ -9,3 +11,6 @@ export const calculateTouching = (el: HTMLElement, el2: HTMLElement, event: Touc
 
   return ((tmp / height) * 100).toFixed(0);
 };
+
+export const calculateClicking = (el: HTMLElement, event: MouseEvent) =>
+  (mapValueToPercentage(0, el.offsetHeight, event.clientY) * 100).toFixed(0);

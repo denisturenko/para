@@ -7,6 +7,7 @@ import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
 import { Target } from 'shared/r3f/target';
 import { useListenChangedProps } from 'shared/lib/hooks';
+import set from 'lodash/set';
 
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;
@@ -20,7 +21,7 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
 
   useListenChangedProps(props, 'game-r3f');
 
-  const { onReady, withOrbitControls, arrowAngel, arrowPosition, helpers, children } = props;
+  const { onReady, withOrbitControls, arrowAngel, arrowPosition, helpers } = props;
   const firstPersonCamera = useRef();
 
   useEffect(() => {
@@ -56,7 +57,6 @@ export const Game = memo((props: PropsWithChildren<GameProps>) => {
       <Ground />
       <Target arrowAngel={arrowAngel} helpers={helpers} position={props.targetPosition} />
       <Arrow arrowAngel={arrowAngel} position={arrowPosition} />
-      {children}
     </>
   );
 });

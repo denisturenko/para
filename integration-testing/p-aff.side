@@ -230,6 +230,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "10e71785-a347-4773-af6f-7db1d90b1ee7",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "//body",
+      "targets": [],
+      "value": "${KEY_CONTROL}${KEY_SHIFT}"
+    }, {
       "id": "99f74acf-811a-4485-b404-dfc7f326ed13",
       "comment": "",
       "command": "click",
@@ -621,6 +628,133 @@
       "target": "//*[@data-testid=\"btn-play-top-section\"]",
       "targets": [],
       "value": "1000"
+    }]
+  }, {
+    "id": "e8fff135-9ebe-4012-9889-34eb3cedd1a8",
+    "name": "game1",
+    "commands": [{
+      "id": "3d506319-7cfd-4804-bf02-ac877bc67f16",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "92572d81-2776-4963-85ad-8aae1285437f",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "92f06549-88bc-4053-8cc0-08467f627d75",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.setItem('gameSettings','{\"USER_SETTINGS\":{\"nickName\":\"ssss\",\"isAgree\":true},\"SETTINGS\":{\"beep\":{\"volume\":1,\"heightFor3\":{\"enable\":true,\"value\":350},\"heightFor2\":{\"enable\":true,\"value\":200},\"heightFor1\":{\"enable\":true,\"value\":150},\"heightForLong\":{\"enable\":true,\"value\":110}},\"canopy\":{\"verticalSpeed\":5,\"maxSpeed\":10,\"minSpeed\":1,\"inertiaFactor\":3},\"currentTargetId\":\"1\",\"helpers\":{\"isVisibleCircles\":true,\"isVisibleCross\":true,\"isVisibleShadow\":true,\"isVisibleTrack\":true,\"allowToggleReleasing\":false,\"isVisibleAngelCircles\":true},\"playerPositionHeight\":100,\"winds\":[{\"minHeight\":0,\"angel\":6.021385919380437,\"speed\":2,\"hasGusts\":false}]}}');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a940b6cf-9ee0-4ab5-8aa8-7f1b51671994",
+      "comment": "",
+      "command": "pause",
+      "target": "500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3ab2a95c-e2ad-40d4-b07f-520b9ebd34f3",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.location.reload()",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3f1256c1-1ebd-4e41-acf4-46d634f56266",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1864x1053",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b6d5902e-ae89-40dc-b1ac-793f0ebda86d",
+      "comment": "",
+      "command": "click",
+      "target": "//*[@data-testid=\"btn-play-top-section\"]",
+      "targets": [
+        ["css=.mantine-focus-auto:nth-child(3) .m_811560b9", "css:finder"],
+        ["xpath=//div[@id='mantine-z5ndb47kz-body']/div/button[2]/span/span", "xpath:idRelative"],
+        ["xpath=//button[2]/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f36d5244-fcfc-41e7-abb6-e57e7768a851",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"canvas-game\"]",
+      "targets": [],
+      "value": "10000"
+    }, {
+      "id": "3a1d0aab-62f0-49a5-9d06-002b207cec58",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "//*[@data-testid=\"btn-settings-game-control\"]",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "20c095e9-7c8c-4201-b5b9-2a976bc1fcb7",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return document.querySelector(\"[data-testid=touch-bar-right]\").getBoundingClientRect().height",
+      "targets": [],
+      "value": "touchBarHeight"
+    }, {
+      "id": "dcd3924b-aee6-4b1a-8fe4-95219ff0ecb4",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return ${touchBarHeight} * 90 /100",
+      "targets": [],
+      "value": "touchBarLeftClickAt"
+    }, {
+      "id": "c4918c51-cf6c-4ed8-ae8f-abca12d8855d",
+      "comment": "",
+      "command": "clickAt",
+      "target": "//*[@data-testid=\"touch-bar-right\"]",
+      "targets": [],
+      "value": "10,${touchBarLeftClickAt}"
+    }, {
+      "id": "eed04464-9728-49eb-9033-b808b8e927b5",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return ${touchBarHeight} * 5 /100",
+      "targets": [],
+      "value": "touchBarRightClickAt"
+    }, {
+      "id": "37ffdfc1-0711-4f74-a1c0-69ee6343c95f",
+      "comment": "",
+      "command": "clickAt",
+      "target": "//*[@data-testid=\"touch-bar-left\"]",
+      "targets": [],
+      "value": "10,${touchBarRightClickAt}"
+    }, {
+      "id": "6f721b71-64d9-4702-bc2d-81f4b65059f4",
+      "comment": "",
+      "command": "waitForElementPresent",
+      "target": "//*[@data-testid=\"modal-body-finish\"]",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "2bdb10fa-1f14-4ceb-9c7b-75c664c0510e",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return Math.abs(parseFloat(document.querySelector(\"[data-testid=modal-body-finish]\").innerHTML) - 360) < 10",
+      "targets": [],
+      "value": "deltaDistance"
+    }, {
+      "id": "a21dd69d-0bdf-4141-93e6-1f68da7772db",
+      "comment": "",
+      "command": "assert",
+      "target": "deltaDistance",
+      "targets": [],
+      "value": "true"
     }]
   }],
   "suites": [{

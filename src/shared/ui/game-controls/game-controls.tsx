@@ -157,14 +157,26 @@ export const GameControls = memo((props: GameControlsProps) => {
       <CenterBlockWrapperStyled>
         <CenterBlockStyled {...handlers} />
       </CenterBlockWrapperStyled>
-      <TouchBar isLeft allowTouchEndHandler={allowTouchEndHandler} value={leftControlValue} onChange={onLeftControlChange} />
+      <TouchBar
+        isLeft
+        allowTouchEndHandler={allowTouchEndHandler}
+        dataTestId="left"
+        value={leftControlValue}
+        onChange={onLeftControlChange}
+      />
       <SettingButtonStyled data-testid="btn-settings-game-control" onClick={onSettingsClickHandler}>
         <AiOutlineMenu />
       </SettingButtonStyled>
       <ArrowButtonStyled onClick={onArrowShowClickHandler}>
         <FaArrowPointer />
       </ArrowButtonStyled>
-      <TouchBar isRight allowTouchEndHandler={allowTouchEndHandler} value={rightControlValue} onChange={onRightControlChange} />
+      <TouchBar
+        isRight
+        allowTouchEndHandler={allowTouchEndHandler}
+        dataTestId="right"
+        value={rightControlValue}
+        onChange={onRightControlChange}
+      />
     </ContainerStyled>
   );
 });

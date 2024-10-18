@@ -19,6 +19,12 @@ export const adjustInitialState = (initialState: InitialState, settings: GameSet
   );
   const playerAzimuth = windAngel - Math.PI;
 
+  // back-to-time mode example
+  // {
+  //   playerPosition: targetPosition,
+  //    playerAzimuth: playerAzimuth - Math.PI,
+  // }
+
   return {
     ...initialState,
     playerPosition,

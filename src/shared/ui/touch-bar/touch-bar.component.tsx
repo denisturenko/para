@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 import { useCallback, useRef } from 'react';
 import { WrapperStyled, LevelStyled } from './touch-bar.styled';
-import { calculateTouching } from './touch-bar.utils';
+import { calculateClicking, calculateTouching } from './touch-bar.utils';
 import { scale } from 'chroma-js';
-import { toPercent } from 'shared/lib/utils';
+import { mapValueToPercentage, toPercent } from 'shared/lib/utils';
 
 interface TouchBarProps {
   allowTouchEndHandler?: boolean;
+  dataTestId: string;
   isLeft?: boolean;
   isRight?: boolean;
   onChange(value: number): void;
@@ -16,7 +17,7 @@ interface TouchBarProps {
 const colors = scale(['green', 'blue', 'red']);
 
 export const TouchBar: FC<TouchBarProps> = props => {
-  const { onChange, value, allowTouchEndHandler } = props;
+  const { onChange, value, allowTouchEndHandler, dataTestId } = props;
 
   const wrapperRef = useRef<HTMLElement>(null!);
   const levelRef = useRef<HTMLElement>(null!);
@@ -37,9 +38,15 @@ export const TouchBar: FC<TouchBarProps> = props => {
     event.stopPropagation();
   }, []);
 
-  const onClickHandler = useCallback((event: MouseEvent) => {
-    event.stopPropagation();
-  }, []);
+  const onClickHandler = useCallback(
+    (event: MouseEvent) => {
+      const controlValue = calculateClicking(wrapperRef.current, event);
+
+      onChange(Number(controlValue));
+      event.stopPropagation();
+    },
+    [onChange]
+  );
 
   const onTouchEndHandler = useCallback(
     (event: MouseEvent) => {
@@ -56,6 +63,7 @@ export const TouchBar: FC<TouchBarProps> = props => {
       ref={wrapperRef}
       $isLeft={props.isLeft}
       $isRight={props.isRight}
+      data-testid={'touch-bar-' + dataTestId}
       onClick={onClickHandler}
       onTouchEnd={onTouchEndHandler}
       onTouchMove={onTouchMoveHandler}

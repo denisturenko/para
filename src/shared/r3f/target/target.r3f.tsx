@@ -20,6 +20,11 @@ export const Target = (props: TargetProps) => {
         <meshBasicMaterial attach="material" color="silver" />
       </mesh>
 
+      <mesh position={props.position} rotation-x={-Math.PI / 2}>
+        <circleGeometry args={[0.5, 32]} />
+        <meshBasicMaterial attach="material" color="black" />
+      </mesh>
+
       {isVisibleCross && (
         <>
           <mesh position={props.position} rotation-y={arrowAngel}>

@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { BeepSettingsType, CanopySettings, HelperSettings, WindSettings } from 'shared/lib/types';
 import {
@@ -14,6 +14,8 @@ import { useGameControlsContext } from 'shared/ui/game-controls/game-controls.pr
 import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
 import { Skydiver2 } from 'shared/r3f/skydiver';
+import set from 'lodash/set';
+import { initialGameSpeed } from './player.constants';
 
 const { degToRad } = THREE.MathUtils;
 
@@ -29,13 +31,13 @@ export interface PlayerProps {
   isPlayerArrowVisible: boolean;
   isRestart: boolean;
   onChangePosition?(position: THREE.Vector3): void;
-  onFinish?(): void;
+  onFinish?(position: THREE.Vector3): void;
   playerBodyHeight: number;
   position: THREE.Vector3;
   winds: WindSettings[];
 }
 
-export const Player = (props: PlayerProps) => {
+export const Player = memo((props: PlayerProps) => {
   const {
     ignoreHeadCamera,
     winds,
@@ -58,7 +60,6 @@ export const Player = (props: PlayerProps) => {
   const [beepTwo, beepTwoReset] = useOneTimeCall(() => beep(BEEP.TWO));
   const [beepOne, beepOneReset] = useOneTimeCall(() => beep(BEEP.ONE));
   const [beepLong, beepLongReset] = useOneTimeCall(() => beep(BEEP.LONG));
-  const [onFinishHandler, onFinishHandlerReset] = useOneTimeCall(() => onFinish?.());
 
   const [track, setTrack] = useState<THREE.Vector3[]>([]);
   const [showTrack, setShowTrack] = useState(isVisibleTrack);
@@ -68,10 +69,15 @@ export const Player = (props: PlayerProps) => {
 
   const azimuth = useRef(props.azimuth || 0);
 
+  const gameSpeedRef = useRef(initialGameSpeed);
+  const resetGameSpeed = useCallback(() => (gameSpeedRef.current = initialGameSpeed), []);
+
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const playerShadowRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const arrowHelperRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const calculateVerticalSpeedRef = useRef<ReturnType<typeof calculateVerticalSpeed> | null>();
+
+  const [onFinishHandler, onFinishHandlerReset] = useOneTimeCall(() => onFinish?.(playerRef.current.position));
 
   useEffect(() => {
     if (isRestart) {
@@ -114,6 +120,14 @@ export const Player = (props: PlayerProps) => {
     onChangeCameraTheta,
   ]);
 
+  /** Selenium tests stuff */
+  useEffect(() => {
+    set(window, 'game.speed.set', (num: number) => {
+      gameSpeedRef.current = num;
+    });
+    set(window, 'game.speed.reset', resetGameSpeed);
+  }, [resetGameSpeed]);
+
   const setTrackThrottled = useThrottledCallback(() => {
     setTrack(prev => {
       const copy = [...prev];
@@ -126,7 +140,9 @@ export const Player = (props: PlayerProps) => {
     });
   }, 1000);
 
-  useFrame((state, delta) => {
+  useFrame((state, originalDelta) => {
+    const delta = originalDelta * gameSpeedRef.current;
+
     if (!playerRef.current) return;
 
     if (isPaused) return;
@@ -173,10 +189,13 @@ export const Player = (props: PlayerProps) => {
       beepLong();
     }
 
+    if (nextY < 50) {
+      resetGameSpeed();
+    }
+
     // todo
     if (nextY < 0) {
       onFinishHandler();
-      // const cameraY = getSpeed(leftControlValue, 200, 800);
 
       state.camera.position.set(0, 400, 0);
       state.camera.rotation.set(Math.PI / 2, Math.PI, 0);
@@ -283,4 +302,6 @@ export const Player = (props: PlayerProps) => {
         ))}
     </>
   );
-};
+});
+
+Player.displayName = 'Player';

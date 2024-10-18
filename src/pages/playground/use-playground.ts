@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { GameProps } from 'entities/r3f/game';
 import type { GameSettings, GameSettingsBase, UserSettings } from 'shared/lib/types';
 import type { GameControlsProps } from 'shared/ui/game-controls';
@@ -12,6 +12,9 @@ import type { HomePageTopSectionProps } from 'entities/ui/home-page-top-section'
 import type { GreetingsProps } from 'features/ui/greetings';
 import { userStorage } from 'shared/lib/utils/storage/user-storage';
 import ym from 'react-yandex-metrika';
+import type * as THREE from 'three';
+import { getResultVectorLength } from 'shared/lib/utils';
+import { modals } from '@mantine/modals';
 
 interface UsePlaygroundResult {
   meta: {
@@ -30,6 +33,15 @@ interface UsePlaygroundResult {
     settings: SettingsProps;
   };
 }
+
+/** Need for selenium tests . */
+const toDebug = (str: string = '') => {
+  const el = document.getElementById('debug');
+
+  if (el) {
+    el.innerHTML = str;
+  }
+};
 
 export const usePlayground = (): UsePlaygroundResult => {
   /** State stuff. */
@@ -75,10 +87,7 @@ export const usePlayground = (): UsePlaygroundResult => {
   );
 
   const reachGoalClickPlayButton = useCallback(
-    () =>
-      ym('reachGoal', 'btn-click-play', { userId: userSettings.nickName }, res => {
-        console.log('***', res);
-      }),
+    () => ym('reachGoal', 'btn-click-play', { userId: userSettings.nickName }),
     [userSettings.nickName]
   );
 
@@ -117,11 +126,13 @@ export const usePlayground = (): UsePlaygroundResult => {
   const onSettingsIntroHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: true, isRestart: false })), []);
 
   const onRestartHandler = useCallback(() => {
+    toDebug();
     reachGoalClickPlayButton();
     setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false }));
   }, [reachGoalClickPlayButton]);
 
   const onStartHandler = useCallback(() => {
+    toDebug();
     reachGoalClickPlayButton();
     setState(prev => ({
       ...prev,
@@ -136,7 +147,25 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
 
-  const onFinishHandler = useCallback(() => setState(prev => ({ ...prev, isFinish: true })), []);
+  const onFinishHandler = useCallback(
+    (playerPosition: THREE.Vector3) => {
+      setState(prev => ({ ...prev, isFinish: true }));
+
+      console.log('***', 11);
+
+      const res = getResultVectorLength(playerPosition, state.targetPosition);
+
+      modals.openContextModal({
+        modal: 'ModalAlert',
+        title: 'Ваш результат:',
+        innerProps: {
+          dataTestId: 'finish',
+          modalBody: `${res.toFixed(2)} м.`,
+        },
+      });
+    },
+    [state.targetPosition]
+  );
 
   const onReadyHandler = useCallback(() => setState(prev => ({ ...prev, isReady: true })), []);
 
@@ -147,7 +176,6 @@ export const usePlayground = (): UsePlaygroundResult => {
   const onStartGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: true })), []);
 
   const onStartGameOrGreetingsHandler = useCallback(() => {
-    console.log('***', userSettings);
     userSettings.nickName && userSettings.isAgree ? onStartHandler() : onStartGreetingsHandler();
   }, [onStartGreetingsHandler, onStartHandler, userSettings]);
 

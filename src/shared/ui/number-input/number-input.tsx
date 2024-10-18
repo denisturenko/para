@@ -1,14 +1,16 @@
 import type { TextInputProps } from '@mantine/core';
 import { NumberInput as NumberInputBase, Input } from '@mantine/core';
 
-export type NumberInputProps = TextInputProps;
+interface NumberInputProps extends TextInputProps {
+  dataTestId: string;
+}
 
 export const NumberInput = (props: NumberInputProps) => {
-  const { label, ...other } = props;
+  const { label, dataTestId, ...other } = props;
 
   return (
-    <Input.Wrapper label={label}>
-      <NumberInputBase {...other} />
+    <Input.Wrapper data-testid={'wrapper-' + dataTestId} label={label}>
+      <NumberInputBase data-testid={'input-' + dataTestId} {...other} />
     </Input.Wrapper>
   );
 };

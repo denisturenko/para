@@ -1,9 +1,17 @@
 import { Canvas } from '@react-three/fiber';
-import React from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { Game } from 'entities/r3f/game';
 import ReactLoading from 'react-loading';
 import { GameControls } from 'shared/ui/game-controls';
-import { AltitudeStyled, ContainerStyled, LoaderWrapperStyled, LogoImgStyled, InfoStyled, GameContainerStyled } from './playground.styled';
+import {
+  AltitudeStyled,
+  ContainerStyled,
+  LoaderWrapperStyled,
+  LogoImgStyled,
+  InfoStyled,
+  GameContainerStyled,
+  DebugStyled,
+} from './playground.styled';
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
 import { usePlayground } from 'pages/playground/use-playground';
@@ -18,11 +26,13 @@ import { links } from 'pages/playground/playground.constants';
 import { HomePageInstallApp } from 'entities/ui/home-page-install-app';
 import { Greetings } from 'features/ui/greetings';
 
-export const Playground = () => {
+export const Playground = memo(() => {
+  const params = usePlayground();
+
   const {
     meta: { isNotStarted, withOrbitControls, isHomePageVisible },
     ui: { game, player, settings, gameControls, homePage, greetings },
-  } = usePlayground();
+  } = params;
 
   const homePageBlock = (
     <>
@@ -44,17 +54,17 @@ export const Playground = () => {
 
   const gameCanvasBlock = (
     <Canvas data-testid="canvas-game">
-      <Game {...game}>
-        <Player {...player} />
-      </Game>
+      <Game {...game} />
+      <Player {...player} />
     </Canvas>
   );
 
   const controlsBlock = (
     <>
-      <AltitudeStyled id="altitude" />
-      <InfoStyled id="info" />
+      <AltitudeStyled data-testid="block-altitude-game-control" id="altitude" />
+      <InfoStyled data-testid="block-vert-speed-game-control" id="info" />
       <GameControls {...gameControls} />
+      <DebugStyled data-testid="block-debug-game-control" id="debug" />
     </>
   );
 
@@ -82,4 +92,6 @@ export const Playground = () => {
       </GameContainerStyled>
     </>
   );
-};
+});
+
+Playground.displayName = 'Playground';
