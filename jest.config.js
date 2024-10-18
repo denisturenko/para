@@ -11,7 +11,7 @@ const config = {
 
   testEnvironment: 'jest-environment-jsdom',
 
-  modulePaths: ['<rootDir>/src'],
+  modulePaths: ['<rootDir>/src', '<rootDir>/src'],
 
   collectCoverage: false,
   // on node 14.x coverage provider v8 offers good speed and more or less good report

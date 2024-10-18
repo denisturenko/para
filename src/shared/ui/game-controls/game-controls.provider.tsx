@@ -1,8 +1,7 @@
 import type { PropsWithChildren } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { initialPlayerControls } from './game-controls.constants';
 import type { PlayerControls } from 'shared/lib/types';
-import set from 'lodash/set';
 
 export interface GameControlsContextValues extends PlayerControls {
   onChangeCameraTheta(value?: number): void;

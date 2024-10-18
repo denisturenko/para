@@ -1,4 +1,4 @@
-import { dynamicValue, getResultVectorLength, mapValueToPercentage } from '../math';
+import { dynamicValue, getResultVectorLength, getVectorAngel, mapValueToPercentage } from '../math';
 import * as THREE from 'three';
 
 describe('extractIndex', () => {
@@ -85,5 +85,13 @@ describe('getResultVectorLength', () => {
     const b = new THREE.Vector3(20, 0, 20);
 
     expect(getResultVectorLength(a, b)).toBe(14.142_135_623_730_951);
+  });
+});
+
+describe('getResultVectorLength', () => {
+  it('should calculate #1', () => {
+    const a = new THREE.Vector3(0, 0, 10);
+
+    expect(getVectorAngel(a)).toBe(Math.PI / 2);
   });
 });

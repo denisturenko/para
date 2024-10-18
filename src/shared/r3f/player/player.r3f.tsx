@@ -16,8 +16,18 @@ import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
 import { Skydiver2 } from 'shared/r3f/skydiver';
 import set from 'lodash/set';
 import { initialGameSpeed } from './player.constants';
+import { getVectorAngel } from 'shared/lib/utils';
 
-const { degToRad } = THREE.MathUtils;
+const { degToRad, radToDeg } = THREE.MathUtils;
+
+/** Need for selenium tests . */
+const toAngel = (str: string = '') => {
+  const el = document.getElementById('angel');
+
+  if (el) {
+    el.innerHTML = str;
+  }
+};
 
 export interface PlayerProps {
   angelCorrection?: number;
@@ -161,6 +171,12 @@ export const Player = memo((props: PlayerProps) => {
 
     const currentWindAngel = angelCorrection - currentWind.angel;
 
+    const printedAngel = radToDeg(
+      (getVectorAngel(new THREE.Vector3(nextAxle.x, 0, nextAxle.z)) + 2 * Math.PI - currentWind.angel) % (2 * Math.PI)
+    );
+
+    toAngel(String(printedAngel.toFixed(1)));
+
     // todos
     // const currentVerticalSpeed =
     // calculateVerticalSpeedRef.current?.(leftControlValue, rightControlValue, verticalSpeed) || verticalSpeed;
@@ -189,9 +205,9 @@ export const Player = memo((props: PlayerProps) => {
       beepLong();
     }
 
-    if (nextY < 50) {
-      resetGameSpeed();
-    }
+    // if (nextY < 50) {
+    //   resetGameSpeed();
+    // }
 
     // todo
     if (nextY < 0) {

@@ -11,6 +11,7 @@ import {
   InfoStyled,
   GameContainerStyled,
   DebugStyled,
+  AngelStyled,
 } from './playground.styled';
 import { Settings } from 'features/ui/settings';
 import { GameControlsProvider } from 'shared/ui/game-controls/game-controls.provider';
@@ -64,6 +65,7 @@ export const Playground = memo(() => {
       <AltitudeStyled data-testid="block-altitude-game-control" id="altitude" />
       <InfoStyled data-testid="block-vert-speed-game-control" id="info" />
       <GameControls {...gameControls} />
+      <AngelStyled data-testid="block-angel-game-control" id="angel" />
       <DebugStyled data-testid="block-debug-game-control" id="debug" />
     </>
   );

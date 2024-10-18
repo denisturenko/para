@@ -763,7 +763,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["dfd87e9b-80e6-4589-8b80-34c92bf79a63", "1f0b3c8f-9c5b-408e-b172-189173b0bbfa", "8c3f95a7-2ab6-4820-a282-74feba27ed83", "1971ebd1-effb-4a65-b841-907d4e7d5950"]
+    "tests": ["dfd87e9b-80e6-4589-8b80-34c92bf79a63", "1f0b3c8f-9c5b-408e-b172-189173b0bbfa", "8c3f95a7-2ab6-4820-a282-74feba27ed83", "1971ebd1-effb-4a65-b841-907d4e7d5950", "e8fff135-9ebe-4012-9889-34eb3cedd1a8"]
   }],
   "urls": ["https://localhost:8080/"],
   "plugins": []

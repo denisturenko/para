@@ -57,6 +57,12 @@ export const InfoStyled = styled(BlockStyled)`
   width: 50px;
 `;
 
+export const AngelStyled = styled(BlockStyled)`
+  top: 100px;
+  left: 100px;
+  //font-size: 8px;
+`;
+
 export const DebugStyled = styled(BlockStyled)`
   display: none;
   top: auto;
