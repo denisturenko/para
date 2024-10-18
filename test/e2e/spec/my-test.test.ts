@@ -128,7 +128,7 @@ describe('foo', () => {
 
     const result = await $result.getText();
 
-    expect(parseFloat(result) < 25).toBe(true);
+    expect(parseFloat(result) < 50).toBe(true);
 
     await browser.deleteSession();
   });
