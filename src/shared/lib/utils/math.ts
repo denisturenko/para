@@ -1,5 +1,7 @@
-import type * as THREE from 'three';
+import * as THREE from 'three';
 import { Line2, Vector2 } from '@daign/math';
+
+const { degToRad, radToDeg } = THREE.MathUtils;
 
 export const mapValueToPercentage = (min: number, max: number, currentValue: number) => {
   if (currentValue < min) {
@@ -79,3 +81,11 @@ export const getResultVectorLength = (a: THREE.Vector3, b: THREE.Vector3): numbe
   new Line2(new Vector2(a.x, a.z), new Vector2(b.x, b.z)).length;
 
 export const getVectorAngel = (a: THREE.Vector3): number => new Vector2(a.x, a.z).angle().radians;
+
+export const normalizeAngle = (angle: number) => {
+  const angle360 = 360;
+
+  const resultAngle = (angle360 + (radToDeg(angle) % angle360)) % angle360;
+
+  return degToRad(resultAngle);
+};

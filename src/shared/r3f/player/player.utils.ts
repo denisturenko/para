@@ -43,7 +43,9 @@ let lastCallTimestamp = 0;
 let lastResult = 0;
 
 // todo mode to utils
-export const modifyParamWithinRange = (from: number, to: number) => {
+export const modifyParamWithinRange = (from: number, to: number, ignoreGusts = false) => {
+  if (ignoreGusts) return from;
+
   const now = Date.now();
 
   if (lastResult && now - lastCallTimestamp < 1000) {

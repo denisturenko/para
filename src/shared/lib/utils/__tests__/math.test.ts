@@ -1,5 +1,7 @@
-import { dynamicValue, getResultVectorLength, getVectorAngel, mapValueToPercentage } from '../math';
+import { dynamicValue, getResultVectorLength, getVectorAngel, mapValueToPercentage, normalizeAngle } from '../math';
 import * as THREE from 'three';
+
+const { degToRad } = THREE.MathUtils;
 
 describe('extractIndex', () => {
   it.each([
@@ -93,5 +95,25 @@ describe('getResultVectorLength', () => {
     const a = new THREE.Vector3(0, 0, 10);
 
     expect(getVectorAngel(a)).toBe(Math.PI / 2);
+  });
+});
+
+describe('normalizeAngle', () => {
+  it.each([
+    [-450, 270],
+    [-360, 0],
+    [-300, 60],
+    [-300.125, 59.875],
+    [-270, 90],
+    [-180, 180],
+    [-90, 270],
+    [0, 0],
+    [90, 90],
+    [180, 180],
+    [270, 270],
+    [360, 0],
+    [450, 90],
+  ])('normalizeAngle(degToRad(%s))=degToRad(%s)', (angle, expected) => {
+    expect(Number(normalizeAngle(degToRad(angle)))).toBe(degToRad(expected));
   });
 });

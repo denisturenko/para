@@ -15,8 +15,8 @@ import { useThrottledCallback } from 'use-debounce';
 import { BEEP, useBeep, useOneTimeCall } from 'shared/lib/hooks';
 import { Skydiver2 } from 'shared/r3f/skydiver';
 import set from 'lodash/set';
-import { initialGameSpeed } from './player.constants';
-import { getVectorAngel } from 'shared/lib/utils';
+import { initialGameSpeed, initialWindIgnoreGusts } from './player.constants';
+import { getVectorAngel, normalizeAngle } from 'shared/lib/utils';
 
 const { degToRad, radToDeg } = THREE.MathUtils;
 
@@ -81,6 +81,7 @@ export const Player = memo((props: PlayerProps) => {
 
   const gameSpeedRef = useRef(initialGameSpeed);
   const resetGameSpeed = useCallback(() => (gameSpeedRef.current = initialGameSpeed), []);
+  const ignoreGustsRef = useRef(initialWindIgnoreGusts);
 
   const playerRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
   const playerShadowRef = useRef<THREE.Mesh>({ position } as THREE.Mesh);
@@ -132,6 +133,9 @@ export const Player = memo((props: PlayerProps) => {
 
   /** Selenium tests stuff */
   useEffect(() => {
+    set(window, 'game.wind.setIgnoreGusts', (flg: boolean) => {
+      ignoreGustsRef.current = flg;
+    });
     set(window, 'game.speed.set', (num: number) => {
       gameSpeedRef.current = num;
     });
@@ -159,7 +163,7 @@ export const Player = memo((props: PlayerProps) => {
 
     const currentWind: WindSettings = getWindByHeight(winds, playerRef.current.position.y) || { speed: 1, angel: 0, minHeight: 0 };
 
-    const windSpeed = modifyParamWithinRange(currentWind.speed, currentWind.speed + (currentWind.hasGusts ? 3 : 1));
+    const windSpeed = modifyParamWithinRange(currentWind.speed, currentWind.speed + (currentWind.hasGusts ? 3 : 1), ignoreGustsRef.current);
 
     const nextAxle = moveAxle(
       getSpeed(leftControlValue, maxSpeed, minSpeed),
@@ -171,11 +175,9 @@ export const Player = memo((props: PlayerProps) => {
 
     const currentWindAngel = angelCorrection - currentWind.angel;
 
-    const printedAngel = radToDeg(
-      (getVectorAngel(new THREE.Vector3(nextAxle.x, 0, nextAxle.z)) + 2 * Math.PI - currentWind.angel) % (2 * Math.PI)
-    );
+    const printedAngel = getVectorAngel(new THREE.Vector3(nextAxle.x, 0, nextAxle.z)) - currentWind.angel - Math.PI / 2;
 
-    toAngel(String(printedAngel.toFixed(1)));
+    toAngel(String(radToDeg(normalizeAngle(printedAngel)).toFixed(1)));
 
     // todos
     // const currentVerticalSpeed =
