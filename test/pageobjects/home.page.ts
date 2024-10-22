@@ -43,6 +43,14 @@ class HomePage extends Page {
   async isVisibleInstallBlock() {
     return browser.execute(() => document.querySelector('[data-testid=section-install]').getBoundingClientRect().top < 100);
   }
+
+  async toTelegramInTop() {
+    const $playBtn = $('*[data-testid="top-section_tg-link"]');
+
+    await $playBtn.waitForExist();
+
+    await $playBtn.click();
+  }
 }
 
 export const homePage = new HomePage();

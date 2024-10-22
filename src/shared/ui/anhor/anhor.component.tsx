@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import { AnhorStyled } from './anhor.styled';
 
 interface IProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  className?: string;
   dataTestId: string;
   preventDefault?: boolean;
   variant?: 'button';

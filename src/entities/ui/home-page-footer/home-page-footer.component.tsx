@@ -11,13 +11,12 @@ import {
 import { FaTelegram } from 'react-icons/fa6';
 import { projectName } from 'shared/lib/configs';
 
-const telegramLink = 'https://t.me/post_aff';
-
 interface IProps {
   className?: string;
+  telegramLink: string;
 }
 
-export const HomePageFooterComponent: React.FC<IProps> = () => (
+export const HomePageFooterComponent: React.FC<IProps> = ({ telegramLink }) => (
   <ContainerStyled>
     <CopyAndLogoWrapperStyled>
       <CopyStyled>

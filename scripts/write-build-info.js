@@ -1,10 +1,14 @@
 const gitCommitInfo = require('git-commit-info');
 const branchName = require('current-git-branch');
 const fs = require('node:fs');
+var gitTag = require('git-tag')({ localOnly: true });
 
-const content = {
-  branch: branchName(),
-  ...gitCommitInfo(),
-};
+gitTag.latest(function (tag) {
+  const content = {
+    branch: branchName(),
+    tag,
+    ...gitCommitInfo(),
+  };
 
-fs.writeFileSync(__dirname + '/../dist/build-info.txt', JSON.stringify(content, null, 2));
+  fs.writeFileSync(__dirname + '/../dist/build-info.txt', JSON.stringify(content, null, 2));
+});
