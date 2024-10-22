@@ -1,0 +1,20 @@
+# compiled output
+dist
+.next
+coverage
+node_modules
+package-lock.json
+
+# IDEs and editors
+.vscode
+
+# Generated
+apps/*/locales
+apps/*/out
+
+# devops
+.gitlab
+.gitlab-ci.yml
+.helm
+
+real-jumps.ts

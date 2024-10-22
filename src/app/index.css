@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+html, body, #root, #container {
+  height: 100%;
+  overscroll-behavior: contain;
+}
+
+html {
+  /*overflow: hidden;*/
+  overscroll-behavior: none;
+}
+
+
+ul,
+nav {
+  list-style: none;
+}

@@ -1,0 +1,4 @@
+export enum KEYS {
+  SETTINGS = 'SETTINGS',
+  USER_SETTINGS = 'USER_SETTINGS',
+}
