@@ -1,9 +1,9 @@
 import { appNavigator } from '../../pageobjects/navigator';
 import { homePage } from '../../pageobjects/home.page';
-import { greetingsPage } from '../../pageobjects/greetings.page';
 import { gamePage } from '../../pageobjects/game.page';
 import { settingsIntro } from '../../pageobjects/settings-intro.page';
 import { setUserSettings } from '../../utils/set-user-settings';
+import { browser } from '@wdio/globals';
 
 describe('Home', () => {
   afterEach(async () => {
@@ -23,5 +23,12 @@ describe('Home', () => {
     await settingsIntro.waitFor();
     await settingsIntro.toHomePage();
     await homePage.waitFor();
+
+    await homePage.toTelegramInTop();
+    await browser.switchWindow('Telegram: Contact @post_aff');
+
+    const url = await browser.getUrl();
+
+    expect(url).toBe('https://t.me/post_aff');
   });
 });
