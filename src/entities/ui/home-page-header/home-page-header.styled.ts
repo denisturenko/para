@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'shared/ui/link';
+import { Anhor } from 'shared/ui/anhor';
 
 export const ContainerStyled = styled.header`
   position: absolute;
@@ -48,7 +48,7 @@ export const LogoWrapperStyled = styled.p`
   }
 `;
 
-export const LinkStyled = styled(Link)`
+export const LinkStyled = styled(Anhor)`
   color: #f56946;
 `;
 

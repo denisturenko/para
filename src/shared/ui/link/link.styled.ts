@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 interface LinkStyledProps {
   $variant?: 'button' | 'link';
 }
 
-export const LinkStyled = styled.a<LinkStyledProps>`
+export const LinkStyled = styled(Link)<LinkStyledProps>`
   text-decoration: none;
   color: #fff;
   white-space: nowrap;
@@ -26,12 +27,12 @@ export const LinkStyled = styled.a<LinkStyledProps>`
           text-transform: uppercase;
           font-weight: bold;
           text-align: center;
-          background-color: #e07e7b;
+          background-color: var(--mantine-primary-color-filled);
           opacity: 1;
           transition: all 400ms;
 
           &:hover {
-            background-color: #ce5856;
+            background-color: var(--mantine-primary-color-filled);
           }
 
           @media (max-width: 800px) {

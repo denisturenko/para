@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Section } from 'shared/ui/section';
-import { Button } from '@mantine/core';
 
 export const ContainerStyled = styled(Section)`
   position: relative;
@@ -66,8 +65,4 @@ export const H2Styled = styled.h2`
   @media (max-width: 800px) {
     font-size: 24px;
   }
-`;
-
-export const ButtonStyled = styled(Button)`
-  width: 200px;
 `;

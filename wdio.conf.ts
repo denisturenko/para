@@ -7,6 +7,8 @@ export const config: WebdriverIO.Config = {
   runner: 'local',
   tsConfigPath: './tsconfig.json',
 
+  // injectGlobals: false,
+
   //
   // ==================
   // Specify Test Files

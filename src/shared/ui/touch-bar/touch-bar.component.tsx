@@ -3,7 +3,7 @@ import { useCallback, useRef } from 'react';
 import { WrapperStyled, LevelStyled } from './touch-bar.styled';
 import { calculateClicking, calculateTouching } from './touch-bar.utils';
 import { scale } from 'chroma-js';
-import { mapValueToPercentage, toPercent } from 'shared/lib/utils';
+import { toPercent } from 'shared/lib/utils';
 
 interface TouchBarProps {
   allowTouchEndHandler?: boolean;

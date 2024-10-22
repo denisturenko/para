@@ -7,7 +7,6 @@ import { Arrow } from 'shared/r3f/arrow';
 import { Ground } from 'shared/r3f/ground';
 import { Target } from 'shared/r3f/target';
 import { useListenChangedProps } from 'shared/lib/hooks';
-import set from 'lodash/set';
 
 const { MathUtils } = THREE;
 const { degToRad } = MathUtils;

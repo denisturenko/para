@@ -1,7 +1,7 @@
 import { Card2 } from 'shared/ui/card2';
 import imgInstall from 'shared/assets/hp-bg/install.jpg';
 import { ContainerStyled } from './home-page-install-app.styled';
-import { Link } from 'shared/ui/link';
+import { Anhor } from 'shared/ui/anhor';
 
 interface HomePageInstallAppProps {
   id: string;
@@ -33,7 +33,7 @@ export const HomePageInstallApp = (props: HomePageInstallAppProps) => {
               <ul>
                 <li>- Откройте Chrome на iPhone или iPad</li>
                 <li>
-                  - Перейдите на сайт <Link href={window.location.origin}>Post-AFF</Link>
+                  - Перейдите на сайт <Anhor href={window.location.origin}>Post-AFF</Anhor>
                 </li>
                 <li>- Справа от адресной строки нажмите на значок "Поделиться" </li>
                 <li>- Выберите "Добавить на главный экран"</li>

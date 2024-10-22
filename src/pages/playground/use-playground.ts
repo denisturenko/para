@@ -1,25 +1,24 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { GameProps } from 'entities/r3f/game';
 import type { GameSettings, GameSettingsBase, UserSettings } from 'shared/lib/types';
 import type { GameControlsProps } from 'shared/ui/game-controls';
 import type { SettingsProps } from 'features/ui/settings';
-import { initialSettings, initialState, initialUserSettings, storageKey } from './playground.constants';
+import { initialSettings, initialState, storageKey } from './playground.constants';
 import type { PlayerProps } from 'shared/r3f/player';
 import { adjustInitialState, isSettingsStoreValid, prepareForStorage } from 'pages/playground/playground.utils';
 import { settingsStorage } from 'shared/lib/utils/storage/settings-storage';
 import { getWindByHeight } from 'shared/r3f/player';
-import type { HomePageTopSectionProps } from 'entities/ui/home-page-top-section';
-import type { GreetingsProps } from 'features/ui/greetings';
-import { userStorage } from 'shared/lib/utils/storage/user-storage';
-import ym from 'react-yandex-metrika';
 import type * as THREE from 'three';
 import { getResultVectorLength } from 'shared/lib/utils';
 import { modals } from '@mantine/modals';
+import { useUserSettings } from 'shared/lib/hooks/use-user-settings';
+import { useYandexMetricGoals } from 'entities/lib/hooks/use-yandex-metric-goals';
+import { useHistory } from 'react-router-dom';
+import { urls } from 'entities/lib/config';
 
 interface UsePlaygroundResult {
   meta: {
     isFinish: boolean;
-    isHomePageVisible: boolean;
     isNotStarted: boolean;
     userSettings: UserSettings;
     withOrbitControls: boolean;
@@ -27,8 +26,6 @@ interface UsePlaygroundResult {
   ui: {
     game: GameProps;
     gameControls: GameControlsProps;
-    greetings: GreetingsProps;
-    homePage: HomePageTopSectionProps;
     player: PlayerProps;
     settings: SettingsProps;
   };
@@ -44,6 +41,10 @@ const toDebug = (str: string = '') => {
 };
 
 export const usePlayground = (): UsePlaygroundResult => {
+  const { clickPlayButton } = useYandexMetricGoals();
+
+  const history = useHistory();
+
   /** State stuff. */
   const storageInst = useMemo(() => settingsStorage<GameSettingsBase>(storageKey), []);
 
@@ -60,36 +61,7 @@ export const usePlayground = (): UsePlaygroundResult => {
   }, [storageInst]);
 
   /** User stuff. */
-  const userStorageInst = useMemo(() => userStorage<UserSettings>(storageKey), []);
-
-  const [userSettings, setUserSettings] = useState<UserSettings>(userStorageInst.get(initialUserSettings));
-
-  useEffect(() => {
-    if (userSettings.nickName) {
-      ym('userParams', {
-        UserID: userSettings.nickName,
-      });
-      ym('setUserID', userSettings.nickName);
-    }
-  }, [userSettings]);
-
-  const setUserSettingsToStorage = useCallback(
-    values => {
-      setUserSettings(prev => {
-        const next = { ...prev, ...values };
-
-        userStorageInst.set(next);
-
-        return next;
-      });
-    },
-    [userStorageInst]
-  );
-
-  const reachGoalClickPlayButton = useCallback(
-    () => ym('reachGoal', 'btn-click-play', { userId: userSettings.nickName }),
-    [userSettings.nickName]
-  );
+  const { userSettings } = useUserSettings();
 
   /** Game settings stuff. */
 
@@ -127,31 +99,27 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onRestartHandler = useCallback(() => {
     toDebug();
-    reachGoalClickPlayButton();
+    clickPlayButton();
     setState(prev => ({ ...prev, isPaused: false, isRestart: true, isFinish: false }));
-  }, [reachGoalClickPlayButton]);
+  }, [clickPlayButton]);
 
   const onStartHandler = useCallback(() => {
     toDebug();
-    reachGoalClickPlayButton();
+    clickPlayButton();
     setState(prev => ({
       ...prev,
       isNotStarted: false,
       isPaused: false,
       isFinish: false,
       isRestart: true,
-      isHomePageVisible: false,
-      isGreetingsVisible: false,
     }));
-  }, [reachGoalClickPlayButton]);
+  }, [clickPlayButton]);
 
   const onResumeHandler = useCallback(() => setState(prev => ({ ...prev, isPaused: false })), []);
 
   const onFinishHandler = useCallback(
     (playerPosition: THREE.Vector3) => {
       setState(prev => ({ ...prev, isFinish: true }));
-
-      console.log('***', 11);
 
       const res = getResultVectorLength(playerPosition, state.targetPosition);
 
@@ -171,23 +139,10 @@ export const usePlayground = (): UsePlaygroundResult => {
 
   const onArrowShowToggleHandler = useCallback(() => setState(prev => ({ ...prev, isPlayerArrowVisible: !prev.isPlayerArrowVisible })), []);
 
-  const onGotoHomePageClickHandler = useCallback(() => setState(prev => ({ ...prev, isHomePageVisible: true })), []);
-
-  const onStartGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: true })), []);
-
-  const onStartGameOrGreetingsHandler = useCallback(() => {
-    userSettings.nickName && userSettings.isAgree ? onStartHandler() : onStartGreetingsHandler();
-  }, [onStartGreetingsHandler, onStartHandler, userSettings]);
-
-  const onCancelGreetingsHandler = useCallback(() => setState(prev => ({ ...prev, isGreetingsVisible: false })), []);
-
-  const onSaveGreetingsHandle = useCallback(
-    (values: UserSettings) => {
-      setUserSettingsToStorage(values);
-      onStartHandler();
-    },
-    [onStartHandler, setUserSettingsToStorage]
-  );
+  const onGotoHomePageClickHandler = useCallback(() => {
+    setState(prev => ({ ...prev, isPaused: false, isSettingsIntroVisible: false, isRestart: true }));
+    history.push(urls.ROOT);
+  }, [history]);
 
   const arrowAngel = useMemo(() => {
     const windAngel = getWindByHeight(settings.winds, 0)?.angel || 0;
@@ -198,7 +153,6 @@ export const usePlayground = (): UsePlaygroundResult => {
   return {
     meta: {
       userSettings,
-      isHomePageVisible: state.isHomePageVisible,
       isFinish: state.isFinish,
       isNotStarted: state.isNotStarted,
       withOrbitControls: state.withOrbitControls,
@@ -249,15 +203,6 @@ export const usePlayground = (): UsePlaygroundResult => {
         onStart: onStartHandler,
         onResetSettings: onResetSettingsHandle,
         onGotoHomePageClick: onGotoHomePageClickHandler,
-      },
-      homePage: {
-        onClickStart: onStartGameOrGreetingsHandler,
-      },
-      greetings: {
-        isOpen: state.isGreetingsVisible,
-        values: userSettings,
-        onCancel: onCancelGreetingsHandler,
-        onSave: onSaveGreetingsHandle,
       },
     },
   };

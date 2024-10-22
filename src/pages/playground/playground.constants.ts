@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
-import type { GameSettings, GameSettingsBase, UserSettings } from 'shared/lib/types';
+import type { GameSettings, GameSettingsBase } from 'shared/lib/types';
 
 export const storageKey = 'gameSettings';
 
@@ -12,10 +12,9 @@ export const links = {
 export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition' | 'targetPosition'> = {
   angelCorrection: Math.PI,
 
-  isGreetingsVisible: false,
-  isHomePageVisible: true,
-  isNotStarted: true,
-  isPaused: true,
+  isSettingsIntroVisible: false,
+  isNotStarted: !true,
+  isPaused: !true,
   isRestart: false,
   isFinish: false,
   isReady: false,
@@ -45,11 +44,6 @@ export const initialState: Omit<GameSettings, 'playerAzimuth' | 'playerPosition'
     },
   ],
   arrowPosition: new THREE.Vector3(-190, 0.1, -170),
-};
-
-export const initialUserSettings: UserSettings = {
-  nickName: '',
-  isAgree: false,
 };
 
 export const initialSettings: GameSettingsBase = {

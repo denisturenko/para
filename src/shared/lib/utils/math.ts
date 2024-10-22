@@ -89,3 +89,26 @@ export const normalizeAngle = (angle: number) => {
 
   return degToRad(resultAngle);
 };
+
+export const isFinalAngleReach = (type: 'left' | 'right', currentAngle: number, startAngle: number, finishAngle: number): boolean => {
+  const isLeft = type === 'left';
+
+  if (isLeft) {
+    const mainCondition = currentAngle < finishAngle;
+
+    if (currentAngle > startAngle && currentAngle > finishAngle) {
+      return true;
+    }
+
+    return mainCondition;
+  }
+
+  // right stuff
+  const mainCondition = currentAngle > finishAngle;
+
+  if (finishAngle < startAngle) {
+    return mainCondition && currentAngle < startAngle;
+  }
+
+  return mainCondition;
+};

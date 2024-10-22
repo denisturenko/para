@@ -1,50 +1,48 @@
-import { $ } from '@wdio/globals';
-
 import Page from './page.js';
+import { $, browser } from '@wdio/globals';
 
-/**
- * sub page containing specific selectors and methods for a specific page
- */
 class HomePage extends Page {
   async open() {
     return super.open('/');
   }
 
+  async waitFor() {
+    const $el = $('*[data-testid="hp"]');
+
+    await $el.waitForExist();
+  }
+
   async play() {
-    const $playBtn = $('button[data-testid="btn-play-top-section"]');
+    const $playBtn = $('*[data-testid="btn-play-top-section"]');
 
     await $playBtn.waitForExist();
 
     await $playBtn.click();
   }
 
-  async greeting(nickName = '', isAgree = false) {
-    const $greetingDrawer = $('*[data-testid=drawer-greetings]');
+  async about() {
+    const $link = $('*[data-testid="link-about-hp"]');
 
-    await $greetingDrawer.waitForExist();
+    await $link.waitForExist();
 
-    const $input = $('*[data-testid=input-nickName]');
-
-    await $input.setValue(nickName);
-
-    const $isAgreeCheckbox = $('*[data-testid="switch-isAgree"] + div');
-
-    if (isAgree) {
-      await $isAgreeCheckbox.click();
-    }
-
-    const $btnSubmit = $('button[data-testid=submit]');
-
-    await $btnSubmit.click();
+    await $link.click();
   }
 
-  async waitForGreetingError() {
-    const $errorBlock = $('div[data-testid=alert-error-block]');
+  async isVisibleAboutBlock() {
+    return browser.execute(() => document.querySelector('[data-testid=section-about]').getBoundingClientRect().top === 0);
+  }
 
-    await $errorBlock.waitForExist();
+  async install() {
+    const $link = $('*[data-testid="link-install-hp"]');
+
+    await $link.waitForExist();
+
+    await $link.click();
+  }
+
+  async isVisibleInstallBlock() {
+    return browser.execute(() => document.querySelector('[data-testid=section-install]').getBoundingClientRect().top < 100);
   }
 }
 
-const page = new HomePage();
-
-export default page;
+export const homePage = new HomePage();

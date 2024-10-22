@@ -75,10 +75,16 @@ export const SettingsFormComponent = forwardRef((props: SettingsFormProps, ref) 
               />
             </Grid.Col>
           </Grid>
+          {/* todo move to component */}
           <Radio.Group label="Зона приземления" {...form.getInputProps('currentTargetId')}>
-            <Group mt="xs">
+            <Group data-testid="radio-group_target_settings-form" mt="xs">
               {targets.map(target => (
-                <Radio key={target.id} data-testid={`target-radio-${target.id}`} label={target.name} value={target.id} />
+                <Radio
+                  key={target.id}
+                  data-testid={`radio-group_target_settings-form_radio-${target.id}`}
+                  label={target.name}
+                  value={target.id}
+                />
               ))}
             </Group>
           </Radio.Group>

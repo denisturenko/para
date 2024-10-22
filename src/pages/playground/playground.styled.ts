@@ -58,6 +58,7 @@ export const InfoStyled = styled(BlockStyled)`
 `;
 
 export const AngelStyled = styled(BlockStyled)`
+  display: none;
   top: 100px;
   left: 100px;
   //font-size: 8px;

@@ -1,6 +1,6 @@
 import { ContainerStyled, LinkStyled, LiStyled, LogoWrapperStyled, NavStyled, NavWrapperStyled } from './home-page-header.styled';
 import logoImg from 'shared/assets/logo.png';
-import { Link } from 'shared/ui/link';
+import { Anhor } from 'shared/ui/anhor';
 import { projectName } from 'shared/lib/configs';
 
 interface HomePageHeaderProps {
@@ -15,19 +15,19 @@ export const HomePageHeaderComponent = (props: HomePageHeaderProps) => {
   return (
     <ContainerStyled data-testid={dataTestId}>
       <LogoWrapperStyled style={{ backgroundImage: `url("${logoImg}")` }}>
-        <LinkStyled href="./">{projectName}</LinkStyled>
+        <LinkStyled to="./">{projectName}</LinkStyled>
       </LogoWrapperStyled>
       <NavWrapperStyled>
         <NavStyled>
           <LiStyled>
-            <Link dataTestId="link-about-hp" href={'#' + aboutLink}>
+            <Anhor dataTestId="link-about-hp" href={'#' + aboutLink}>
               О приложении
-            </Link>
+            </Anhor>
           </LiStyled>
           <LiStyled>
-            <Link dataTestId="link-install-hp" href={'#' + installLink}>
+            <Anhor dataTestId="link-install-hp" href={'#' + installLink}>
               Установка
-            </Link>
+            </Anhor>
           </LiStyled>
         </NavStyled>
       </NavWrapperStyled>

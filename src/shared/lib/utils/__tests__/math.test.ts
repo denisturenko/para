@@ -1,4 +1,4 @@
-import { dynamicValue, getResultVectorLength, getVectorAngel, mapValueToPercentage, normalizeAngle } from '../math';
+import { dynamicValue, getResultVectorLength, getVectorAngel, isFinalAngleReach, mapValueToPercentage, normalizeAngle } from '../math';
 import * as THREE from 'three';
 
 const { degToRad } = THREE.MathUtils;
@@ -115,5 +115,30 @@ describe('normalizeAngle', () => {
     [450, 90],
   ])('normalizeAngle(degToRad(%s))=degToRad(%s)', (angle, expected) => {
     expect(Number(normalizeAngle(degToRad(angle)))).toBe(degToRad(expected));
+  });
+});
+
+describe('isFinalAngleReach', () => {
+  it.each([
+    ['left', 1, 90, 0, false],
+    ['left', 359, 90, 0, true],
+
+    ['left', 91, 180, 90, false],
+    ['left', 89, 180, 90, true],
+
+    ['right', 269, 180, 270, false],
+    ['right', 271, 180, 270, true],
+
+    ['right', 359, 270, 360, false],
+    ['right', 1, 270, 0, true],
+  ])('normalizeAngle(%s, degToRad(%s), degToRad(%s), degToRad(%s))=%s', (type, current, start, finish, expected) => {
+    expect(
+      isFinalAngleReach(
+        type as Parameters<typeof isFinalAngleReach>[0],
+        degToRad(Number(current)),
+        degToRad(Number(start)),
+        degToRad(Number(finish))
+      )
+    ).toBe(expected);
   });
 });

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'shared/ui/link';
+import { Anhor } from 'shared/ui/anhor';
 
 export const ContainerStyled = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ export const ItemListStyled = styled.li`
   }
 `;
 
-export const TelegramLink = styled(Link)`
+export const TelegramLink = styled(Anhor)`
   display: flex;
   align-items: center;
   justify-content: center;

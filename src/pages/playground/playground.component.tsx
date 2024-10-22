@@ -1,11 +1,10 @@
 import { Canvas } from '@react-three/fiber';
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Game } from 'entities/r3f/game';
 import ReactLoading from 'react-loading';
 import { GameControls } from 'shared/ui/game-controls';
 import {
   AltitudeStyled,
-  ContainerStyled,
   LoaderWrapperStyled,
   LogoImgStyled,
   InfoStyled,
@@ -19,31 +18,14 @@ import { usePlayground } from 'pages/playground/use-playground';
 import { Player } from 'shared/r3f/player';
 import logoImg from 'shared/assets/logo.png';
 import { projectName } from 'shared/lib/configs';
-import { HomePageHeaderComponent } from 'entities/ui/home-page-header';
-import { HomePageTopSection } from 'entities/ui/home-page-top-section';
-import { HomePageFooterComponent } from 'entities/ui/home-page-footer';
-import { HomePageAboutApp } from 'entities/ui/home-page-about-app/home-page-about-app.component';
-import { links } from 'pages/playground/playground.constants';
-import { HomePageInstallApp } from 'entities/ui/home-page-install-app';
-import { Greetings } from 'features/ui/greetings';
 
 export const Playground = memo(() => {
   const params = usePlayground();
 
   const {
-    meta: { isNotStarted, withOrbitControls, isHomePageVisible },
-    ui: { game, player, settings, gameControls, homePage, greetings },
+    meta: { withOrbitControls },
+    ui: { game, player, gameControls, settings },
   } = params;
-
-  const homePageBlock = (
-    <>
-      <HomePageHeaderComponent aboutLink={links.about} dataTestId="hp-header" installLink={links.install} />
-      <HomePageTopSection {...homePage} />
-      <HomePageAboutApp id={links.about} />
-      <HomePageInstallApp id={links.install} />
-      <HomePageFooterComponent />
-    </>
-  );
 
   const loadingBlock = (
     <LoaderWrapperStyled>
@@ -72,28 +54,32 @@ export const Playground = memo(() => {
 
   const settingsBlock = <Settings {...settings} />;
 
-  const greetingsBlock = <Greetings {...greetings} />;
-
   return (
-    <>
-      {greetingsBlock}
-      <ContainerStyled $isHidden={!isHomePageVisible}>{homePageBlock}</ContainerStyled>
-      <GameContainerStyled $isHidden={isHomePageVisible}>
-        <GameControlsProvider>
-          {!isNotStarted && (
-            <>
-              {!game.isReady && loadingBlock}
-              {gameCanvasBlock}
-            </>
-          )}
+    <GameContainerStyled id="playgroundId">
+      <GameControlsProvider>
+        {!game.isReady && loadingBlock}
+        {gameCanvasBlock}
 
-          {!withOrbitControls && game.isReady && controlsBlock}
+        {!withOrbitControls && game.isReady && controlsBlock}
 
-          {!isHomePageVisible && settingsBlock}
-        </GameControlsProvider>
-      </GameContainerStyled>
-    </>
+        {settingsBlock}
+      </GameControlsProvider>
+    </GameContainerStyled>
   );
 });
 
 Playground.displayName = 'Playground';
+
+export const PlaygroundSwitcher = () => {
+  useEffect(() => {
+    const el = document.getElementById('playgroundId');
+
+    el.style.display = 'block';
+
+    return () => {
+      el.style.display = 'none';
+    };
+  }, []);
+
+  return null;
+};

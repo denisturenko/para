@@ -21,14 +21,13 @@ export interface GameSettings {
   arrowPosition: THREE.Vector3;
   isFinish: boolean;
 
-  isGreetingsVisible: boolean;
-  isHomePageVisible: boolean;
   isNotStarted: boolean;
   isPaused: boolean;
   isPlayerArrowVisible: boolean;
   isReady: boolean;
-
   isRestart: boolean;
+  isSettingsIntroVisible: boolean;
+
   playerAzimuth: number;
   playerBodyHeight: number;
 

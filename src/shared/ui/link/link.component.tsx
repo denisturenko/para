@@ -1,8 +1,9 @@
-import type { PropsWithChildren, AnchorHTMLAttributes } from 'react';
+import type { PropsWithChildren } from 'react';
 import React, { useCallback } from 'react';
 import { LinkStyled } from './link.styled';
+import type { LinkProps } from 'react-router-dom';
 
-interface IProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface IProps extends LinkProps {
   dataTestId: string;
   preventDefault?: boolean;
   variant?: 'button';
