@@ -53,8 +53,36 @@ export const config: WebdriverIO.Config = {
   //
   capabilities: [
     {
-      // capabilities for local browser web tests
-      browserName: 'chrome', // or "firefox", "microsoftedge", "safari"
+      specs: ['test/e2e/spec/game.test.ts'],
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        mobileEmulation: {
+          // deviceName: 'iPhone SE',
+          deviceMetrics: {
+            mobile: true,
+            touch: true,
+            width: 668,
+            height: 376,
+            pixelRatio: 1.75,
+          },
+        },
+      },
+    },
+    {
+      specs: ['!test/e2e/spec/game.test.ts', 'test/e2e/*/*.test.ts'],
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        mobileEmulation: {
+          // deviceName: 'iPhone SE',
+          deviceMetrics: {
+            mobile: true,
+            touch: true,
+            width: 375,
+            height: 668,
+            pixelRatio: 1.75,
+          },
+        },
+      },
     },
   ],
 

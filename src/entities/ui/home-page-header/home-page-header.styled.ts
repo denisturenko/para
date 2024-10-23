@@ -10,7 +10,7 @@ export const ContainerStyled = styled.header`
   animation: 1s fadein 0.2s forwards;
   opacity: 0;
   color: #fff;
-  z-index: 2;
+  z-index: 20;
 
   @keyframes fadein {
     100% {
@@ -24,7 +24,7 @@ export const ContainerStyled = styled.header`
   }
   @media (max-width: 600px) {
     @media screen and (orientation: portrait) {
-      padding-top: 50px;
+      //padding-top: 50px;
     }
     flex-direction: column;
   }

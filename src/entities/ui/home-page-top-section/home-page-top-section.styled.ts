@@ -23,7 +23,6 @@ export const BackBlockStyled = styled.div`
 
 export const ContentAreaStyled = styled.div`
   opacity: 0;
-  padding-top: 48px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -32,6 +31,13 @@ export const ContentAreaStyled = styled.div`
 
   animation: 1s slidefade 0.2s forwards;
   z-index: 10;
+
+  @media (max-height: 400px) {
+    @media screen and (orientation: landscape) {
+      padding-top: 100px;
+      gap: 4px;
+    }
+  }
 
   @keyframes slidefade {
     100% {
@@ -42,7 +48,7 @@ export const ContentAreaStyled = styled.div`
 `;
 
 export const H1Styled = styled.h1`
-  font: 32px 'Amatic SC', sans-serif;
+  font: 36px 'Amatic SC', sans-serif;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
   margin-bottom: 15px;
 
@@ -50,12 +56,12 @@ export const H1Styled = styled.h1`
   background-color: rgba(85, 85, 85, 0.5);
 
   @media (max-width: 800px) {
-    font-size: 32px;
+    font-size: 28px;
   }
 `;
 
 export const H2Styled = styled.h2`
-  font: 28px 'Raleway', sans-serif;
+  font: 24px 'Raleway', sans-serif;
   font-weight: 300;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
 
@@ -63,6 +69,6 @@ export const H2Styled = styled.h2`
   background-color: rgba(85, 85, 85, 0.5);
 
   @media (max-width: 800px) {
-    font-size: 24px;
+    font-size: 20px;
   }
 `;
