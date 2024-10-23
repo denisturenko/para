@@ -38,7 +38,7 @@ const config = {
     // '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$/i': '<rootDir>/src/__mocks__/fileMock.js',
     '(.*)\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg|wav)$': '<rootDir>/src/__mocks__/fileMock.js',
   },
-  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/test/'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
