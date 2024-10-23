@@ -7,7 +7,7 @@ import {
   AltitudeStyled,
   LoaderWrapperStyled,
   LogoImgStyled,
-  InfoStyled,
+  SpeedStyled,
   GameContainerStyled,
   DebugStyled,
   AngelStyled,
@@ -45,7 +45,7 @@ export const Playground = memo(() => {
   const controlsBlock = (
     <>
       <AltitudeStyled data-testid="block-altitude-game-control" id="altitude" />
-      <InfoStyled data-testid="block-vert-speed-game-control" id="info" />
+      <SpeedStyled data-testid="block-vert-speed-game-control" id="info" />
       <GameControls {...gameControls} />
       <AngelStyled data-testid="block-angel-game-control" id="angel" />
       <DebugStyled data-testid="block-debug-game-control" id="debug" />

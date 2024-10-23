@@ -52,9 +52,11 @@ export const AltitudeStyled = styled(BlockStyled)`
   left: 100px;
 `;
 
-export const InfoStyled = styled(BlockStyled)`
-  left: 172px;
+export const SpeedStyled = styled(BlockStyled)`
+  left: 100px;
   width: 50px;
+  top: auto;
+  bottom: 0;
 `;
 
 export const AngelStyled = styled(BlockStyled)`
