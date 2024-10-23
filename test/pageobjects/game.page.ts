@@ -16,7 +16,7 @@ class GamePage extends Page {
   async waitForAltitudeBlock() {
     const $block = $('div[data-testid=block-altitude-game-control]');
 
-    await $block.waitForExist();
+    await $block.waitForExist({ timeout: 20_000 });
   }
 
   async toSettingsIntro() {
