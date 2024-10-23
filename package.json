@@ -8,7 +8,7 @@
     "build": "vite build && node ./scripts/write-build-info.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "e2e-test": "wdio run ./wdio.conf.ts",
-    "e2e-test:local": "cross-env BASE_URL=https://localhost:8080 npm run e2e-test -- --maxInstances=1",
+    "e2e-test:local": "cross-env BASE_URL=https://localhost:8080 npm run e2e-test",
     "e2e-test:dev": "cross-env BASE_URL=https://dev.p-aff.lab601.ru npm run e2e-test",
     "e2e-test:stage": "cross-env BASE_URL=https://stage.p-aff.lab601.ru npm run e2e-test",
     "e2e-test:prod": "cross-env BASE_URL=https://p-aff.lab601.ru npm run e2e-test",
