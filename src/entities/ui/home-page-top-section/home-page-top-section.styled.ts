@@ -23,7 +23,7 @@ export const BackBlockStyled = styled.div`
 
 export const ContentAreaStyled = styled.div`
   opacity: 0;
-  //margin-top: 100px;
+  padding-top: 48px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -42,7 +42,7 @@ export const ContentAreaStyled = styled.div`
 `;
 
 export const H1Styled = styled.h1`
-  font: 40px 'Amatic SC', sans-serif;
+  font: 32px 'Amatic SC', sans-serif;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
   margin-bottom: 15px;
 
@@ -50,7 +50,7 @@ export const H1Styled = styled.h1`
   background-color: rgba(85, 85, 85, 0.5);
 
   @media (max-width: 800px) {
-    font-size: 40px;
+    font-size: 32px;
   }
 `;
 

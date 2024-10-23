@@ -17,7 +17,7 @@ export const useUserSettings = () => {
     }
   }, [state]);
 
-  const setUserSettingsHandler = useCallback(values => {
+  const setUserSettingsHandler = useCallback((values: UserSettings) => {
     setState(prev => {
       const next = { ...prev, ...values };
 
